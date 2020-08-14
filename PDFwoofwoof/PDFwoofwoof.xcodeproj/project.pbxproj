@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0FFFC724E6E51A003A8CAE /* SeeMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0FFFC524E6E51A003A8CAE /* SeeMoreCell.swift */; };
+		AD0FFFC824E6E51A003A8CAE /* SeeMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD0FFFC624E6E51A003A8CAE /* SeeMoreCell.xib */; };
 		AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E81C24E4EFF3001979D4 /* Tool.swift */; };
 		AD27E82724E510D9001979D4 /* ToolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E82524E510D9001979D4 /* ToolCell.swift */; };
 		AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD27E82624E510D9001979D4 /* ToolCell.xib */; };
@@ -22,7 +24,6 @@
 		AD27E84224E53626001979D4 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E83524E53626001979D4 /* Roboto-Bold.ttf */; };
 		AD27E84324E53626001979D4 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E83624E53626001979D4 /* Roboto-Thin.ttf */; };
 		AD27E84424E53626001979D4 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E83724E53626001979D4 /* Roboto-Black.ttf */; };
-		AD27E84624E54E10001979D4 /* HomeVC_TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E84524E54E10001979D4 /* HomeVC_TableView.swift */; };
 		AD27E86324E55D12001979D4 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E86224E55D12001979D4 /* UIFont.swift */; };
 		AD27E87024E56037001979D4 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86524E56037001979D4 /* OpenSans-SemiBold.ttf */; };
 		AD27E87124E56037001979D4 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86624E56037001979D4 /* OpenSans-Light.ttf */; };
@@ -46,6 +47,13 @@
 		AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */; };
 		AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */; };
 		AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2924E40C3900C165A3 /* BaseVar.swift */; };
+		AD7AFE3024E68C6100EA922A /* CMSConfigConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7AFE2F24E68C6100EA922A /* CMSConfigConstants.swift */; };
+		AD7AFE3224E690DC00EA922A /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7AFE3124E690DC00EA922A /* UIView.swift */; };
+		AD7AFE3624E6A9F000EA922A /* HomeVC_TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7AFE3524E6A9EF00EA922A /* HomeVC_TableView.swift */; };
+		AD7AFE3924E6AE1200EA922A /* AdvertiseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7AFE3724E6AE1200EA922A /* AdvertiseCell.swift */; };
+		AD7AFE3A24E6AE1200EA922A /* AdvertiseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7AFE3824E6AE1200EA922A /* AdvertiseCell.xib */; };
+		AD7AFE3E24E6AE8900EA922A /* DocumentListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7AFE3C24E6AE8900EA922A /* DocumentListCell.swift */; };
+		AD7AFE3F24E6AE8900EA922A /* DocumentListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7AFE3D24E6AE8900EA922A /* DocumentListCell.xib */; };
 		ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */; };
 		ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBB124E1947E00492D5A /* HomeVC.swift */; };
 		ADE5BBB524E1947F00492D5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE5BBB324E1947F00492D5A /* Main.storyboard */; };
@@ -73,6 +81,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD0FFFC524E6E51A003A8CAE /* SeeMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreCell.swift; sourceTree = "<group>"; };
+		AD0FFFC624E6E51A003A8CAE /* SeeMoreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SeeMoreCell.xib; sourceTree = "<group>"; };
 		AD27E81C24E4EFF3001979D4 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		AD27E82524E510D9001979D4 /* ToolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCell.swift; sourceTree = "<group>"; };
 		AD27E82624E510D9001979D4 /* ToolCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToolCell.xib; sourceTree = "<group>"; };
@@ -88,7 +98,6 @@
 		AD27E83524E53626001979D4 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		AD27E83624E53626001979D4 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		AD27E83724E53626001979D4 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
-		AD27E84524E54E10001979D4 /* HomeVC_TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC_TableView.swift; sourceTree = "<group>"; };
 		AD27E86224E55D12001979D4 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		AD27E86524E56037001979D4 /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		AD27E86624E56037001979D4 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
@@ -110,10 +119,17 @@
 		AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AD4CEA2924E40C3900C165A3 /* BaseVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVar.swift; sourceTree = "<group>"; };
+		AD7AFE2F24E68C6100EA922A /* CMSConfigConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSConfigConstants.swift; sourceTree = "<group>"; };
+		AD7AFE3124E690DC00EA922A /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		AD7AFE3524E6A9EF00EA922A /* HomeVC_TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC_TableView.swift; sourceTree = "<group>"; };
+		AD7AFE3724E6AE1200EA922A /* AdvertiseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertiseCell.swift; sourceTree = "<group>"; };
+		AD7AFE3824E6AE1200EA922A /* AdvertiseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvertiseCell.xib; sourceTree = "<group>"; };
+		AD7AFE3C24E6AE8900EA922A /* DocumentListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentListCell.swift; sourceTree = "<group>"; };
+		AD7AFE3D24E6AE8900EA922A /* DocumentListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentListCell.xib; sourceTree = "<group>"; };
 		ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
 		ADDBC61F24E2F2B4009E2864 /* SlideMenuControllerSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuControllerSwift.h; sourceTree = "<group>"; };
 		ADDBC62024E2F2B4009E2864 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADE5BBAA24E1947E00492D5A /* PDFwoofwoof.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFwoofwoof.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE5BBAA24E1947E00492D5A /* PDFwow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFwow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADE5BBB124E1947E00492D5A /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		ADE5BBB424E1947F00492D5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -166,6 +182,7 @@
 			children = (
 				AD4CEA2124E3E6C100C165A3 /* BaseTableViewCell.swift */,
 				AD4CEA2924E40C3900C165A3 /* BaseVar.swift */,
+				AD7AFE2F24E68C6100EA922A /* CMSConfigConstants.swift */,
 			);
 			path = BaseFile;
 			sourceTree = "<group>";
@@ -182,8 +199,8 @@
 		AD27E82424E510B7001979D4 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				AD27E82524E510D9001979D4 /* ToolCell.swift */,
-				AD27E82624E510D9001979D4 /* ToolCell.xib */,
+				AD7AFE3424E6A80500EA922A /* TableViewCell */,
+				AD7AFE3324E6A7FC00EA922A /* CollectionViewCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -263,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				ADE5BBB124E1947E00492D5A /* HomeVC.swift */,
-				AD27E84524E54E10001979D4 /* HomeVC_TableView.swift */,
+				AD7AFE3524E6A9EF00EA922A /* HomeVC_TableView.swift */,
 				AD27E82424E510B7001979D4 /* Cells */,
 			);
 			path = HomeVC;
@@ -285,6 +302,35 @@
 				AD4CEA1724E3C7D300C165A3 /* LeftMenuTableViewCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		AD7AFE3324E6A7FC00EA922A /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AD27E82524E510D9001979D4 /* ToolCell.swift */,
+				AD27E82624E510D9001979D4 /* ToolCell.xib */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		AD7AFE3424E6A80500EA922A /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AD7AFE3724E6AE1200EA922A /* AdvertiseCell.swift */,
+				AD7AFE3824E6AE1200EA922A /* AdvertiseCell.xib */,
+				AD0FFFC524E6E51A003A8CAE /* SeeMoreCell.swift */,
+				AD0FFFC624E6E51A003A8CAE /* SeeMoreCell.xib */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		AD7AFE3B24E6AE5D00EA922A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD7AFE3C24E6AE8900EA922A /* DocumentListCell.swift */,
+				AD7AFE3D24E6AE8900EA922A /* DocumentListCell.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		ADDBC61D24E2F2B4009E2864 /* Source */ = {
@@ -309,6 +355,7 @@
 				AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */,
 				AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */,
 				AD27E86224E55D12001979D4 /* UIFont.swift */,
+				AD7AFE3124E690DC00EA922A /* UIView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -326,7 +373,7 @@
 		ADE5BBAB24E1947E00492D5A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADE5BBAA24E1947E00492D5A /* PDFwoofwoof.app */,
+				ADE5BBAA24E1947E00492D5A /* PDFwow.app */,
 				ADE5BBC024E1948000492D5A /* PDFwoofwoofTests.xctest */,
 				ADE5BBCB24E1948000492D5A /* PDFwoofwoofUITests.xctest */,
 			);
@@ -339,6 +386,7 @@
 				ADE5BBBB24E1948000492D5A /* Info.plist */,
 				AD27E82324E51099001979D4 /* Application */,
 				ADDBC61D24E2F2B4009E2864 /* Source */,
+				AD7AFE3B24E6AE5D00EA922A /* View */,
 				AD4CEA0B24E39E2B00C165A3 /* ViewController */,
 				AD4CEA1524E3C78F00C165A3 /* Model */,
 				ADDBC62124E2F2D6009E2864 /* Extension */,
@@ -381,7 +429,7 @@
 			);
 			name = PDFwoofwoof;
 			productName = PDFwoofwoof;
-			productReference = ADE5BBAA24E1947E00492D5A /* PDFwoofwoof.app */;
+			productReference = ADE5BBAA24E1947E00492D5A /* PDFwow.app */;
 			productType = "com.apple.product-type.application";
 		};
 		ADE5BBBF24E1948000492D5A /* PDFwoofwoofTests */ = {
@@ -480,11 +528,14 @@
 				AD27E87524E56037001979D4 /* OpenSans-Bold.ttf in Resources */,
 				AD27E84324E53626001979D4 /* Roboto-Thin.ttf in Resources */,
 				AD27E84124E53626001979D4 /* Roboto-BlackItalic.ttf in Resources */,
+				AD7AFE3F24E6AE8900EA922A /* DocumentListCell.xib in Resources */,
 				AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */,
 				AD27E83D24E53626001979D4 /* Roboto-BoldItalic.ttf in Resources */,
+				AD0FFFC824E6E51A003A8CAE /* SeeMoreCell.xib in Resources */,
 				AD27E87624E56037001979D4 /* OpenSans-SemiBoldItalic.ttf in Resources */,
 				ADE5BBB724E1948000492D5A /* Assets.xcassets in Resources */,
 				AD27E83B24E53626001979D4 /* Roboto-MediumItalic.ttf in Resources */,
+				AD7AFE3A24E6AE1200EA922A /* AdvertiseCell.xib in Resources */,
 				AD27E87924E56037001979D4 /* OpenSans-Regular.ttf in Resources */,
 				AD27E87024E56037001979D4 /* OpenSans-SemiBold.ttf in Resources */,
 				AD27E84424E53626001979D4 /* Roboto-Black.ttf in Resources */,
@@ -518,22 +569,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD7AFE3224E690DC00EA922A /* UIView.swift in Sources */,
 				AD4CEA1124E3AFBC00C165A3 /* SlideMenuController.swift in Sources */,
 				AD4CEA2424E3E70C00C165A3 /* String.swift in Sources */,
 				AD4CEA1B24E3CC8400C165A3 /* ExSlideMenuControllers.swift in Sources */,
 				AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */,
 				AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
-				AD27E84624E54E10001979D4 /* HomeVC_TableView.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
 				AD27E86324E55D12001979D4 /* UIFont.swift in Sources */,
 				AD27E82724E510D9001979D4 /* ToolCell.swift in Sources */,
+				AD0FFFC724E6E51A003A8CAE /* SeeMoreCell.swift in Sources */,
 				AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */,
 				ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */,
+				AD7AFE3024E68C6100EA922A /* CMSConfigConstants.swift in Sources */,
 				AD4CEA1424E3BC4C00C165A3 /* LeftMenuVC.swift in Sources */,
+				AD7AFE3E24E6AE8900EA922A /* DocumentListCell.swift in Sources */,
 				ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */,
+				AD7AFE3924E6AE1200EA922A /* AdvertiseCell.swift in Sources */,
 				AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */,
 				AD4CEA2224E3E6C100C165A3 /* BaseTableViewCell.swift in Sources */,
+				AD7AFE3624E6A9F000EA922A /* HomeVC_TableView.swift in Sources */,
 				AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */,
 				AD4CEA1D24E3CCB600C165A3 /* UIApplication.swift in Sources */,
 			);
@@ -716,8 +772,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = wst21.PDFwoofwoof;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = wst21.PDFwow;
+				PRODUCT_NAME = PDFwow;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -735,8 +791,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = wst21.PDFwoofwoof;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = wst21.PDFwow;
+				PRODUCT_NAME = PDFwow;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

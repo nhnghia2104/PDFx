@@ -10,9 +10,10 @@ import UIKit
 
 class HomeVC: UIViewController {
 
-    @IBOutlet weak var lineLeadingAnchor: NSLayoutConstraint!
-    @IBOutlet weak var btnStarred: UIButton!
-    @IBOutlet weak var btnRecent: UIButton!
+    @IBOutlet weak var vMoreTools: UIView!
+    @IBOutlet weak var lblMoreTools: UILabel!
+    @IBOutlet weak var lblClvHeader: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var clvTools: UICollectionView!
     var listTools : [Tool] = [
         Tool(name: "Open File", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "0f4c75"), background: UIColor(hex: "3282b8",alpha: 0.5)),
@@ -25,23 +26,9 @@ class HomeVC: UIViewController {
         Tool(name: "Merge PDFs", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "810000"), background: UIColor(hex: "e97171",alpha: 0.5)),
         Tool(name: "Extract Page", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "8675a9"), background: UIColor(hex: "c3aed6",alpha: 0.5)),
     ]
-    private var isRecent : Bool = true {
-        didSet {
-            if isRecent {
-                btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-                btnStarred.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
-                btnRecent.alpha = 1.0
-                btnStarred.alpha = 0.7
-            }
-            else {
-                btnStarred.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-                btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
-                btnStarred.alpha = 1.0
-                btnRecent.alpha = 0.7
-            }
-        }
-    }
-    
+    var listRecent : [String] = []
+    var listFavorite : [String] = []
+    var shouldHaveAds = false
     
     //MARK: - override function
     override func viewDidLoad() {
@@ -49,16 +36,16 @@ class HomeVC: UIViewController {
         // Do any additional setup after loading the view.
         setupNavigation()
         register()
-//        setupToolColectionView()
+        setupFontAndColor()
+        setupLayout()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        isRecent = true
     }
     // MARK: - setup function
     private func setupNavigation() {
         self.navigationController?.navigationBar.largeTitleTextAttributes =
-        [NSAttributedString.Key.foregroundColor: UIColor(hex: "3E3E3E"),
+            [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.gray1,
          NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 36)]
         self.navigationItem.title = "Home"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -68,15 +55,21 @@ class HomeVC: UIViewController {
     }
     private func register() {
         clvTools.register(UINib(nibName: "ToolCell", bundle: nil), forCellWithReuseIdentifier: "ToolCell")
+        tableView.registerCellNib(AdvertiseCell.self)
+        tableView.registerCellNib(DocumentListCell.self)
+        tableView.registerCellNib(SeeMoreCell.self)
     }
-    private func setupToolColectionView() {
-        let layoutDrag: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layoutDrag.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layoutDrag.minimumInteritemSpacing = 0
-        layoutDrag.minimumLineSpacing = 10
-        layoutDrag.scrollDirection = .horizontal
-        clvTools.collectionViewLayout = layoutDrag
-        clvTools.contentInset.top = 10.0
+
+    private func setupFontAndColor() {
+        lblClvHeader.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
+        lblClvHeader.textColor = CMSConfigConstants.themeStyle.gray1
+        
+        lblMoreTools.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
+        lblMoreTools.textColor = CMSConfigConstants.themeStyle.gray1
+    }
+    
+    private func setupLayout() {
+
     }
     
     // MARK: - @objc function
@@ -85,20 +78,12 @@ class HomeVC: UIViewController {
     }
     
     //MARK: -IBAction
-    @IBAction func changeOption(_ sender: UIButton) {
-        if (isRecent && sender.tag == 2) || (!isRecent && sender.tag == 1)  {
-            changeValue()
-        }
-    }
-    //MARK: - Action Function
-    private func changeValue() {
-        UIView.animate(withDuration: 0.2, animations: {[weak self] in
-            self?.lineLeadingAnchor.constant = (self?.isRecent)! ? 70.0 : 0
-            self?.view.layoutIfNeeded()
-        })
-        isRecent = !isRecent
+    @IBAction func tapMoreTools(_ sender: Any) {
         
     }
+    
+    //MARK: - Action Function
+
     
 
 }
@@ -117,7 +102,7 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width:  85, height: 120 )
+        return CGSize(width:  85, height: 110 )
     
     }
     

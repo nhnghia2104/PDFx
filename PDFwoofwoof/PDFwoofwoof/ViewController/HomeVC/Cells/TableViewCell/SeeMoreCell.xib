@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="87" id="KGk-i7-Jjw" customClass="SeeMoreCell" customModule="PDFwow" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="535" height="87"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="535" height="87"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cML-ZP-8xR" customClass="ShadowView" customModule="PDFwow" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="535" height="40"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_arrow_right" translatesAutoresizingMaskIntoConstraints="NO" id="w2q-Y2-TdO">
+                                <rect key="frame" x="20" y="13.5" width="15" height="13"/>
+                                <color key="tintColor" red="0.22352941179999999" green="0.24313725489999999" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="w2q-Y2-TdO" secondAttribute="height" multiplier="19:16" id="im1-5I-xEV"/>
+                                    <constraint firstAttribute="width" constant="15" id="t4H-Hm-uh5"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More Tools" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQT-98-ohG">
+                                <rect key="frame" x="45" y="10.5" width="73.5" height="19.5"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
+                                <color key="textColor" red="0.22352941179999999" green="0.24313725489999999" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKe-bd-xId">
+                                <rect key="frame" x="0.0" y="0.0" width="535" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="NBm-Au-N6U"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="4vz-cd-Axn"/>
+                            <constraint firstAttribute="trailing" secondItem="FKe-bd-xId" secondAttribute="trailing" id="6yS-eV-rta"/>
+                            <constraint firstItem="WQT-98-ohG" firstAttribute="leading" secondItem="w2q-Y2-TdO" secondAttribute="trailing" constant="10" id="N6c-Fl-IqO"/>
+                            <constraint firstItem="w2q-Y2-TdO" firstAttribute="centerY" secondItem="cML-ZP-8xR" secondAttribute="centerY" id="Nmh-vX-LWg"/>
+                            <constraint firstItem="FKe-bd-xId" firstAttribute="top" secondItem="cML-ZP-8xR" secondAttribute="top" id="No1-gT-Lj2"/>
+                            <constraint firstItem="w2q-Y2-TdO" firstAttribute="leading" secondItem="cML-ZP-8xR" secondAttribute="leading" constant="20" id="cPn-um-nrk"/>
+                            <constraint firstItem="WQT-98-ohG" firstAttribute="centerY" secondItem="cML-ZP-8xR" secondAttribute="centerY" id="e92-eX-dzf"/>
+                            <constraint firstItem="FKe-bd-xId" firstAttribute="leading" secondItem="cML-ZP-8xR" secondAttribute="leading" id="yNy-n3-DNC"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.29999999999999999"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="cML-ZP-8xR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6AH-dv-2Uu"/>
+                    <constraint firstAttribute="trailing" secondItem="cML-ZP-8xR" secondAttribute="trailing" id="ITs-IZ-kxw"/>
+                    <constraint firstItem="cML-ZP-8xR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="mnS-jw-IQp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="lblTitle" destination="WQT-98-ohG" id="3a3-wj-bh3"/>
+            </connections>
+            <point key="canvasLocation" x="151.44927536231884" y="120.20089285714285"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_arrow_right" width="19" height="16"/>
+    </resources>
+</document>
