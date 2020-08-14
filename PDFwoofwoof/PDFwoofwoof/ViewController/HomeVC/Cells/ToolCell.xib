@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ToolCell" customModule="PDFwoofwoof" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="85" height="120"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="85" height="120"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4XA-rv-v6L">
+                        <rect key="frame" x="10" y="10" width="65" height="65"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FyM-V9-Hcn">
+                                <rect key="frame" x="11.5" y="11.5" width="42" height="42"/>
+                                <color key="tintColor" red="0.26550044685886676" green="0.67640247185902447" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="35O-1F-kyT"/>
+                                    <constraint firstAttribute="height" constant="42" id="yeI-DV-K3X"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.68978208975325905" green="0.90415688100276259" blue="0.97832204268680201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="65" id="7Yo-qR-6hD"/>
+                            <constraint firstAttribute="height" constant="65" id="FsC-Vj-wZ1"/>
+                            <constraint firstItem="FyM-V9-Hcn" firstAttribute="centerY" secondItem="4XA-rv-v6L" secondAttribute="centerY" id="RDj-rk-HCT"/>
+                            <constraint firstItem="FyM-V9-Hcn" firstAttribute="centerX" secondItem="4XA-rv-v6L" secondAttribute="centerX" id="hZZ-Un-jgG"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Extract Page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rnb-H9-m2y">
+                        <rect key="frame" x="2" y="85" width="81" height="19.5"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
+                        <color key="textColor" red="0.24313725490196078" green="0.24313725490196078" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="Rnb-H9-m2y" firstAttribute="top" secondItem="4XA-rv-v6L" secondAttribute="bottom" constant="10" id="L1Y-yb-msA"/>
+                <constraint firstItem="Rnb-H9-m2y" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Tqb-TP-sZH"/>
+                <constraint firstItem="4XA-rv-v6L" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="a65-RD-sEB"/>
+                <constraint firstItem="4XA-rv-v6L" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="sQf-4n-yfr"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="101" height="120"/>
+            <connections>
+                <outlet property="imgIcon" destination="FyM-V9-Hcn" id="SLR-6V-xUG"/>
+                <outlet property="lblToolName" destination="Rnb-H9-m2y" id="FBk-7H-YxI"/>
+                <outlet property="vBackground" destination="4XA-rv-v6L" id="Xda-et-UNZ"/>
+            </connections>
+            <point key="canvasLocation" x="162.31884057971016" y="166.07142857142856"/>
+        </collectionViewCell>
+    </objects>
+</document>

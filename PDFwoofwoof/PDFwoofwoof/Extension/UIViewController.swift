@@ -10,7 +10,7 @@ import UIKit
 
 extension UIViewController {
     
-    func setNavigationBarItem() {
+    func setSlideMenuVCNaviBarItem() {
         self.addLeftBarButtonWithImage(UIImage(named: "ic_menu_black_24dp")!)
 //        self.addRightBarButtonWithImage(UIImage(named: "ic_notifications_black_24dp")!)
         self.slideMenuController()?.removeLeftGestures()
@@ -19,10 +19,19 @@ extension UIViewController {
 //        self.slideMenuController()?.addRightGestures()
     }
     
-    func removeNavigationBarItem() {
+    func removeNaviBarItem() {
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
         self.slideMenuController()?.removeLeftGestures()
         self.slideMenuController()?.removeRightGestures()
+    }
+    
+    func addLeftBarButtonWithImage(img : UIImage, action : Selector?) {
+        let leftButton: UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: action)
+        self.navigationItem.leftBarButtonItem = leftButton
+    }
+    func addRightBarButtonWithImage(img : UIImage, action : Selector?) {
+        let rightButton: UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: action)
+        self.navigationItem.rightBarButtonItem = rightButton
     }
 }
