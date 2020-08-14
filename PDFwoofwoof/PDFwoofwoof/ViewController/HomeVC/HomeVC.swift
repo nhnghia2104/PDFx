@@ -10,6 +10,7 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    @IBOutlet weak var btnRecent: UIButton!
     @IBOutlet weak var vMoreTools: UIView!
     @IBOutlet weak var lblMoreTools: UILabel!
     @IBOutlet weak var lblClvHeader: UILabel!
