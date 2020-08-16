@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DocumentCell: BaseTableViewCell {
+class DocumentListCell: BaseTableViewCell {
 
 
     @IBOutlet weak var lblSubTitle: UILabel!
