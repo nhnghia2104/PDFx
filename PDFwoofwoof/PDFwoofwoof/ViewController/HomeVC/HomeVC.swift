@@ -10,8 +10,12 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    @IBOutlet weak var btnMore: UIButton!
+    @IBOutlet weak var vMoreTools: ShadowView!
+    @IBOutlet weak var imgMoreTools: UIImageView!
+    @IBOutlet weak var lblMoreTools: UILabel!
     @IBOutlet weak var lineLeadingAnchor: NSLayoutConstraint!
-    @IBOutlet weak var btnStarred: UIButton!
+    @IBOutlet weak var btnFavorite: UIButton!
     @IBOutlet weak var btnRecent: UIButton!
     @IBOutlet weak var clvTools: UICollectionView!
     var listTools : [Tool] = [
@@ -29,14 +33,14 @@ class HomeVC: UIViewController {
         didSet {
             if isRecent {
                 btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-                btnStarred.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
+                btnFavorite.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
                 btnRecent.alpha = 1.0
-                btnStarred.alpha = 0.7
+                btnFavorite.alpha = 0.7
             }
             else {
-                btnStarred.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
+                btnFavorite.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
                 btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
-                btnStarred.alpha = 1.0
+                btnFavorite.alpha = 1.0
                 btnRecent.alpha = 0.7
             }
         }
@@ -49,6 +53,7 @@ class HomeVC: UIViewController {
         // Do any additional setup after loading the view.
         setupNavigation()
         register()
+        setupThemes()
 //        setupToolColectionView()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +63,7 @@ class HomeVC: UIViewController {
     // MARK: - setup function
     private func setupNavigation() {
         self.navigationController?.navigationBar.largeTitleTextAttributes =
-        [NSAttributedString.Key.foregroundColor: UIColor(hex: "3E3E3E"),
+            [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
          NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 36)]
         self.navigationItem.title = "Home"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -78,18 +83,33 @@ class HomeVC: UIViewController {
         clvTools.collectionViewLayout = layoutDrag
         clvTools.contentInset.top = 10.0
     }
+    private func setupThemes() {
+        imgMoreTools.tintColor = CMSConfigConstants.themeStyle.gray1
+        lblMoreTools.textColor = CMSConfigConstants.themeStyle.gray1
+        lblMoreTools.alpha = 1.0
+        imgMoreTools.alpha = 1.0
+        
+        btnRecent.titleLabel?.textColor = CMSConfigConstants.themeStyle.black
+        btnFavorite.titleLabel?.textColor = CMSConfigConstants.themeStyle.black
+        
+        btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
+    }
     
     // MARK: - @objc function
     @objc func openNotice() {
-    
+        
     }
     
     //MARK: -IBAction
+    @IBAction func tapMoreTools(_ sender: UIGestureRecognizer) {
+        gotoMoreTools()
+    }
     @IBAction func changeOption(_ sender: UIButton) {
         if (isRecent && sender.tag == 2) || (!isRecent && sender.tag == 1)  {
             changeValue()
         }
     }
+    
     //MARK: - Action Function
     private func changeValue() {
         UIView.animate(withDuration: 0.2, animations: {[weak self] in
@@ -98,6 +118,9 @@ class HomeVC: UIViewController {
         })
         isRecent = !isRecent
         
+    }
+    private func gotoMoreTools() {
+        print("goto More Tools")
     }
     
 

@@ -46,6 +46,10 @@
 		AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */; };
 		AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */; };
 		AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2924E40C3900C165A3 /* BaseVar.swift */; };
+		AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4024E7A06500FD9AE8 /* UIView.swift */; };
+		AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */; };
+		AD5B140624E805EB00E80DDA /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5B140424E805EB00E80DDA /* DocumentCell.swift */; };
+		AD5B140724E805EB00E80DDA /* DocumentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD5B140524E805EB00E80DDA /* DocumentCell.xib */; };
 		ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */; };
 		ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBB124E1947E00492D5A /* HomeVC.swift */; };
 		ADE5BBB524E1947F00492D5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE5BBB324E1947F00492D5A /* Main.storyboard */; };
@@ -110,6 +114,10 @@
 		AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AD4CEA2924E40C3900C165A3 /* BaseVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVar.swift; sourceTree = "<group>"; };
+		AD4D4E4024E7A06500FD9AE8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSConfigConstants.swift; sourceTree = "<group>"; };
+		AD5B140424E805EB00E80DDA /* DocumentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
+		AD5B140524E805EB00E80DDA /* DocumentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentCell.xib; sourceTree = "<group>"; };
 		ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
 		ADDBC61F24E2F2B4009E2864 /* SlideMenuControllerSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuControllerSwift.h; sourceTree = "<group>"; };
 		ADDBC62024E2F2B4009E2864 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -166,6 +174,7 @@
 			children = (
 				AD4CEA2124E3E6C100C165A3 /* BaseTableViewCell.swift */,
 				AD4CEA2924E40C3900C165A3 /* BaseVar.swift */,
+				AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */,
 			);
 			path = BaseFile;
 			sourceTree = "<group>";
@@ -182,8 +191,8 @@
 		AD27E82424E510B7001979D4 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				AD27E82524E510D9001979D4 /* ToolCell.swift */,
-				AD27E82624E510D9001979D4 /* ToolCell.xib */,
+				AD5B140224E8059900E80DDA /* TableViewCell */,
+				AD5B140124E8058E00E80DDA /* CollectionViewCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -287,6 +296,31 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		AD5B140124E8058E00E80DDA /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AD27E82524E510D9001979D4 /* ToolCell.swift */,
+				AD27E82624E510D9001979D4 /* ToolCell.xib */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		AD5B140224E8059900E80DDA /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		AD5B140324E805D100E80DDA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD5B140424E805EB00E80DDA /* DocumentCell.swift */,
+				AD5B140524E805EB00E80DDA /* DocumentCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		ADDBC61D24E2F2B4009E2864 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +343,7 @@
 				AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */,
 				AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */,
 				AD27E86224E55D12001979D4 /* UIFont.swift */,
+				AD4D4E4024E7A06500FD9AE8 /* UIView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -339,6 +374,7 @@
 				ADE5BBBB24E1948000492D5A /* Info.plist */,
 				AD27E82324E51099001979D4 /* Application */,
 				ADDBC61D24E2F2B4009E2864 /* Source */,
+				AD5B140324E805D100E80DDA /* View */,
 				AD4CEA0B24E39E2B00C165A3 /* ViewController */,
 				AD4CEA1524E3C78F00C165A3 /* Model */,
 				ADDBC62124E2F2D6009E2864 /* Extension */,
@@ -480,6 +516,7 @@
 				AD27E87524E56037001979D4 /* OpenSans-Bold.ttf in Resources */,
 				AD27E84324E53626001979D4 /* Roboto-Thin.ttf in Resources */,
 				AD27E84124E53626001979D4 /* Roboto-BlackItalic.ttf in Resources */,
+				AD5B140724E805EB00E80DDA /* DocumentCell.xib in Resources */,
 				AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */,
 				AD27E83D24E53626001979D4 /* Roboto-BoldItalic.ttf in Resources */,
 				AD27E87624E56037001979D4 /* OpenSans-SemiBoldItalic.ttf in Resources */,
@@ -519,10 +556,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD4CEA1124E3AFBC00C165A3 /* SlideMenuController.swift in Sources */,
+				AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */,
 				AD4CEA2424E3E70C00C165A3 /* String.swift in Sources */,
 				AD4CEA1B24E3CC8400C165A3 /* ExSlideMenuControllers.swift in Sources */,
 				AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */,
 				AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */,
+				AD5B140624E805EB00E80DDA /* DocumentCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
 				AD27E84624E54E10001979D4 /* HomeVC_TableView.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
@@ -531,6 +570,7 @@
 				AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */,
 				ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */,
 				AD4CEA1424E3BC4C00C165A3 /* LeftMenuVC.swift in Sources */,
+				AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */,
 				ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */,
 				AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */,
 				AD4CEA2224E3E6C100C165A3 /* BaseTableViewCell.swift in Sources */,
