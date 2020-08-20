@@ -62,12 +62,12 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j9u-Xh-hzp">
-                                        <rect key="frame" x="364" y="0.0" width="40" height="40"/>
+                                        <rect key="frame" x="372" y="0.0" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="YKz-Qa-YYw"/>
                                         </constraints>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="ic_more">
+                                        <state key="normal" image="ic_more_2">
                                             <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                         </state>
                                     </button>
@@ -86,7 +86,7 @@
                                     <constraint firstItem="3H7-aS-wzJ" firstAttribute="leading" secondItem="1wS-Sh-HIc" secondAttribute="leading" id="Uto-jP-Y1C"/>
                                     <constraint firstItem="1wS-Sh-HIc" firstAttribute="top" secondItem="Gjp-DB-0MB" secondAttribute="top" id="d4c-eR-tp0"/>
                                     <constraint firstItem="08d-Ys-fNX" firstAttribute="centerY" secondItem="3H7-aS-wzJ" secondAttribute="centerY" id="m9o-5q-sCJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="j9u-Xh-hzp" secondAttribute="trailing" constant="10" id="tDF-rT-2rc"/>
+                                    <constraint firstAttribute="trailing" secondItem="j9u-Xh-hzp" secondAttribute="trailing" constant="2" id="tDF-rT-2rc"/>
                                     <constraint firstItem="1wS-Sh-HIc" firstAttribute="leading" secondItem="Gjp-DB-0MB" secondAttribute="leading" constant="20" id="w1Y-Zv-4Ql"/>
                                 </constraints>
                             </view>
@@ -190,6 +190,7 @@
                         <outlet property="imgMoreTools" destination="mjt-iO-qdh" id="ne7-Hi-U8P"/>
                         <outlet property="lblMoreTools" destination="2B0-D1-Cir" id="RvI-Wa-yLn"/>
                         <outlet property="lineLeadingAnchor" destination="Uto-jP-Y1C" id="O9y-J3-eWU"/>
+                        <outlet property="tableView" destination="5U2-l9-qu6" id="U7o-Tu-45E"/>
                         <outlet property="vMoreTools" destination="gzQ-2G-yzY" id="dBJ-wn-56i"/>
                     </connections>
                 </viewController>
@@ -249,6 +250,6 @@
     </scenes>
     <resources>
         <image name="ic_arrow_right" width="10.5" height="8.5"/>
-        <image name="ic_more" width="40" height="40"/>
+        <image name="ic_more_2" width="40" height="40"/>
     </resources>
 </document>

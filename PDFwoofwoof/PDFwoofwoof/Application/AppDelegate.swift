@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,6 +36,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = UIColor(red: 236.0, green: 238.0, blue: 241.0, alpha: 1.0)
         self.window?.rootViewController = slideMenuController
         self.window?.makeKeyAndVisible()
+        //create file
+//        let file = "\(UUID().uuidString).txt"
+//        let content = "hello world"
+//        let direct = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let fileURL = direct.appendingPathComponent(file)
+//        do {
+//            try content.write(to: fileURL, atomically: false, encoding: .utf8)
+//        }
+//        catch {
+//            print("tạch :(")
+//        }
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

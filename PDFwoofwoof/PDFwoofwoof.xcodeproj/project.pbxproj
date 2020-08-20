@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD09B75724E9413E00E21304 /* LaunchState.swift */; };
+		AD230E7124EA9588000225D7 /* PDFObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD230E7024EA9588000225D7 /* PDFObject.swift */; };
+		AD230E7324EA9F27000225D7 /* MyPDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD230E7224EA9F27000225D7 /* MyPDFDocument.swift */; };
 		AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E81C24E4EFF3001979D4 /* Tool.swift */; };
 		AD27E82724E510D9001979D4 /* ToolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E82524E510D9001979D4 /* ToolCell.swift */; };
 		AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD27E82624E510D9001979D4 /* ToolCell.xib */; };
@@ -48,8 +51,10 @@
 		AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2924E40C3900C165A3 /* BaseVar.swift */; };
 		AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4024E7A06500FD9AE8 /* UIView.swift */; };
 		AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */; };
-		AD5B140624E805EB00E80DDA /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5B140424E805EB00E80DDA /* DocumentCell.swift */; };
-		AD5B140724E805EB00E80DDA /* DocumentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD5B140524E805EB00E80DDA /* DocumentCell.xib */; };
+		AD5B140624E805EB00E80DDA /*  DocumentListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5B140424E805EB00E80DDA /*  DocumentListCell.swift */; };
+		AD5B140724E805EB00E80DDA /* DocumentListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD5B140524E805EB00E80DDA /* DocumentListCell.xib */; };
+		AD724A5724EE6BCC0028F61F /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD724A5624EE6BCC0028F61F /* FileManager.swift */; };
+		ADCC687A24ED410500F1691B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCC687924ED410500F1691B /* RealmManager.swift */; };
 		ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */; };
 		ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBB124E1947E00492D5A /* HomeVC.swift */; };
 		ADE5BBB524E1947F00492D5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE5BBB324E1947F00492D5A /* Main.storyboard */; };
@@ -57,6 +62,7 @@
 		ADE5BBBA24E1948000492D5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE5BBB824E1948000492D5A /* LaunchScreen.storyboard */; };
 		ADE5BBC524E1948000492D5A /* PDFwoofwoofTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBC424E1948000492D5A /* PDFwoofwoofTests.swift */; };
 		ADE5BBD024E1948000492D5A /* PDFwoofwoofUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBCF24E1948000492D5A /* PDFwoofwoofUITests.swift */; };
+		B9872126178C3E757399B30A /* Pods_PDFwoofwoof.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +83,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09A7023CCE1FB987793CF78B /* Pods-PDFwoofwoof.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFwoofwoof.release.xcconfig"; path = "Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof.release.xcconfig"; sourceTree = "<group>"; };
+		266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PDFwoofwoof.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		98A20A43BA2F32DE43D2C96F /* Pods-PDFwoofwoof.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFwoofwoof.debug.xcconfig"; path = "Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof.debug.xcconfig"; sourceTree = "<group>"; };
+		AD09B75724E9413E00E21304 /* LaunchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchState.swift; sourceTree = "<group>"; };
+		AD230E7024EA9588000225D7 /* PDFObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFObject.swift; sourceTree = "<group>"; };
+		AD230E7224EA9F27000225D7 /* MyPDFDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPDFDocument.swift; sourceTree = "<group>"; };
 		AD27E81C24E4EFF3001979D4 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		AD27E82524E510D9001979D4 /* ToolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCell.swift; sourceTree = "<group>"; };
 		AD27E82624E510D9001979D4 /* ToolCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToolCell.xib; sourceTree = "<group>"; };
@@ -116,8 +128,10 @@
 		AD4CEA2924E40C3900C165A3 /* BaseVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVar.swift; sourceTree = "<group>"; };
 		AD4D4E4024E7A06500FD9AE8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSConfigConstants.swift; sourceTree = "<group>"; };
-		AD5B140424E805EB00E80DDA /* DocumentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
-		AD5B140524E805EB00E80DDA /* DocumentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentCell.xib; sourceTree = "<group>"; };
+		AD5B140424E805EB00E80DDA /*  DocumentListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " DocumentListCell.swift"; sourceTree = "<group>"; };
+		AD5B140524E805EB00E80DDA /* DocumentListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentListCell.xib; sourceTree = "<group>"; };
+		AD724A5624EE6BCC0028F61F /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		ADCC687924ED410500F1691B /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
 		ADDBC61F24E2F2B4009E2864 /* SlideMenuControllerSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuControllerSwift.h; sourceTree = "<group>"; };
 		ADDBC62024E2F2B4009E2864 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -141,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9872126178C3E757399B30A /* Pods_PDFwoofwoof.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,10 +176,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0043D9026E9228C70917630E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD230E6F24EA9572000225D7 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				AD230E7024EA9588000225D7 /* PDFObject.swift */,
+				ADCC687924ED410500F1691B /* RealmManager.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 		AD27E81B24E4EFE2001979D4 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
 				AD27E81C24E4EFF3001979D4 /* Tool.swift */,
+				AD230E7224EA9F27000225D7 /* MyPDFDocument.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -184,6 +217,7 @@
 			children = (
 				AD4CEA0E24E39F2800C165A3 /* Storyboard */,
 				ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */,
+				AD09B75724E9413E00E21304 /* LaunchState.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -261,7 +295,7 @@
 		AD4CEA1524E3C78F00C165A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AD27E82024E5055D001979D4 /* BaseFile */,
+				AD230E6F24EA9572000225D7 /* Realm */,
 				AD27E81B24E4EFE2001979D4 /* Objects */,
 				AD27E82924E5360F001979D4 /* Font */,
 			);
@@ -315,8 +349,8 @@
 		AD5B140324E805D100E80DDA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AD5B140424E805EB00E80DDA /* DocumentCell.swift */,
-				AD5B140524E805EB00E80DDA /* DocumentCell.xib */,
+				AD5B140424E805EB00E80DDA /*  DocumentListCell.swift */,
+				AD5B140524E805EB00E80DDA /* DocumentListCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -324,6 +358,8 @@
 		ADDBC61D24E2F2B4009E2864 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AD27E82024E5055D001979D4 /* BaseFile */,
+				ADDBC62124E2F2D6009E2864 /* Extension */,
 				ADE5BBB624E1948000492D5A /* Assets.xcassets */,
 				AD4CEA0C24E39EF400C165A3 /* Image.xcassets */,
 				ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */,
@@ -344,6 +380,7 @@
 				AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */,
 				AD27E86224E55D12001979D4 /* UIFont.swift */,
 				AD4D4E4024E7A06500FD9AE8 /* UIView.swift */,
+				AD724A5624EE6BCC0028F61F /* FileManager.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -355,6 +392,8 @@
 				ADE5BBC324E1948000492D5A /* PDFwoofwoofTests */,
 				ADE5BBCE24E1948000492D5A /* PDFwoofwoofUITests */,
 				ADE5BBAB24E1947E00492D5A /* Products */,
+				EEC9DF6D4998775397216445 /* Pods */,
+				0043D9026E9228C70917630E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -377,7 +416,6 @@
 				AD5B140324E805D100E80DDA /* View */,
 				AD4CEA0B24E39E2B00C165A3 /* ViewController */,
 				AD4CEA1524E3C78F00C165A3 /* Model */,
-				ADDBC62124E2F2D6009E2864 /* Extension */,
 			);
 			path = PDFwoofwoof;
 			sourceTree = "<group>";
@@ -400,6 +438,15 @@
 			path = PDFwoofwoofUITests;
 			sourceTree = "<group>";
 		};
+		EEC9DF6D4998775397216445 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				98A20A43BA2F32DE43D2C96F /* Pods-PDFwoofwoof.debug.xcconfig */,
+				09A7023CCE1FB987793CF78B /* Pods-PDFwoofwoof.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -407,9 +454,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADE5BBD424E1948000492D5A /* Build configuration list for PBXNativeTarget "PDFwoofwoof" */;
 			buildPhases = (
+				444BB150684553128DD73BEF /* [CP] Check Pods Manifest.lock */,
 				ADE5BBA624E1947E00492D5A /* Sources */,
 				ADE5BBA724E1947E00492D5A /* Frameworks */,
 				ADE5BBA824E1947E00492D5A /* Resources */,
+				82A406D7FFA5A0E5D25BAE06 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -516,7 +565,7 @@
 				AD27E87524E56037001979D4 /* OpenSans-Bold.ttf in Resources */,
 				AD27E84324E53626001979D4 /* Roboto-Thin.ttf in Resources */,
 				AD27E84124E53626001979D4 /* Roboto-BlackItalic.ttf in Resources */,
-				AD5B140724E805EB00E80DDA /* DocumentCell.xib in Resources */,
+				AD5B140724E805EB00E80DDA /* DocumentListCell.xib in Resources */,
 				AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */,
 				AD27E83D24E53626001979D4 /* Roboto-BoldItalic.ttf in Resources */,
 				AD27E87624E56037001979D4 /* OpenSans-SemiBoldItalic.ttf in Resources */,
@@ -550,6 +599,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		444BB150684553128DD73BEF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PDFwoofwoof-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		82A406D7FFA5A0E5D25BAE06 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		ADE5BBA624E1947E00492D5A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -561,7 +652,7 @@
 				AD4CEA1B24E3CC8400C165A3 /* ExSlideMenuControllers.swift in Sources */,
 				AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */,
 				AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */,
-				AD5B140624E805EB00E80DDA /* DocumentCell.swift in Sources */,
+				AD5B140624E805EB00E80DDA /*  DocumentListCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
 				AD27E84624E54E10001979D4 /* HomeVC_TableView.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
@@ -569,13 +660,18 @@
 				AD27E82724E510D9001979D4 /* ToolCell.swift in Sources */,
 				AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */,
 				ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */,
+				AD230E7324EA9F27000225D7 /* MyPDFDocument.swift in Sources */,
+				AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */,
 				AD4CEA1424E3BC4C00C165A3 /* LeftMenuVC.swift in Sources */,
 				AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */,
 				ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */,
 				AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */,
 				AD4CEA2224E3E6C100C165A3 /* BaseTableViewCell.swift in Sources */,
+				AD724A5724EE6BCC0028F61F /* FileManager.swift in Sources */,
 				AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */,
+				ADCC687A24ED410500F1691B /* RealmManager.swift in Sources */,
 				AD4CEA1D24E3CCB600C165A3 /* UIApplication.swift in Sources */,
+				AD230E7124EA9588000225D7 /* PDFObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,6 +842,7 @@
 		};
 		ADE5BBD524E1948000492D5A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98A20A43BA2F32DE43D2C96F /* Pods-PDFwoofwoof.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -765,6 +862,7 @@
 		};
 		ADE5BBD624E1948000492D5A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09A7023CCE1FB987793CF78B /* Pods-PDFwoofwoof.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

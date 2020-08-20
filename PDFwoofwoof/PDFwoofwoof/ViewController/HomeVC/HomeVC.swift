@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import PDFKit
 
 class HomeVC: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var vMoreTools: ShadowView!
     @IBOutlet weak var imgMoreTools: UIImageView!
@@ -54,10 +56,12 @@ class HomeVC: UIViewController {
         setupNavigation()
         register()
         setupThemes()
+        setupTableView()
 //        setupToolColectionView()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadFileFromDevice()
         isRecent = true
     }
     // MARK: - setup function
@@ -73,6 +77,7 @@ class HomeVC: UIViewController {
     }
     private func register() {
         clvTools.register(UINib(nibName: "ToolCell", bundle: nil), forCellWithReuseIdentifier: "ToolCell")
+        tableView.registerCellNib(DocumentListCell.self)
     }
     private func setupToolColectionView() {
         let layoutDrag: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -83,6 +88,10 @@ class HomeVC: UIViewController {
         clvTools.collectionViewLayout = layoutDrag
         clvTools.contentInset.top = 10.0
     }
+    private func setupTableView() {
+        tableView.contentInset.top = tableView.contentInset.top + 20
+    }
+
     private func setupThemes() {
         imgMoreTools.tintColor = CMSConfigConstants.themeStyle.gray1
         lblMoreTools.textColor = CMSConfigConstants.themeStyle.gray1
@@ -93,6 +102,19 @@ class HomeVC: UIViewController {
         btnFavorite.titleLabel?.textColor = CMSConfigConstants.themeStyle.black
         
         btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
+    }
+    
+    private func loadFileFromDevice() {
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            // process files
+            let urlPDF = fileURLs.filter{ $0.pathExtension == "pdf" }
+            print(urlPDF)
+        } catch {
+            print("Error while enumerating files \(documentsURL.path): \(error.localizedDescription)")
+        }
     }
     
     // MARK: - @objc function
@@ -121,6 +143,12 @@ class HomeVC: UIViewController {
     }
     private func gotoMoreTools() {
         print("goto More Tools")
+    }
+    func openBrowser() {
+        let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
+        picker.delegate = self
+        picker.modalPresentationStyle = .overCurrentContext
+        present(picker, animated: true)
     }
     
 
@@ -154,6 +182,16 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch listTools[indexPath.item].name {
+        case "Open File":
+            openBrowser()
+            break
+        default:
+            break
+        }
     }
     
 }
@@ -194,3 +232,19 @@ extension HomeVC : SlideMenuControllerDelegate {
     }
 }
 
+extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
+    func open(document: URL) {
+        guard let pdf = PDFDocument(url: document) else {
+            return // TODO: Handle this
+        }
+        print("Ngon")
+       
+    }
+
+    // UIDocumentPickerDelegate
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        open(document: urls.first!)
+    }
+
+
+}

@@ -24,7 +24,7 @@ class ToolCell: UICollectionViewCell {
         self.imgIcon.image = tool.icon
         self.lblToolName.text = tool.name
         self.imgIcon.tintColor = tool.tintColor
-        vBackground.backgroundColor = tool.backgroundColor
+        self.vBackground.backgroundColor = tool.backgroundColor
     }
 
 }
