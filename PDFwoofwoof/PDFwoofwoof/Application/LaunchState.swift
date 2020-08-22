@@ -9,7 +9,7 @@
 import Foundation
 
 protocol LaunchURLDelegate: class {
-    func open(document: URL)
+    func open(url: URL)
 }
 
 final class LaunchState {
@@ -19,7 +19,7 @@ final class LaunchState {
     var launchURL: URL? {
         didSet {
             guard let url = launchURL else { return }
-            launchURLDelegate?.open(document: url)
+            launchURLDelegate?.open(url: url)
         }
     }
     

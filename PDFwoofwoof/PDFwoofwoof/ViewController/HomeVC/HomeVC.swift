@@ -10,8 +10,9 @@ import UIKit
 import PDFKit
 
 class HomeVC: UIViewController {
-
+    weak var delegate: LeftMenuProtocol?
     @IBOutlet weak var vLine: UIView!
+    @IBOutlet weak var vLine2: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var vMoreTools: ShadowView!
@@ -62,25 +63,6 @@ class HomeVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        var urlPDF : [URL] = []
-        let fileManager = FileManager.default
-//        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//        do {
-//            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-//            // process files
-//            urlPDF = fileURLs.filter{ $0.pathExtension == "" }
-//            print(urlPDF)
-//        } catch {
-//            print("Error while enumerating files \(documentsURL.path): \(error.localizedDescription)")
-//        }
-        
-        if let documentsURL = fileManager.urls(for: .documentDirectory, skipsHiddenFiles: true) {
-            for url in documentsURL {
-                if PDFDocument(url: url) != nil {
-                    print("ngon")
-                }
-            }
-        }
         isRecent = true
     }
     // MARK: - setup function
@@ -88,11 +70,14 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.largeTitleTextAttributes =
             [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
          NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 36)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
+        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         self.navigationItem.title = "Home"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationItem.largeTitleDisplayMode = .automatic
         self.setSlideMenuVCNaviBarItem()
         self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
+        setupBaseNavigation()
     }
     private func register() {
         clvTools.register(UINib(nibName: "ToolCell", bundle: nil), forCellWithReuseIdentifier: "ToolCell")
@@ -105,10 +90,10 @@ class HomeVC: UIViewController {
         layoutDrag.minimumLineSpacing = 10
         layoutDrag.scrollDirection = .horizontal
         clvTools.collectionViewLayout = layoutDrag
-        clvTools.contentInset.top = 10.0
+        clvTools.contentInset.top = clvTools.contentInset.top + 30.0
     }
     private func setupTableView() {
-        tableView.contentInset.top = tableView.contentInset.top + 20
+        tableView.contentInset.bottom = tableView.contentInset.bottom + 40
     }
 
     private func setupThemes() {
@@ -123,6 +108,7 @@ class HomeVC: UIViewController {
         btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
         
         vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        vLine2.backgroundColor = CMSConfigConstants.themeStyle.borderColor
     }
     
     
@@ -242,17 +228,24 @@ extension HomeVC : SlideMenuControllerDelegate {
 }
 
 extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
-    func open(document: URL) {
-        guard let pdf = PDFDocument(url: document) else {
+    func open(url: URL) {
+        guard let pdf = PDFDocument(url: url) else {
             return // TODO: Handle this
         }
-        print("Ngon")
-       
+        if !pdf.isLocked {
+            //open file pdf
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let pdfVC = storyboard.instantiateViewController(withIdentifier: "PDFViewController") as! PDFViewController
+            pdfVC.config(with: MyPDFDocument(url: url))
+            
+            navigationController?.pushViewController(pdfVC, animated: true)
+        }
+        
     }
 
     // UIDocumentPickerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        open(document: urls.first!)
+        open(url: urls.first!)
     }
 
 

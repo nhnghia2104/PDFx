@@ -36,21 +36,28 @@ class DocumentsVC: UIViewController {
         register()
         setupTheme()
         setupCollectionView()
-        isViewAsList = true
+        if UserDefaults.standard.object(forKey: "isViewAsList") == nil {
+            UserDefaults.standard.setValue(true, forKey: "isViewAsList")
+        }
+        if let bool = UserDefaults.standard.object(forKey: "isViewAsList") as? Bool {
+            isViewAsList = bool
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadFileFromDevice()
     }
+
     // MARK: - setup functions
     private func setupNavigation() {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
-                                                                        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 14)]
+                                                                        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         self.navigationItem.title = "Documents"
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.largeTitleDisplayMode = .never
         self.setSlideMenuVCNaviBarItem()
-        self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openMore))
+        self.addRightBarButtonWithImage(img: UIImage(named: "ic_more_2")!, action: #selector(openMore))
+        setupBaseNavigation()
     }
     private func setupCollectionView() {
         self.clvDocument.decelerationRate = UIScrollView.DecelerationRate.normal
@@ -101,9 +108,11 @@ class DocumentsVC: UIViewController {
     }
     // MARK: - IBAction
     @IBAction func tapListMode() {
+        UserDefaults.standard.setValue(true, forKey: "isViewAsList")
         isViewAsList = true
     }
     @IBAction func tapGridMode() {
+        UserDefaults.standard.setValue(false, forKey: "isViewAsList")
         isViewAsList = false
     }
     //MARK: - objc funtion
@@ -182,5 +191,17 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return isViewAsList ? 0 : 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item < listFolder.count {
+            
+        }
+        else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let pdfVC = storyboard.instantiateViewController(withIdentifier: "PDFViewController") as! PDFViewController
+            pdfVC.config(with: listDocument[indexPath.item - listFolder.count])
+            navigationController?.pushViewController(pdfVC, animated: true)
+        }
     }
 }

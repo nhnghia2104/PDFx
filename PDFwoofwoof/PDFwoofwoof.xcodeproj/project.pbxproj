@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD09B75724E9413E00E21304 /* LaunchState.swift */; };
+		AD11E53D24F1B25200A9FD49 /* pdf-sample.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AD11E53C24F1B25200A9FD49 /* pdf-sample.pdf */; };
+		AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD11E53F24F1B9AA00A9FD49 /* PDFViewController.swift */; };
 		AD230E7124EA9588000225D7 /* PDFObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD230E7024EA9588000225D7 /* PDFObject.swift */; };
 		AD230E7324EA9F27000225D7 /* MyPDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD230E7224EA9F27000225D7 /* MyPDFDocument.swift */; };
 		AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E81C24E4EFF3001979D4 /* Tool.swift */; };
@@ -95,6 +97,8 @@
 		266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PDFwoofwoof.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98A20A43BA2F32DE43D2C96F /* Pods-PDFwoofwoof.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFwoofwoof.debug.xcconfig"; path = "Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof.debug.xcconfig"; sourceTree = "<group>"; };
 		AD09B75724E9413E00E21304 /* LaunchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchState.swift; sourceTree = "<group>"; };
+		AD11E53C24F1B25200A9FD49 /* pdf-sample.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pdf-sample.pdf"; sourceTree = "<group>"; };
+		AD11E53F24F1B9AA00A9FD49 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		AD230E7024EA9588000225D7 /* PDFObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFObject.swift; sourceTree = "<group>"; };
 		AD230E7224EA9F27000225D7 /* MyPDFDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPDFDocument.swift; sourceTree = "<group>"; };
 		AD27E81C24E4EFF3001979D4 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
@@ -198,6 +202,14 @@
 				266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD11E53E24F1B97A00A9FD49 /* PDFViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AD11E53F24F1B9AA00A9FD49 /* PDFViewController.swift */,
+			);
+			path = PDFViewController;
 			sourceTree = "<group>";
 		};
 		AD230E6F24EA9572000225D7 /* Realm */ = {
@@ -322,9 +334,10 @@
 		AD4CEA0B24E39E2B00C165A3 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				ADD47BDD24EE90C10097250C /* DocumentsVC */,
 				AD4CEA1E24E3CD2A00C165A3 /* HomeVC */,
 				AD4CEA1F24E3CD3400C165A3 /* MenuVC */,
+				AD11E53E24F1B97A00A9FD49 /* PDFViewController */,
+				ADD47BDD24EE90C10097250C /* DocumentsVC */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -341,6 +354,7 @@
 		AD4CEA1524E3C78F00C165A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AD11E53C24F1B25200A9FD49 /* pdf-sample.pdf */,
 				AD230E6F24EA9572000225D7 /* Realm */,
 				AD27E81B24E4EFE2001979D4 /* Objects */,
 				AD27E82924E5360F001979D4 /* Font */,
@@ -616,6 +630,7 @@
 				AD27E83E24E53626001979D4 /* Roboto-LightItalic.ttf in Resources */,
 				AD27E84224E53626001979D4 /* Roboto-Bold.ttf in Resources */,
 				AD27E87424E56037001979D4 /* OpenSans-LightItalic.ttf in Resources */,
+				AD11E53D24F1B25200A9FD49 /* pdf-sample.pdf in Resources */,
 				AD27E83824E53626001979D4 /* Roboto-Medium.ttf in Resources */,
 				AD27E87224E56037001979D4 /* OpenSans-Italic.ttf in Resources */,
 				AD27E87524E56037001979D4 /* OpenSans-Bold.ttf in Resources */,
@@ -716,6 +731,7 @@
 				AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
 				ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */,
+				AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */,
 				AD27E84624E54E10001979D4 /* HomeVC_TableView.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
 				AD27E86324E55D12001979D4 /* UIFont.swift in Sources */,

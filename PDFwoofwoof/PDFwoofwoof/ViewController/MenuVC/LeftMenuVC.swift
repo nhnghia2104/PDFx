@@ -37,14 +37,8 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tableView.separatorColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let documentVC = storyboard.instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
-        self.documentVC = UINavigationController(rootViewController: documentVC)
-        self.tableView.registerCellNib(LeftMenuTableViewCell.self)
-        self.tableView.allowsMultipleSelection = false
-        self.tableView.selectRow(at: IndexPath(row: LeftMenu.home.rawValue, section: 0), animated: false, scrollPosition: .none)
+        setupTableView()
+        initView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,11 +50,39 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
         self.view.layoutIfNeeded()
     }
     
+    private func initView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        documentVC = storyboard.instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
+        self.documentVC = UINavigationController(rootViewController: documentVC)
+        
+        mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+        self.mainViewController = UINavigationController(rootViewController: mainViewController)
+    }
+    
+    private func setupTableView() {
+        self.tableView.separatorColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
+        
+        
+        self.tableView.registerCellNib(LeftMenuTableViewCell.self)
+        self.tableView.allowsMultipleSelection = false
+        
+        if UserDefaults.standard.object(forKey: "MainView") == nil {
+            UserDefaults.standard.setValue(1, forKey: "MainView")
+        }
+        if let key = UserDefaults.standard.object(forKey: "MainView") as? Int {
+            self.tableView.selectRow(at: IndexPath(row: key, section: 0), animated: false, scrollPosition: .none)
+        }
+        
+        
+    }
+    
     func changeViewController(_ menu: LeftMenu) {
         switch menu {
         case .home:
+            UserDefaults.standard.setValue(1, forKey: "MainView")
             self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
         case .document:
+            UserDefaults.standard.setValue(2, forKey: "MainView")
              self.slideMenuController()?.changeMainViewController(self.documentVC, close: true)
         default:
             break

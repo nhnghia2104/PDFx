@@ -34,4 +34,9 @@ extension UIViewController {
         let rightButton: UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: action)
         self.navigationItem.rightBarButtonItem = rightButton
     }
+    func setupBaseNavigation() {
+        self.navigationController?.navigationBar.barTintColor = .white
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+    }
 }

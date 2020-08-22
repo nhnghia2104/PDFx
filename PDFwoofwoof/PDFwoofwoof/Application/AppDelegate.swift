@@ -20,10 +20,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+        var mainViewController : UIViewController?
         let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftMenuVC") as! LeftMenuVC
-
-        let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController)
+        if UserDefaults.standard.object(forKey: "MainView") == nil {
+            UserDefaults.standard.setValue(1, forKey: "MainView")
+        }
+        if let key = UserDefaults.standard.object(forKey: "MainView") as? Int {
+            switch key {
+            case 1:
+                mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                break
+            case 2 :
+                mainViewController = storyboard.instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
+                break
+            default:
+                mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                break
+            }
+        }
+        
+        let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController!)
         
         UINavigationBar.appearance().tintColor = CMSConfigConstants.themeStyle.gray1
         
@@ -32,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let slideMenuController = ExSlideMenuController(mainViewController: nvc , leftMenuViewController: leftViewController)
         slideMenuController.automaticallyAdjustsScrollViewInsets = true
 
-        slideMenuController.delegate = mainViewController
+        slideMenuController.delegate = mainViewController as? SlideMenuControllerDelegate
         self.window?.backgroundColor = UIColor(red: 236.0, green: 238.0, blue: 241.0, alpha: 1.0)
         self.window?.rootViewController = slideMenuController
         self.window?.makeKeyAndVisible()
@@ -47,6 +63,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        catch {
 //            print("tạch :(")
 //        }
+        createDefaultFolder()
+    }
+    
+    func createDefaultFolder() {
+        
+        if UserDefaults.standard.object(forKey: "createDefaultFolder") == nil {
+            let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            guard let path = Bundle.main.url(forResource: "pdf-sample", withExtension: "pdf") else { return }
+            do {
+                let data = try Data(contentsOf: path)
+                try data.write(to: documentDirectory.appendingPathComponent("pdf-sample.pdf"))
+                UserDefaults.standard.setValue(true, forKey: "createDefaultFolder")
+            }
+            catch {
+            
+            }
+            
+        }
+        
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
