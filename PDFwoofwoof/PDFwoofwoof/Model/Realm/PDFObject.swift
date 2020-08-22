@@ -17,10 +17,6 @@ class PDFObject : Object {
     @objc dynamic var pdfIsRecent = false
     
     func setRealmValue(pdf : MyPDFDocument) {
-        self.pdfID = pdf.pdfID
-        self.pdfUrl = pdf.pdfUrl
-        self.pdfDateModified = pdf.pdfDateModified
-        self.pdfIsFavorite = pdf.pdfIsFavorite
-        self.pdfIsRecent = pdf.pdfIsRecent
+
     }
 }

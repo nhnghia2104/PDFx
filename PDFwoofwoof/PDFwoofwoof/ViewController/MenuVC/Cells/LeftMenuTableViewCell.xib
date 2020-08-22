@@ -31,11 +31,21 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="51z-PS-Tlc">
+                        <rect key="frame" x="20" y="43.5" width="280" height="0.5"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="qFB-yq-VF1"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="VhK-h7-JHp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7nR-a3-B5N"/>
+                    <constraint firstAttribute="bottom" secondItem="51z-PS-Tlc" secondAttribute="bottom" id="Hlj-gJ-nf7"/>
+                    <constraint firstItem="51z-PS-Tlc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Ysf-W3-lXK"/>
                     <constraint firstItem="VhK-h7-JHp" firstAttribute="leading" secondItem="2ab-rU-w3D" secondAttribute="trailing" constant="20" id="chz-H5-RtC"/>
                     <constraint firstItem="2ab-rU-w3D" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="hhh-8d-FIw"/>
+                    <constraint firstAttribute="trailing" secondItem="51z-PS-Tlc" secondAttribute="trailing" constant="20" id="kRd-NZ-Eu6"/>
                     <constraint firstItem="2ab-rU-w3D" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="krX-Yg-CDN"/>
                 </constraints>
             </tableViewCellContentView>
@@ -43,6 +53,7 @@
             <connections>
                 <outlet property="imgIcon" destination="2ab-rU-w3D" id="F3D-ay-lhp"/>
                 <outlet property="lblTitle" destination="VhK-h7-JHp" id="RL1-yk-Q4E"/>
+                <outlet property="line" destination="51z-PS-Tlc" id="fdy-rn-ASe"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="117.85714285714285"/>
         </tableViewCell>

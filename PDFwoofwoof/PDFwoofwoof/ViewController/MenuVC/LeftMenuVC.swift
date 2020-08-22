@@ -9,8 +9,8 @@
 import UIKit
 
 enum LeftMenu: Int {
-    case home = 0
-    case search
+    case search = 0
+    case home
     case document
     case starred
     case recent
@@ -26,21 +26,25 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
     @IBOutlet weak var tableView: UITableView!
     var menus = ["Search", "Home", "Documents", "Starred", "Recent","Settings"]
     var mainViewController: UIViewController!
-    var swiftViewController: UIViewController!
+    var documentVC: UIViewController!
     var javaViewController: UIViewController!
     var goViewController: UIViewController!
     var nonMenuViewController: UIViewController!
-    
+    private var lastSelect : IndexPath?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.separatorColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let documentVC = storyboard.instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
+        self.documentVC = UINavigationController(rootViewController: documentVC)
         self.tableView.registerCellNib(LeftMenuTableViewCell.self)
+        self.tableView.allowsMultipleSelection = false
+        self.tableView.selectRow(at: IndexPath(row: LeftMenu.home.rawValue, section: 0), animated: false, scrollPosition: .none)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,6 +57,14 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
     }
     
     func changeViewController(_ menu: LeftMenu) {
+        switch menu {
+        case .home:
+            self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
+        case .document:
+             self.slideMenuController()?.changeMainViewController(self.documentVC, close: true)
+        default:
+            break
+        }
     }
 }
 extension LeftMenuVC : UITableViewDataSource {
@@ -71,4 +83,19 @@ extension LeftMenuVC : UITableViewDataSource {
     }
 
 
+}
+extension LeftMenuVC : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let menu = LeftMenu(rawValue: indexPath.row) {
+            self.changeViewController(menu)
+        }
+        tableView.deselectRow(at: lastSelect ?? indexPath, animated: false)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        lastSelect = indexPath
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.tableView == scrollView {
+            
+        }
+    }
 }

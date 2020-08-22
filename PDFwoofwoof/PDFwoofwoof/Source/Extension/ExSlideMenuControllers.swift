@@ -9,11 +9,12 @@
 import UIKit
 
 class ExSlideMenuController : SlideMenuController {
-
+    
     override func isTagetViewController() -> Bool {
         if let vc = UIApplication.topViewController() {
             if vc is HomeVC ||
-            vc is LeftMenuVC {
+                vc is LeftMenuVC ||
+                vc is DocumentsVC{
                 return true
             }
         }

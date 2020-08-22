@@ -12,9 +12,10 @@ extension HomeVC : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: DocumentListCell.identifier) as? DocumentListCell else {
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: DocumentTableViewCell.identifier) as? DocumentTableViewCell else {
             return UITableViewCell()
         }
+        cell.setData(title: "Abc", sub: "2020-04-21", img: UIImage(named: "ic_folder")!)
         return cell
     }
 }

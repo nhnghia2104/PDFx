@@ -35,6 +35,12 @@
 		AD27E87624E56037001979D4 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86B24E56037001979D4 /* OpenSans-SemiBoldItalic.ttf */; };
 		AD27E87924E56037001979D4 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86E24E56037001979D4 /* OpenSans-Regular.ttf */; };
 		AD27E87A24E56037001979D4 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86F24E56037001979D4 /* OpenSans-BoldItalic.ttf */; };
+		AD41CF1B24F1170D0084B0B7 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD41CF1A24F1170D0084B0B7 /* Math.swift */; };
+		AD41CF1D24F11EEF0084B0B7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD41CF1C24F11EEF0084B0B7 /* Date.swift */; };
+		AD443ED324EFCD990025FA49 /* ListDocCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD443ED124EFCD990025FA49 /* ListDocCollectionViewCell.swift */; };
+		AD443ED424EFCD990025FA49 /* ListDocCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD443ED224EFCD990025FA49 /* ListDocCollectionViewCell.xib */; };
+		AD443ED724EFCDAC0025FA49 /* GridDocCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD443ED524EFCDAC0025FA49 /* GridDocCollectionViewCell.swift */; };
+		AD443ED824EFCDAC0025FA49 /* GridDocCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD443ED624EFCDAC0025FA49 /* GridDocCollectionViewCell.xib */; };
 		AD4CEA0D24E39EF400C165A3 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4CEA0C24E39EF400C165A3 /* Image.xcassets */; };
 		AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA0F24E3AE4B00C165A3 /* UIViewController.swift */; };
 		AD4CEA1124E3AFBC00C165A3 /* SlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */; };
@@ -51,10 +57,12 @@
 		AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2924E40C3900C165A3 /* BaseVar.swift */; };
 		AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4024E7A06500FD9AE8 /* UIView.swift */; };
 		AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */; };
-		AD5B140624E805EB00E80DDA /*  DocumentListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5B140424E805EB00E80DDA /*  DocumentListCell.swift */; };
-		AD5B140724E805EB00E80DDA /* DocumentListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD5B140524E805EB00E80DDA /* DocumentListCell.xib */; };
+		AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5B140424E805EB00E80DDA /* DocumentTableViewCell.swift */; };
+		AD5B140724E805EB00E80DDA /* DocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD5B140524E805EB00E80DDA /* DocumentTableViewCell.xib */; };
 		AD724A5724EE6BCC0028F61F /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD724A5624EE6BCC0028F61F /* FileManager.swift */; };
+		AD8BAE3324F10937002995E5 /* MyFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8BAE3224F10937002995E5 /* MyFolder.swift */; };
 		ADCC687A24ED410500F1691B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCC687924ED410500F1691B /* RealmManager.swift */; };
+		ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD47BDE24EE90F10097250C /* DocumentsVC.swift */; };
 		ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */; };
 		ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBB124E1947E00492D5A /* HomeVC.swift */; };
 		ADE5BBB524E1947F00492D5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE5BBB324E1947F00492D5A /* Main.storyboard */; };
@@ -114,6 +122,12 @@
 		AD27E86B24E56037001979D4 /* OpenSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		AD27E86E24E56037001979D4 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		AD27E86F24E56037001979D4 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		AD41CF1A24F1170D0084B0B7 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		AD41CF1C24F11EEF0084B0B7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		AD443ED124EFCD990025FA49 /* ListDocCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDocCollectionViewCell.swift; sourceTree = "<group>"; };
+		AD443ED224EFCD990025FA49 /* ListDocCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListDocCollectionViewCell.xib; sourceTree = "<group>"; };
+		AD443ED524EFCDAC0025FA49 /* GridDocCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDocCollectionViewCell.swift; sourceTree = "<group>"; };
+		AD443ED624EFCDAC0025FA49 /* GridDocCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridDocCollectionViewCell.xib; sourceTree = "<group>"; };
 		AD4CEA0C24E39EF400C165A3 /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 		AD4CEA0F24E3AE4B00C165A3 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		AD4CEA1324E3BC4C00C165A3 /* LeftMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuVC.swift; sourceTree = "<group>"; };
@@ -128,10 +142,12 @@
 		AD4CEA2924E40C3900C165A3 /* BaseVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVar.swift; sourceTree = "<group>"; };
 		AD4D4E4024E7A06500FD9AE8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		AD4D4E4224E7C76500FD9AE8 /* CMSConfigConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSConfigConstants.swift; sourceTree = "<group>"; };
-		AD5B140424E805EB00E80DDA /*  DocumentListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " DocumentListCell.swift"; sourceTree = "<group>"; };
-		AD5B140524E805EB00E80DDA /* DocumentListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentListCell.xib; sourceTree = "<group>"; };
+		AD5B140424E805EB00E80DDA /* DocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableViewCell.swift; sourceTree = "<group>"; };
+		AD5B140524E805EB00E80DDA /* DocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentTableViewCell.xib; sourceTree = "<group>"; };
 		AD724A5624EE6BCC0028F61F /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		AD8BAE3224F10937002995E5 /* MyFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFolder.swift; sourceTree = "<group>"; };
 		ADCC687924ED410500F1691B /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		ADD47BDE24EE90F10097250C /* DocumentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsVC.swift; sourceTree = "<group>"; };
 		ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
 		ADDBC61F24E2F2B4009E2864 /* SlideMenuControllerSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuControllerSwift.h; sourceTree = "<group>"; };
 		ADDBC62024E2F2B4009E2864 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -196,8 +212,10 @@
 		AD27E81B24E4EFE2001979D4 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				AD41CF1A24F1170D0084B0B7 /* Math.swift */,
 				AD27E81C24E4EFF3001979D4 /* Tool.swift */,
 				AD230E7224EA9F27000225D7 /* MyPDFDocument.swift */,
+				AD8BAE3224F10937002995E5 /* MyFolder.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -274,9 +292,37 @@
 			path = Open_Sans;
 			sourceTree = "<group>";
 		};
+		AD443ECE24EFCD5B0025FA49 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				AD443ED024EFCD6F0025FA49 /* Grid */,
+				AD443ECF24EFCD650025FA49 /* List */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		AD443ECF24EFCD650025FA49 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				AD443ED124EFCD990025FA49 /* ListDocCollectionViewCell.swift */,
+				AD443ED224EFCD990025FA49 /* ListDocCollectionViewCell.xib */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		AD443ED024EFCD6F0025FA49 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				AD443ED524EFCDAC0025FA49 /* GridDocCollectionViewCell.swift */,
+				AD443ED624EFCDAC0025FA49 /* GridDocCollectionViewCell.xib */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
 		AD4CEA0B24E39E2B00C165A3 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				ADD47BDD24EE90C10097250C /* DocumentsVC */,
 				AD4CEA1E24E3CD2A00C165A3 /* HomeVC */,
 				AD4CEA1F24E3CD3400C165A3 /* MenuVC */,
 			);
@@ -342,6 +388,8 @@
 		AD5B140224E8059900E80DDA /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				AD5B140424E805EB00E80DDA /* DocumentTableViewCell.swift */,
+				AD5B140524E805EB00E80DDA /* DocumentTableViewCell.xib */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -349,10 +397,17 @@
 		AD5B140324E805D100E80DDA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AD5B140424E805EB00E80DDA /*  DocumentListCell.swift */,
-				AD5B140524E805EB00E80DDA /* DocumentListCell.xib */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		ADD47BDD24EE90C10097250C /* DocumentsVC */ = {
+			isa = PBXGroup;
+			children = (
+				ADD47BDE24EE90F10097250C /* DocumentsVC.swift */,
+				AD443ECE24EFCD5B0025FA49 /* Cell */,
+			);
+			path = DocumentsVC;
 			sourceTree = "<group>";
 		};
 		ADDBC61D24E2F2B4009E2864 /* Source */ = {
@@ -381,6 +436,7 @@
 				AD27E86224E55D12001979D4 /* UIFont.swift */,
 				AD4D4E4024E7A06500FD9AE8 /* UIView.swift */,
 				AD724A5624EE6BCC0028F61F /* FileManager.swift */,
+				AD41CF1C24F11EEF0084B0B7 /* Date.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -565,13 +621,15 @@
 				AD27E87524E56037001979D4 /* OpenSans-Bold.ttf in Resources */,
 				AD27E84324E53626001979D4 /* Roboto-Thin.ttf in Resources */,
 				AD27E84124E53626001979D4 /* Roboto-BlackItalic.ttf in Resources */,
-				AD5B140724E805EB00E80DDA /* DocumentListCell.xib in Resources */,
+				AD443ED824EFCDAC0025FA49 /* GridDocCollectionViewCell.xib in Resources */,
+				AD5B140724E805EB00E80DDA /* DocumentTableViewCell.xib in Resources */,
 				AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */,
 				AD27E83D24E53626001979D4 /* Roboto-BoldItalic.ttf in Resources */,
 				AD27E87624E56037001979D4 /* OpenSans-SemiBoldItalic.ttf in Resources */,
 				ADE5BBB724E1948000492D5A /* Assets.xcassets in Resources */,
 				AD27E83B24E53626001979D4 /* Roboto-MediumItalic.ttf in Resources */,
 				AD27E87924E56037001979D4 /* OpenSans-Regular.ttf in Resources */,
+				AD443ED424EFCD990025FA49 /* ListDocCollectionViewCell.xib in Resources */,
 				AD27E87024E56037001979D4 /* OpenSans-SemiBold.ttf in Resources */,
 				AD27E84424E53626001979D4 /* Roboto-Black.ttf in Resources */,
 				AD27E87124E56037001979D4 /* OpenSans-Light.ttf in Resources */,
@@ -647,19 +705,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD4CEA1124E3AFBC00C165A3 /* SlideMenuController.swift in Sources */,
+				AD41CF1B24F1170D0084B0B7 /* Math.swift in Sources */,
 				AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */,
+				AD41CF1D24F11EEF0084B0B7 /* Date.swift in Sources */,
+				AD443ED724EFCDAC0025FA49 /* GridDocCollectionViewCell.swift in Sources */,
 				AD4CEA2424E3E70C00C165A3 /* String.swift in Sources */,
 				AD4CEA1B24E3CC8400C165A3 /* ExSlideMenuControllers.swift in Sources */,
 				AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */,
 				AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */,
-				AD5B140624E805EB00E80DDA /*  DocumentListCell.swift in Sources */,
+				AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
+				ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */,
 				AD27E84624E54E10001979D4 /* HomeVC_TableView.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
 				AD27E86324E55D12001979D4 /* UIFont.swift in Sources */,
 				AD27E82724E510D9001979D4 /* ToolCell.swift in Sources */,
 				AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */,
 				ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */,
+				AD443ED324EFCD990025FA49 /* ListDocCollectionViewCell.swift in Sources */,
+				AD8BAE3324F10937002995E5 /* MyFolder.swift in Sources */,
 				AD230E7324EA9F27000225D7 /* MyPDFDocument.swift in Sources */,
 				AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */,
 				AD4CEA1424E3BC4C00C165A3 /* LeftMenuVC.swift in Sources */,

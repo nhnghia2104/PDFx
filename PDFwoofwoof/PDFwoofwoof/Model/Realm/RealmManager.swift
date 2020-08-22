@@ -16,7 +16,7 @@ class RealmManager {
                 let realm = try Realm()
                 let itemResult = realm
                     .objects(PDFObject.self)
-                    .filter("pdfID == '\(item.pdfID.description)'")
+                    .filter("pdfID == ''")
                 itemResult.count > 0 ? completion(true) : completion(false)
             } catch let error as NSError {
                 debugPrint("Realm error:",error)

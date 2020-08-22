@@ -11,6 +11,7 @@ import PDFKit
 
 class HomeVC: UIViewController {
 
+    @IBOutlet weak var vLine: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var vMoreTools: ShadowView!
@@ -61,7 +62,25 @@ class HomeVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadFileFromDevice()
+        var urlPDF : [URL] = []
+        let fileManager = FileManager.default
+//        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        do {
+//            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+//            // process files
+//            urlPDF = fileURLs.filter{ $0.pathExtension == "" }
+//            print(urlPDF)
+//        } catch {
+//            print("Error while enumerating files \(documentsURL.path): \(error.localizedDescription)")
+//        }
+        
+        if let documentsURL = fileManager.urls(for: .documentDirectory, skipsHiddenFiles: true) {
+            for url in documentsURL {
+                if PDFDocument(url: url) != nil {
+                    print("ngon")
+                }
+            }
+        }
         isRecent = true
     }
     // MARK: - setup function
@@ -77,7 +96,7 @@ class HomeVC: UIViewController {
     }
     private func register() {
         clvTools.register(UINib(nibName: "ToolCell", bundle: nil), forCellWithReuseIdentifier: "ToolCell")
-        tableView.registerCellNib(DocumentListCell.self)
+        tableView.registerCellNib(DocumentTableViewCell.self)
     }
     private func setupToolColectionView() {
         let layoutDrag: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -102,20 +121,10 @@ class HomeVC: UIViewController {
         btnFavorite.titleLabel?.textColor = CMSConfigConstants.themeStyle.black
         
         btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
+        
+        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
     }
     
-    private func loadFileFromDevice() {
-        let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        do {
-            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            // process files
-            let urlPDF = fileURLs.filter{ $0.pathExtension == "pdf" }
-            print(urlPDF)
-        } catch {
-            print("Error while enumerating files \(documentsURL.path): \(error.localizedDescription)")
-        }
-    }
     
     // MARK: - @objc function
     @objc func openNotice() {
