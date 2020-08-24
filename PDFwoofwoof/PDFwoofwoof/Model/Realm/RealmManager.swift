@@ -8,37 +8,99 @@
 
 import Foundation
 import RealmSwift
+import PDFKit
 class RealmManager {
     
-    static private func existPDFDocument(item: MyPDFDocument, completion: @escaping ((Bool)->())) {
+    static let shared = RealmManager()
+    private init() {}
+    
+    static func saveRecentPDF(url : URL, completion:(()->())? = nil) {
+        existRecentPDF(url: url) { (result) in
+            print("URLsave : \(url)")
+            if result {
+                self.updateRecentPDF(url: url) {
+                    print("updated")
+                }
+            }
+            else {
+                self.insertRecentPDF(url: url) {
+                    print("inserted")
+                }
+            }
+            completion?()
+        }
+    }
+    
+    static func getRecentPDF() -> [Document]? {
+        do {
+            let realm = try Realm()
+            
+            let itemResult = realm
+                .objects(RecentPDF.self)
+            
+            var arItem: [Document] = []
+            
+            itemResult.forEach {
+                    let item = $0.getRecentPDF()
+                    arItem.append(item)
+            }
+            return arItem
+        }catch let error as NSError {
+            debugPrint("Realm error:",error)
+            return nil
+        }
+    }
+    static func deleteRecent(url: String, completion:(()->())? = nil) {
+        autoreleasepool {
+            guard let realm = try? Realm() else {return}
+            let itemResult = realm.objects(RecentPDF.self).filter("url == '\(url)'")
+            try? realm.write {
+                realm.delete(itemResult)
+                completion?()
+            }
+        }
+    }
+    
+    static func updateRecentPDF(url: URL, completion:(()->())? = nil) {
+        autoreleasepool {
+            guard let realm = try? Realm() else {return}
+            guard let theRecentPDF = realm
+                .objects(RecentPDF.self)
+                .filter("url == '\(url.path.description)'")
+                .first else {
+                    return
+            }
+            try? realm.write {
+                theRecentPDF.dateModified = Date()
+                completion?()
+            }
+        }
+    }
+    static func insertRecentPDF(url: URL, completion:(()->())? = nil){
+        let recent = RecentPDF()
+        recent.setData(url: url, date: Date())
+        autoreleasepool {
+            guard let realm = try? Realm() else {return}
+            
+            try? realm.write {
+                realm.add(recent)
+                completion?()
+            }
+            
+            
+        }
+    }
+    
+    static func existRecentPDF(url: URL, completion: @escaping ((Bool)->())) {
         autoreleasepool {
             do {
                 let realm = try Realm()
                 let itemResult = realm
-                    .objects(PDFObject.self)
-                    .filter("pdfID == ''")
+                    .objects(RecentPDF.self)
+                    .filter("url == '\(url.path.description)'")
                 itemResult.count > 0 ? completion(true) : completion(false)
             } catch let error as NSError {
                 debugPrint("Realm error:",error)
-            }
-        }
-    }
-    
-    static public func savePdfObject(pdf : MyPDFDocument) {
-        existPDFDocument(item: pdf) { (isExist)  in
-            if !isExist {
-                self.addMyPDFDocument(pdf: pdf)
-            }
-        }
-    }
-    
-    static public func addMyPDFDocument(pdf : MyPDFDocument) {
-        let pdfFile = PDFObject()
-        pdfFile.setRealmValue(pdf : pdf)
-        autoreleasepool {
-            guard let realm = try? Realm() else {return}
-            try? realm.write {
-                realm.add(pdfFile)
             }
         }
     }

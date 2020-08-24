@@ -20,4 +20,18 @@ extension FileManager {
             return false
         }
     }
+//    let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//    if let urlArray = try? FileManager.default.contentsOfDirectory(at: directory,
+//                                                                   includingPropertiesForKeys: [.contentModificationDateKey],
+//                                                                   options:.skipsHiddenFiles) {
+//
+//        return urlArray.map { url in
+//                (url.lastPathComponent, (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast)
+//            }
+//            .sorted(by: { $0.1 > $1.1 }) // sort descending modification dates
+//            .map { $0.0 } // extract file names
+//
+//    } else {
+//        return nil
+//    }
 }

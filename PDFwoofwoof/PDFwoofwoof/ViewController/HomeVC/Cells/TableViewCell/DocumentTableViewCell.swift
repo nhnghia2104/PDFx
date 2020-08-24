@@ -40,17 +40,15 @@ class DocumentTableViewCell: BaseTableViewCell {
     @IBAction func tapMore(_ sender: Any) {
     }
     
-    public func setData(title : String, sub : String, img : UIImage, isFavorite : Bool = false, isSelectMode : Bool = false) {
+    public func setData(pdf : MyDocument,isFavorite : Bool = false, isSelectMode : Bool = false) {
         self.imgSelect.isHidden = !isSelectMode
         self.avtLeadingAnchor.constant = isSelectMode ? 70 : 20
         
         self.imgStar.isHidden = !isFavorite
         self.trallingAnchor.constant = isFavorite ? 23 : 2
         
-        self.imgAvt.image = img
-        
-        self.lblTitle.text = title
-        self.lblSubTitle.text = sub
+//        self.lblTitle.text = pdf.url?.lastPathComponent ?? ""
+//        self.lblSubTitle.text = pdf.getStrDateModifed() + "\t" + pdf.getStrSize()
     }
     
 }

@@ -8,7 +8,10 @@
 
 import UIKit
 struct Math {
+    
     static let shared  = Math()
+    
+    private init() {}
     
     func roundToDeCimal(_ value: Double, toDecimalPlaces places: Int) -> Double {
         let divisor = pow(10.0, Double(places))

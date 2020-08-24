@@ -20,8 +20,8 @@ class DocumentsVC: UIViewController {
     @IBOutlet weak var lblSortby: UILabel!
     @IBOutlet weak var clvDocument: UICollectionView!
     
-    private var listFolder = [MyFolder]()
-    private var listDocument = [MyPDFDocument]()
+    var listFolder = [MyFolder]()
+    var listDocument = [MyDocument]()
     var direct = FileManager.default
     
     private var isViewAsList = true {
@@ -29,23 +29,24 @@ class DocumentsVC: UIViewController {
             changeListGridIcon()
         }
     }
+    private var isSelectMode = false {
+        didSet {
+            clvDocument.reloadData()
+        }
+    }
     // MARK: - override function
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadFileFromDevice()
         setupNavigation()
         register()
         setupTheme()
+        setupViewMode()
         setupCollectionView()
-        if UserDefaults.standard.object(forKey: "isViewAsList") == nil {
-            UserDefaults.standard.setValue(true, forKey: "isViewAsList")
-        }
-        if let bool = UserDefaults.standard.object(forKey: "isViewAsList") as? Bool {
-            isViewAsList = bool
-        }
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadFileFromDevice()
     }
 
     // MARK: - setup functions
@@ -62,10 +63,15 @@ class DocumentsVC: UIViewController {
     private func setupCollectionView() {
         self.clvDocument.decelerationRate = UIScrollView.DecelerationRate.normal
         clvDocument.contentInset.bottom = clvDocument.contentInset.bottom + 40.0
+
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = isViewAsList ? CGSize(width: clvDocument.frame.width, height: 75) : CGSize(width: ( clvDocument.frame.width - 80 ) / 3 , height: (( clvDocument.frame.width - 80 ) / 3) * ( 1.7 / 1 ))
+        layout.sectionInset = isViewAsList ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) : UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        layout.minimumInteritemSpacing = isViewAsList ? 0 : 20
+        layout.minimumLineSpacing = isViewAsList ? 0 : 20
+        layout.scrollDirection = .vertical
+        clvDocument.collectionViewLayout = layout
         
-        let layoutDrag: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layoutDrag.scrollDirection = .vertical
-        clvDocument.collectionViewLayout = layoutDrag
     }
     private func register() {
         clvDocument.register(UINib(nibName: "ListDocCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ListDocCollectionViewCell")
@@ -81,6 +87,15 @@ class DocumentsVC: UIViewController {
         imgSortby.tintColor = CMSConfigConstants.themeStyle.gray1
         
     }
+    private func setupViewMode() {
+        // List/Grid Mode
+        if UserDefaults.standard.object(forKey: "isViewAsList") == nil {
+            UserDefaults.standard.setValue(true, forKey: "isViewAsList")
+        }
+        if let bool = UserDefaults.standard.object(forKey: "isViewAsList") as? Bool {
+            isViewAsList = bool
+        }
+    }
     private func loadFileFromDevice() {
         let fileManager = FileManager.default
         if let documentURL = fileManager.urls(for: .documentDirectory, skipsHiddenFiles: true) {
@@ -94,7 +109,7 @@ class DocumentsVC: UIViewController {
         listDocument.removeAll()
         for url in urls {
             if PDFDocument(url: url) != nil {
-                let child = MyPDFDocument(url: url)
+                let child = MyDocument(url: url)
                 listDocument.append(child)
             }
         }
@@ -106,14 +121,20 @@ class DocumentsVC: UIViewController {
             listFolder.append(child)
         }
     }
+    
     // MARK: - IBAction
     @IBAction func tapListMode() {
         UserDefaults.standard.setValue(true, forKey: "isViewAsList")
         isViewAsList = true
+        resetCollectionViewLayout()
     }
     @IBAction func tapGridMode() {
         UserDefaults.standard.setValue(false, forKey: "isViewAsList")
         isViewAsList = false
+        resetCollectionViewLayout()
+    }
+    @IBAction func tapSelect() {
+        isSelectMode = !isSelectMode
     }
     //MARK: - objc funtion
     @objc func openMore() {
@@ -121,10 +142,24 @@ class DocumentsVC: UIViewController {
     }
     //MARK: - Action function
     private func changeListGridIcon() {
-        UIView.animate(withDuration: 0.2, animations: {[weak self] in
+        UIView.animate(withDuration: 0.1, animations: {[weak self] in
             self?.leadingAnchor.constant = (self?.isViewAsList)! ? 30.0 : 0
             self?.view.layoutIfNeeded()
         })
+        
+    }
+    private func resetCollectionViewLayout() {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.itemSize = isViewAsList ? CGSize(width: clvDocument.frame.width, height: 75) : CGSize(width: ( clvDocument.frame.width - 80 ) / 3 , height: (( clvDocument.frame.width - 80 ) / 3) * ( 1.7 / 1 ))
+//        layout.sectionInset = isViewAsList ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) : UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+//        layout.minimumInteritemSpacing = isViewAsList ? 0 : 20
+//        layout.minimumLineSpacing = isViewAsList ? 0 : 20
+//        layout.scrollDirection = .vertical
+//        clvDocument.setCollectionViewLayout(layout, animated: true) {[weak self] (bool) in
+//            if bool {
+//                self?.clvDocument.reloadData()
+//            }
+//        }
         clvDocument.reloadData()
     }
 }
@@ -142,20 +177,20 @@ extension DocumentsVC : UICollectionViewDataSource {
         if isViewAsList {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListDocCollectionViewCell", for: indexPath) as? ListDocCollectionViewCell else {return UICollectionViewCell()}
             if indexPath.item < listFolder.count {
-                cell.setFolderData(folder: listFolder[indexPath.item])
+                cell.setFolderData(folder: listFolder[indexPath.item], isSelectMode: isSelectMode)
             }
             else {
-                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count])
+                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count], isFavorite: false , isSelectMode: isSelectMode)
             }
             return cell
         }
         else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridDocCollectionViewCell", for: indexPath) as? GridDocCollectionViewCell else {return UICollectionViewCell()}
             if indexPath.item < listFolder.count {
-                cell.setFolderData(folder: listFolder[indexPath.item])
+                cell.setFolderData(folder: listFolder[indexPath.item], isSelectMode: isSelectMode)
             }
             else {
-                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count])
+                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count], isFavorite: false, isSelectMode: isSelectMode)
             }
             return cell
         }
@@ -172,8 +207,8 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             return CGSize(width: clvDocument.frame.width, height: 75)
         }
         else {
-            let width = ( clvDocument.frame.width - 60 ) / 2
-            return CGSize(width: width , height: width * ( 2.1 / 2 ))
+            let width = ( clvDocument.frame.width - 80 ) / 3
+            return CGSize(width: width , height: width * ( 1.7 / 1 ))
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -188,7 +223,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return isViewAsList ? 0 : 20
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return isViewAsList ? 0 : 20
     }
@@ -199,9 +234,16 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
         }
         else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let pdfVC = storyboard.instantiateViewController(withIdentifier: "PDFViewController") as! PDFViewController
-            pdfVC.config(with: listDocument[indexPath.item - listFolder.count])
-            navigationController?.pushViewController(pdfVC, animated: true)
+            
+            let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+            
+            let pdfVC = navigationController.viewControllers.first as! PDFViewController
+            pdfVC.config(with: listDocument[indexPath.item - listFolder.count].getPDFData())
+            
+            navigationController.modalTransitionStyle = .crossDissolve
+            // Presenting modal in iOS 13 fullscreen
+            navigationController.modalPresentationStyle = .fullScreen
+            present(navigationController, animated: true, completion: nil)
         }
     }
 }

@@ -11,7 +11,7 @@ import PDFKit
 class PDFViewController : UIViewController {
     
     @IBOutlet weak var pdfView: PDFView!
-    var pdfFile : PDFDocument!
+    var document : Document?
     
     //MARK: - override function
     override func viewDidLoad() {
@@ -21,31 +21,72 @@ class PDFViewController : UIViewController {
         setupNaviBar()
      
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        accessDocument()
+    }
     // MARK: - public function
-    func config(with file : MyPDFDocument) {
-        self.pdfFile = file.data
+    func config(with file : Document) {
+        self.document = file
     }
     
     //MARK: - setup function
+    private func accessDocument() {
+        document?.open(completionHandler: { [weak self](success) in
+            if success {
+                // Display the content of the document, e.g.:
+                self?.navigationItem.title = self?.document?.localizedName
+                guard let pdfURL: URL = (self?.document?.fileURL) else { return }
+                guard let document = PDFDocument(url: pdfURL) else { return }
+                
+//                self.isEncrypted = document.isEncrypted
+                
+                self?.pdfView.document = document
+                
+//                self.moveToLastViewedPage()
+//                self.getScaleFactorForSizeToFitAndOffset()
+//                self.pdfView.setMinScaleFactorForSizeToFit()
+//                self.pdfView.setScaleFactorForUser()
+                
+//                self.setPDFThumbnailView()
+                
+//                if let documentEntity = self.currentEntity {
+//                    self.isHorizontalScroll = documentEntity.isHorizontalScroll
+//                    self.isRightToLeft = documentEntity.isRightToLeft
+//                    self.updateScrollDirection()
+//                }
+//                self.moveToLastViewedOffset()
+//
+//                self.checkForNewerRecords()
+            } else {
+                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
+            }
+        })
+    }
     private func setupPDFView() {
-        pdfView.document = pdfFile
         pdfView.autoScales = true
-        if !isiPadUI {
-            pdfView.minScaleFactor = pdfView.scaleFactor
-        }
-        //        pdfView.maxScaleFactor = pdfView.scaleFactorForSizeToFit
+        pdfView.displaysPageBreaks = true
+        pdfView.displayBox = .cropBox
+
         pdfView.displayMode = .singlePageContinuous
-        if #available(iOS 12.0, *) {
-            pdfView.pageShadowsEnabled = true
-        } else {
-            // Fallback on earlier versions
-        }
-        //        pdfView.displayBox = .artBox
         pdfView.displayDirection = .vertical
-        //        pdfView.minScaleFactor = pdfView.scaleFactorForSizeToFit
+
     }
     private func setupNaviBar() {
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
+        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         setupBaseNavigation()
+        addLeftBarButtonWithImage(img: UIImage(named: "ic_naviBack")!, action: #selector(tapBack))
+    }
+    
+    @objc func tapBack() {
+        dismiss(animated: true) {
+            //do something
+        }
     }
     
 }

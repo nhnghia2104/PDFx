@@ -51,12 +51,13 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
     }
     
     private func initView() {
+
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         documentVC = storyboard.instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
         self.documentVC = UINavigationController(rootViewController: documentVC)
-        
         mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
         self.mainViewController = UINavigationController(rootViewController: mainViewController)
+        
     }
     
     private func setupTableView() {

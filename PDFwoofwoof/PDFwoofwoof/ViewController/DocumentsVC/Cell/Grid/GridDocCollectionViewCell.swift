@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PDFKit
 
 class GridDocCollectionViewCell: UICollectionViewCell {
 
@@ -20,36 +21,31 @@ class GridDocCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         imgStar.isHidden = true
         imgSelect.isHidden = true
-        lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: 12)
-        lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
+        lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
+        lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
         lblSubTitle.textColor = CMSConfigConstants.themeStyle.black
         lblTitle.textColor = CMSConfigConstants.themeStyle.black
         
-        lblTitle.lineBreakMode = .byTruncatingTail
+        lblTitle.lineBreakMode = .byTruncatingMiddle
         lblTitle.numberOfLines = 2
         
         imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
         vBackground.backgroundColor = UIColor(hex: "f1f3f4")
     }
+    
+    public func setDocuemtData(pdf : MyDocument, isFavorite : Bool = false, isSelectMode : Bool = false) {
 
-    public func setDocuemtData(pdf : MyPDFDocument, isFavorite : Bool = false, isSelectMode : Bool = false) {
-        if let page1 = pdf.data!.page(at: 0) {
-            imgThumbnail.image = page1.thumbnail(of: CGSize(width: imgThumbnail.frame.size.width,height: imgThumbnail.frame.size.height), for: .artBox)
-        }
-        
-        imgThumbnail.layer.borderWidth = 2
+            imgThumbnail.layer.borderWidth = isiPadUI ? 2 : 1
+            imgSelect.isHidden = !isSelectMode
+            imgStar.isHidden = !isFavorite
+            
+            imgThumbnail.image = pdf.getThumbnail()
+            lblTitle.text = pdf.getFileName()
+            lblSubTitle.text = pdf.getStrDateCreated()
 
-        
-        imgSelect.isHidden = !isSelectMode
-      
-        
-        imgStar.isHidden = !isFavorite
-        
-        self.lblTitle.text = pdf.data?.documentURL?.lastPathComponent ?? ""
-        self.lblSubTitle.text = pdf.strDateModifed
     }
     
-    public func setFolderData(folder : MyFolder) {
+    public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")
@@ -57,4 +53,5 @@ class GridDocCollectionViewCell: UICollectionViewCell {
         
         imgThumbnail.layer.borderWidth = 0
     }
+
 }

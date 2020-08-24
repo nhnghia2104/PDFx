@@ -10,8 +10,8 @@ import UIKit
 import PDFKit
 
 class HomeVC: UIViewController {
+    
     weak var delegate: LeftMenuProtocol?
-    @IBOutlet weak var vLine: UIView!
     @IBOutlet weak var vLine2: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnMore: UIButton!
@@ -33,7 +33,7 @@ class HomeVC: UIViewController {
         Tool(name: "Merge PDFs", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "810000"), background: UIColor(hex: "e97171",alpha: 0.5)),
         Tool(name: "Extract Page", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "8675a9"), background: UIColor(hex: "c3aed6",alpha: 0.5)),
     ]
-    private var isRecent : Bool = true {
+    var isRecent : Bool = true {
         didSet {
             if isRecent {
                 btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
@@ -50,6 +50,10 @@ class HomeVC: UIViewController {
         }
     }
     
+    lazy var listRecent = [MyDocument]()
+    lazy var listFavorite = [MyDocument]()
+   
+    
     
     //MARK: - override function
     override func viewDidLoad() {
@@ -63,6 +67,7 @@ class HomeVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        reloadAll()
         isRecent = true
     }
     // MARK: - setup function
@@ -106,9 +111,15 @@ class HomeVC: UIViewController {
         btnFavorite.titleLabel?.textColor = CMSConfigConstants.themeStyle.black
         
         btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
-        
-        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+
         vLine2.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+    }
+    private func reloadAll() {
+//        listRecent = loadRecentPDF()
+        tableView.reloadData()
+    }
+    private func loadRecentPDF() {
+        
     }
     
     
@@ -229,23 +240,28 @@ extension HomeVC : SlideMenuControllerDelegate {
 
 extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
     func open(url: URL) {
-        guard let pdf = PDFDocument(url: url) else {
-            return // TODO: Handle this
+        let document = Document(fileURL: url)
+        RealmManager.saveRecentPDF(url: url) {
+            print("saved recent file")
         }
-        if !pdf.isLocked {
-            //open file pdf
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let pdfVC = storyboard.instantiateViewController(withIdentifier: "PDFViewController") as! PDFViewController
-            pdfVC.config(with: MyPDFDocument(url: url))
-            
-            navigationController?.pushViewController(pdfVC, animated: true)
-        }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        
+        let pdfVC = navigationController.viewControllers.first as! PDFViewController
+        pdfVC.config(with: document )
+        
+        navigationController.modalTransitionStyle = .crossDissolve
+        // Presenting modal in iOS 13 fullscreen
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
         
     }
 
     // UIDocumentPickerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        open(url: urls.first!)
+        guard let sourceURL = urls.first else { return }
+        open(url: sourceURL)
     }
 
 

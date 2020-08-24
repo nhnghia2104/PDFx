@@ -11,13 +11,13 @@ import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     fileprivate func createMenuView() {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         var mainViewController : UIViewController?
@@ -47,37 +47,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let slideMenuController = ExSlideMenuController(mainViewController: nvc , leftMenuViewController: leftViewController)
         slideMenuController.automaticallyAdjustsScrollViewInsets = true
-
+        
         slideMenuController.delegate = mainViewController as? SlideMenuControllerDelegate
         self.window?.backgroundColor = UIColor(red: 236.0, green: 238.0, blue: 241.0, alpha: 1.0)
         self.window?.rootViewController = slideMenuController
         self.window?.makeKeyAndVisible()
         //create file
-//        let file = "\(UUID().uuidString).txt"
-//        let content = "hello world"
-//        let direct = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//        let fileURL = direct.appendingPathComponent(file)
-//        do {
-//            try content.write(to: fileURL, atomically: false, encoding: .utf8)
-//        }
-//        catch {
-//            print("tạch :(")
-//        }
+        //        let file = "\(UUID().uuidString).txt"
+        //        let content = "hello world"
+        //        let direct = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        //        let fileURL = direct.appendingPathComponent(file)
+        //        do {
+        //            try content.write(to: fileURL, atomically: false, encoding: .utf8)
+        //        }
+        //        catch {
+        //            print("tạch :(")
+        //        }
         createDefaultFolder()
     }
     
     func createDefaultFolder() {
         
         if UserDefaults.standard.object(forKey: "createDefaultFolder") == nil {
+            
             let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             guard let path = Bundle.main.url(forResource: "pdf-sample", withExtension: "pdf") else { return }
+            let document = path
+            let needTo = document.startAccessingSecurityScopedResource()
             do {
                 let data = try Data(contentsOf: path)
                 try data.write(to: documentDirectory.appendingPathComponent("pdf-sample.pdf"))
                 UserDefaults.standard.setValue(true, forKey: "createDefaultFolder")
             }
             catch {
-            
+                
+            }
+            if needTo {
+                document.stopAccessingSecurityScopedResource()
             }
             
         }
@@ -88,33 +94,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         self.createMenuView()
+       
+        var config = Realm.Configuration()
+        config.fileURL = inLibraryFolder(fileName: "abu.realm")
+        Realm.Configuration.defaultConfiguration = config
+        let realm = try! Realm(configuration: config)
+        print("Realm Path : \(realm.configuration.fileURL?.absoluteURL)")
         return true
     }
-
+    func inLibraryFolder(fileName : String) -> URL {
+        return FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
-           // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-           // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-       }
-       
-       func applicationDidEnterBackground(_ application: UIApplication) {
-           // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-           // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-       }
-       
-       func applicationWillEnterForeground(_ application: UIApplication) {
-           // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-       }
-       
-       func applicationDidBecomeActive(_ application: UIApplication) {
-           // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-       }
-       
-       func applicationWillTerminate(_ application: UIApplication) {
-           // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-           // Saves changes in the application's managed object context before the application terminates.
-       }
-
-
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        // khi quay lai aphahahahah
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        // khi quay lai app
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Saves changes in the application's managed object context before the application terminates.
+    }
+    
+    
 }
 
