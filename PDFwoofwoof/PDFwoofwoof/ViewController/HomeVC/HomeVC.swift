@@ -122,7 +122,7 @@ class HomeVC: UIViewController {
         
     }
     
-    
+     
     // MARK: - @objc function
     @objc func openNotice() {
         
