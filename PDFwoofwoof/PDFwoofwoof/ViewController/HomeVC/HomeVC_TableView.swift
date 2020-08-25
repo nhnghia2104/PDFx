@@ -26,12 +26,18 @@ extension HomeVC : UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let pdfVC = storyboard.instantiateViewController(withIdentifier: "PDFViewController") as! PDFViewController
-//        pdfVC.config(with: isRecent ? listRecent[indexPath.row] : listFavorite[indexPath.row])
-//        RealmManager.saveRecentPDF(url: isRecent ? listRecent[indexPath.row].url! : listFavorite[indexPath.row].url!) {
-//            print("saved recent file")
-//        }
-        navigationController?.modalTransitionStyle = .crossDissolve
-        navigationController?.pushViewController(pdfVC, animated: true)
+        
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        
+        let pdfVC = navigationController.viewControllers.first as! PDFViewController
+        pdfVC.config(with: listRecent[indexPath.row].getPDFData())
+        
+        navigationController.modalTransitionStyle = .crossDissolve
+        // Presenting modal in iOS 13 fullscreen
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
+        RealmManager.saveRecentPDF(url: listRecent[indexPath.row].getPDFData().fileURL)
+        listRecent[indexPath.row].dateModified = Date()
+        resortRecentList()
     }
 }

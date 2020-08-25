@@ -96,14 +96,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.createMenuView()
        
         var config = Realm.Configuration()
-        config.fileURL = inLibraryFolder(fileName: "abu.realm")
+        config.fileURL = inLibraryFolder(fileName: "default.realm")
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm(configuration: config)
-        print("Realm Path : \(realm.configuration.fileURL?.absoluteURL)")
+        print("Realm Path : \(String(describing: realm.configuration.fileURL?.absoluteURL))")
         return true
     }
     func inLibraryFolder(fileName : String) -> URL {
         return FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
+    }
+    
+    func application(_ app: UIApplication, open inputURL: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        // Ensure the URL is a file URL
+        guard inputURL.isFileURL else { return false }
+        guard let rootView = window?.rootViewController else { return false }
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        
+        let pdfVC = navigationController.viewControllers.first as! PDFViewController
+        pdfVC.config(with: Document(fileURL: inputURL))
+        
+        navigationController.modalTransitionStyle = .crossDissolve
+        // Presenting modal in iOS 13 fullscreen
+        navigationController.modalPresentationStyle = .fullScreen
+        rootView.present(navigationController, animated: true, completion: nil)
+
+        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

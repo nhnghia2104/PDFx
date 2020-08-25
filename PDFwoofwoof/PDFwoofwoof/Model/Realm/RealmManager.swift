@@ -14,35 +14,42 @@ class RealmManager {
     static let shared = RealmManager()
     private init() {}
     
-    static func saveRecentPDF(url : URL, completion:(()->())? = nil) {
+    static func saveRecentPDF(url : URL, completion:((Bool)->())? = nil) {
         existRecentPDF(url: url) { (result) in
             print("URLsave : \(url)")
             if result {
                 self.updateRecentPDF(url: url) {
                     print("updated")
+                    completion?(false)
                 }
             }
             else {
                 self.insertRecentPDF(url: url) {
                     print("inserted")
+                    completion?(true)
                 }
             }
-            completion?()
+            completion?(false)
         }
     }
     
-    static func getRecentPDF() -> [Document]? {
+    static func getRecentPDF() -> [MyDocument]? {
         do {
             let realm = try Realm()
             
             let itemResult = realm
                 .objects(RecentPDF.self)
             
-            var arItem: [Document] = []
+            var arItem: [MyDocument] = []
             
             itemResult.forEach {
-                    let item = $0.getRecentPDF()
+                let item = $0.getRecentPDF()
+                if item.canGetPDF() {
                     arItem.append(item)
+                }
+                else {
+                    $0.destroyObject()
+                }
             }
             return arItem
         }catch let error as NSError {

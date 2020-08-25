@@ -18,7 +18,7 @@ class DocumentTableViewCell: BaseTableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var imgStar: UIImageView!
-    @IBOutlet weak var imgAvt: UIImageView!
+    @IBOutlet weak var imgThumbnail: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -46,9 +46,10 @@ class DocumentTableViewCell: BaseTableViewCell {
         
         self.imgStar.isHidden = !isFavorite
         self.trallingAnchor.constant = isFavorite ? 23 : 2
-        
-//        self.lblTitle.text = pdf.url?.lastPathComponent ?? ""
-//        self.lblSubTitle.text = pdf.getStrDateModifed() + "\t" + pdf.getStrSize()
+       
+        self.lblTitle.text = pdf.getFileName()
+        self.lblSubTitle.text = pdf.getStrDateTimeCreated()
+        self.imgThumbnail.image = pdf.getThumbnail()
     }
     
 }

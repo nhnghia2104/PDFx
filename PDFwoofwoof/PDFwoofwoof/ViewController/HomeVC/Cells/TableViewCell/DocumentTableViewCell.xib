@@ -111,9 +111,9 @@
             <connections>
                 <outlet property="avtLeadingAnchor" destination="Vf9-JV-gX3" id="WGZ-xF-zff"/>
                 <outlet property="btnMore" destination="Iw7-0y-KVU" id="1XE-E5-9AD"/>
-                <outlet property="imgAvt" destination="Tpt-Yn-8Cu" id="X8f-If-CTS"/>
                 <outlet property="imgSelect" destination="dQa-48-g5W" id="wQc-NH-ooU"/>
                 <outlet property="imgStar" destination="IZJ-z7-8zJ" id="n36-AJ-zll"/>
+                <outlet property="imgThumbnail" destination="Tpt-Yn-8Cu" id="33o-Ye-WHi"/>
                 <outlet property="lblSubTitle" destination="Gej-sO-pwt" id="w80-gf-geK"/>
                 <outlet property="lblTitle" destination="ohc-es-I4Y" id="X6O-ID-gyP"/>
                 <outlet property="trallingAnchor" destination="OJ1-kf-VaE" id="npZ-v8-maz"/>

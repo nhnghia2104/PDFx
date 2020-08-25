@@ -52,31 +52,32 @@ class HomeVC: UIViewController {
     
     lazy var listRecent = [MyDocument]()
     lazy var listFavorite = [MyDocument]()
-   
+    
     
     
     //MARK: - override function
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        loadRecentPDF()
         setupNavigation()
         register()
         setupThemes()
         setupTableView()
-//        setupToolColectionView()
+        //        setupToolColectionView()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        reloadAll()
+        tableView.reloadData()
         isRecent = true
     }
     // MARK: - setup function
     private func setupNavigation() {
         self.navigationController?.navigationBar.largeTitleTextAttributes =
             [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
-         NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 36)]
+             NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 36)]
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
-        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
+                                                                        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         self.navigationItem.title = "Home"
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.largeTitleDisplayMode = .automatic
@@ -100,7 +101,7 @@ class HomeVC: UIViewController {
     private func setupTableView() {
         tableView.contentInset.bottom = tableView.contentInset.bottom + 40
     }
-
+    
     private func setupThemes() {
         imgMoreTools.tintColor = CMSConfigConstants.themeStyle.gray1
         lblMoreTools.textColor = CMSConfigConstants.themeStyle.gray1
@@ -111,18 +112,23 @@ class HomeVC: UIViewController {
         btnFavorite.titleLabel?.textColor = CMSConfigConstants.themeStyle.black
         
         btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
-
+        
         vLine2.backgroundColor = CMSConfigConstants.themeStyle.borderColor
     }
     private func reloadAll() {
-//        listRecent = loadRecentPDF()
+        //        listRecent = loadRecentPDF()
         tableView.reloadData()
     }
     private func loadRecentPDF() {
-        
+        listRecent = RealmManager.getRecentPDF() ?? []
+        resortRecentList()
+    }
+    func resortRecentList() {
+        listRecent.sort { (i1, i2) -> Bool in
+            i1.dateModified > i2.dateModified
+        }
     }
     
-     
     // MARK: - @objc function
     @objc func openNotice() {
         
@@ -157,7 +163,7 @@ class HomeVC: UIViewController {
         present(picker, animated: true)
     }
     
-
+    
 }
 extension HomeVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -173,9 +179,9 @@ extension HomeVC : UICollectionViewDataSource {
 extension HomeVC : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         return CGSize(width:  85, height: 120 )
-    
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -185,7 +191,7 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
@@ -241,28 +247,36 @@ extension HomeVC : SlideMenuControllerDelegate {
 extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
     func open(url: URL) {
         let document = Document(fileURL: url)
-        RealmManager.saveRecentPDF(url: url) {
-            print("saved recent file")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            RealmManager.saveRecentPDF(url: url) {[weak self] (bool) in
+                if bool {
+                    self?.listRecent.append(MyDocument(url: url))
+                    self?.resortRecentList()
+                }
+            }
+            
+            
+            DispatchQueue.main.async { [weak self] in
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+                
+                let pdfVC = navigationController.viewControllers.first as! PDFViewController
+                pdfVC.config(with: document )
+                
+                navigationController.modalTransitionStyle = .crossDissolve
+                // Presenting modal in iOS 13 fullscreen
+                navigationController.modalPresentationStyle = .fullScreen
+                self?.present(navigationController, animated: true, completion: nil)
+            }
         }
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
-        
-        let pdfVC = navigationController.viewControllers.first as! PDFViewController
-        pdfVC.config(with: document )
-        
-        navigationController.modalTransitionStyle = .crossDissolve
-        // Presenting modal in iOS 13 fullscreen
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)
-        
     }
-
+    
     // UIDocumentPickerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let sourceURL = urls.first else { return }
         open(url: sourceURL)
     }
-
-
+    
+    
 }

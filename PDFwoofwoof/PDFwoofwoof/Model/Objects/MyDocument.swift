@@ -13,6 +13,7 @@ class MyDocument {
     var document : Document!
     var isFavorite = false
     var isFolder = false
+    var dateModified = Date()
     private var dateCreated : Date?
     init(url : URL) {
         document = Document(fileURL: url)
@@ -78,6 +79,11 @@ class MyDocument {
         guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else { return UIImage() }
         guard let page = pdf.page(at: 0) else { return UIImage() }
         return page.thumbnail(of: CGSize(width: 300, height: 400), for: .cropBox)
+    }
+    
+    func canGetPDF() -> Bool {
+        if PDFDocument(url: document.fileURL.absoluteURL) == nil { return false }
+        return true
     }
 }
 
