@@ -27,11 +27,11 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         imgStar.isHidden = true
         imgSelect.isHidden = true
         
-        btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
+        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
-        lblTitle.textColor = CMSConfigConstants.themeStyle.black
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.black
+        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byTruncatingMiddle
         lblTitle.numberOfLines = 2
@@ -66,7 +66,7 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")
-        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.gray1
+        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
         btnMore.isHidden = isSelectMode
         imgSelect.isHidden = !isSelectMode
         avtLeadingAnchor.constant = isSelectMode ? 70 : 20

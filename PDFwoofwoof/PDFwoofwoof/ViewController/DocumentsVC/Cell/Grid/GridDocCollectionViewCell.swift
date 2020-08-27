@@ -23,8 +23,8 @@ class GridDocCollectionViewCell: UICollectionViewCell {
         imgSelect.isHidden = true
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.black
-        lblTitle.textColor = CMSConfigConstants.themeStyle.black
+        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byTruncatingMiddle
         lblTitle.numberOfLines = 2
@@ -46,10 +46,11 @@ class GridDocCollectionViewCell: UICollectionViewCell {
     }
     
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
+        imgSelect.isHidden = !isSelectMode
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")
-        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.gray1
+        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
         
         imgThumbnail.layer.borderWidth = 0
     }

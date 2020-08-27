@@ -22,11 +22,11 @@ class DocumentTableViewCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        btnMore.tintColor = CMSConfigConstants.themeStyle.gray1
+        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: 15)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: 13)
-        lblTitle.textColor = CMSConfigConstants.themeStyle.black
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.black
+        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byWordWrapping
         lblTitle.numberOfLines = 2

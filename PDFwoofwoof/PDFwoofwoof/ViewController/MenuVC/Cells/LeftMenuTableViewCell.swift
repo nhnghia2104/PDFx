@@ -16,8 +16,8 @@ class LeftMenuTableViewCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        imgIcon.tintColor = CMSConfigConstants.themeStyle.gray1
-        lblTitle.tintColor = CMSConfigConstants.themeStyle.gray1
+        imgIcon.tintColor = CMSConfigConstants.themeStyle.tintColor
+        lblTitle.tintColor = CMSConfigConstants.themeStyle.tintColor
         lblTitle.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
     }
     
@@ -31,8 +31,8 @@ class LeftMenuTableViewCell: BaseTableViewCell {
             line.alpha = 1.0
         }
         else {
-            imgIcon.tintColor =  CMSConfigConstants.themeStyle.gray1
-            lblTitle.textColor = CMSConfigConstants.themeStyle.gray1
+            imgIcon.tintColor =  CMSConfigConstants.themeStyle.tintColor
+            lblTitle.textColor = CMSConfigConstants.themeStyle.tintColor
             lblTitle.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
             line.backgroundColor = UIColor.lightGray
             line.alpha = 0.5
@@ -43,8 +43,8 @@ class LeftMenuTableViewCell: BaseTableViewCell {
         lblTitle.text = str
     }
     public func setSelect(isSelected : Bool) {
-        imgIcon.tintColor = isSelected ? CMSConfigConstants.themeStyle.selectColor : CMSConfigConstants.themeStyle.gray1
-        lblTitle.tintColor = isSelected ? CMSConfigConstants.themeStyle.selectColor : CMSConfigConstants.themeStyle.gray1
+        imgIcon.tintColor = isSelected ? CMSConfigConstants.themeStyle.selectColor : CMSConfigConstants.themeStyle.tintColor
+        lblTitle.tintColor = isSelected ? CMSConfigConstants.themeStyle.selectColor : CMSConfigConstants.themeStyle.tintColor
     }
     
 }

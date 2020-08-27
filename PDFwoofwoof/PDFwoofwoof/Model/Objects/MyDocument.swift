@@ -14,16 +14,36 @@ class MyDocument {
     var isFavorite = false
     var isFolder = false
     var dateModified = Date()
+    private var name : String?
     private var dateCreated : Date?
     init(url : URL) {
         document = Document(fileURL: url)
     }
-    func getFileName() -> String {
-        var fileName = document.fileURL.lastPathComponent
-        if fileName.components(separatedBy: ".").last == "pdf" && fileName.components(separatedBy: ".").count > 1 {
-            fileName.removeLast(4)
+    func setModified(date : Date) {
+        self.dateModified = date
+    }
+    func getModified() -> Date {
+        return dateModified
+    }
+    func getDateCreated() -> Date {
+        if dateCreated == nil {
+            guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else {
+                return Date()
+            }
+            let date = pdf.documentAttributes?[AnyHashable("ModDate")] as? Date
+            dateCreated = date
         }
-        return fileName
+        return dateCreated!
+    }
+    func getFileName() -> String {
+        if name == nil {
+            var fileName = document.fileURL.lastPathComponent
+            if fileName.components(separatedBy: ".").last == "pdf" && fileName.components(separatedBy: ".").count > 1 {
+                fileName.removeLast(4)
+            }
+            name = fileName
+        }
+        return name!
     }
 
     func getStrSize() -> String {
@@ -78,12 +98,15 @@ class MyDocument {
     func getThumbnail() -> UIImage {
         guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else { return UIImage() }
         guard let page = pdf.page(at: 0) else { return UIImage() }
-        return page.thumbnail(of: CGSize(width: 300, height: 400), for: .cropBox)
+        return page.thumbnail(of: CGSize(width: 90, height: 120), for: .cropBox)
     }
     
     func canGetPDF() -> Bool {
         if PDFDocument(url: document.fileURL.absoluteURL) == nil { return false }
         return true
+    }
+    func getURLPath() -> String {
+        return document.fileURL.path
     }
 }
 

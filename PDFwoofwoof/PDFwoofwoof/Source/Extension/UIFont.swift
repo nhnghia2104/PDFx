@@ -26,7 +26,7 @@ extension UIFont {
     }
     
     class func getFontRegular(size : CGFloat) -> UIFont {
-        return UIFont(name: "OpenSans-Bold", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "OpenSans-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     class func getFontLight(size : CGFloat) -> UIFont {

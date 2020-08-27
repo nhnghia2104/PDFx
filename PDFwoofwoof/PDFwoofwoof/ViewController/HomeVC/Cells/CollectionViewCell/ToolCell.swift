@@ -17,7 +17,7 @@ class ToolCell: UICollectionViewCell {
         super.awakeFromNib()
         vBackground.layer.cornerRadius = 5.0
         lblToolName.font = UIFont.getFontOpenSans(style: .Regular, size: 13)
-        lblToolName.textColor = CMSConfigConstants.themeStyle.gray1
+        lblToolName.textColor = CMSConfigConstants.themeStyle.tintColor
     }
     
     func setData(tool : Tool) {

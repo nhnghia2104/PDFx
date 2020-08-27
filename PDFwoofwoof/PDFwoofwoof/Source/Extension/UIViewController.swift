@@ -19,6 +19,16 @@ extension UIViewController {
 //        self.slideMenuController()?.addRightGestures()
     }
     
+    func removeSlideMenuGesture() {
+        self.slideMenuController()?.removeLeftGestures()
+        self.slideMenuController()?.removeRightGestures()
+    }
+    
+    func removeSlideMenuBarItem() {
+        self.navigationItem.leftBarButtonItem = nil
+        self.slideMenuController()?.removeLeftGestures()
+    }
+    
     func removeNaviBarItem() {
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
@@ -26,17 +36,54 @@ extension UIViewController {
         self.slideMenuController()?.removeRightGestures()
     }
     
+    func addLeftBarButtonWithTittle(title : String, action : Selector?) {
+//        let leftButton : UIBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: action)
+        let btn = UIButton()
+        btn.setTitle(title, for: .normal)
+        btn.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
+        btn.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
+        btn.addTarget(self, action: action!, for: .touchUpInside)
+        
+        self.navigationItem.setLeftBarButton(UIBarButtonItem(customView: btn), animated: false)
+    }
+    
+    func addRightBarButtonWithTittle(title : String, action : Selector?) {
+//        let rightButton : UIBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: action)
+        let btn = UIButton()
+        btn.setTitle(title, for: .normal)
+        btn.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
+        btn.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
+        btn.addTarget(self, action: action!, for: .touchUpInside)
+        
+        self.navigationItem.setRightBarButton(UIBarButtonItem(customView: btn), animated: false)
+    }
+    
     func addLeftBarButtonWithImage(img : UIImage, action : Selector?) {
         let leftButton: UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: action)
-        self.navigationItem.leftBarButtonItem = leftButton
+        self.navigationItem.setLeftBarButton(leftButton, animated: true)
+//        self.navigationItem.leftBarButtonItem = leftButton
     }
     func addRightBarButtonWithImage(img : UIImage, action : Selector?) {
         let rightButton: UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: action)
-        self.navigationItem.rightBarButtonItem = rightButton
+        self.navigationItem.setRightBarButton(rightButton, animated: true)
+//        self.navigationItem.rightBarButtonItem = rightButton
     }
     func setupBaseNavigation() {
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 14)], for: .normal)
+        self.navigationController?.navigationBar.largeTitleTextAttributes =
+            [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.titleColor,
+             NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .Bold, size: 30)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.titleColor,
+                                                                        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         self.navigationController?.navigationBar.barTintColor = .white
-        self.navigationController?.navigationBar.backgroundColor = .white
+//        self.navigationController?.navigationBar.backgroundColor = .white
+        
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+//        self.navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
+//        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 1)
+//        self.navigationController?.navigationBar.layer.shadowRadius = 5.0
+//        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+//        self.navigationController?.navigationBar.layer.masksToBounds = false
     }
 }

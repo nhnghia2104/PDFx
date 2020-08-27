@@ -21,10 +21,10 @@ class RecentPDF : Object {
     }
     func getRecentPDF() -> MyDocument {
         let theRecent = MyDocument(url: URL(fileURLWithPath: self.url))
-        theRecent.dateModified = self.dateModified
+        theRecent.setModified(date: self.dateModified)
         return theRecent
     }
     func destroyObject() {
-        RealmManager.deleteRecent(url: self.url)
+        RealmManager.shared.deleteRecent(url: self.url)
     }
 }

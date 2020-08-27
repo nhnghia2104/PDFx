@@ -14,6 +14,9 @@ class PDFViewController : UIViewController {
     var document : Document?
     
     //MARK: - override function
+    deinit {
+        print("denited PDFView")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,10 +80,10 @@ class PDFViewController : UIViewController {
 
     }
     private func setupNaviBar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.black,
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.titleColor,
         NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         setupBaseNavigation()
-        addLeftBarButtonWithImage(img: UIImage(named: "ic_naviBack")!, action: #selector(tapBack))
+        addLeftBarButtonWithImage(img: UIImage(named: "navi_Back")!, action: #selector(tapBack))
     }
     
     @objc func tapBack() {

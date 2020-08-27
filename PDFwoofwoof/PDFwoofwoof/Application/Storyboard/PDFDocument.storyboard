@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="TSn-79-YuI">
+            <objects>
+                <navigationController storyboardIdentifier="NavigationController" id="vsR-3D-asd" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vAM-qk-ojb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Bzx-O5-RJG" kind="relationship" relationship="rootViewController" id="LSM-Gm-LTV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ThC-4f-Egb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1129" y="35"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="veA-7r-JB1">
+            <objects>
+                <viewController storyboardIdentifier="PDFViewController" id="Bzx-O5-RJG" customClass="PDFViewController" customModule="PDFwoofwoof" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ePD-IM-M8S">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IST-uE-T5g" customClass="PDFView">
+                                <rect key="frame" x="0.0" y="88" width="414" height="814"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="AEX-BP-jF4" firstAttribute="trailing" secondItem="IST-uE-T5g" secondAttribute="trailing" id="0vf-sL-TSm"/>
+                            <constraint firstItem="AEX-BP-jF4" firstAttribute="bottom" secondItem="IST-uE-T5g" secondAttribute="bottom" constant="-40" id="8PC-uO-4S3"/>
+                            <constraint firstItem="IST-uE-T5g" firstAttribute="leading" secondItem="AEX-BP-jF4" secondAttribute="leading" id="kGW-rE-Qj0"/>
+                            <constraint firstItem="IST-uE-T5g" firstAttribute="top" secondItem="AEX-BP-jF4" secondAttribute="top" id="rGs-qh-he0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AEX-BP-jF4"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="gbC-BP-3pL"/>
+                    <connections>
+                        <outlet property="pdfView" destination="IST-uE-T5g" id="k0W-NS-knU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ehb-Sz-OoR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2020" y="35"/>
+        </scene>
+    </scenes>
+</document>

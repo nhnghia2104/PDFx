@@ -14,7 +14,7 @@ class RealmManager {
     static let shared = RealmManager()
     private init() {}
     
-    static func saveRecentPDF(url : URL, completion:((Bool)->())? = nil) {
+    func saveRecentPDF(url : URL, completion:((Bool)->())? = nil) {
         existRecentPDF(url: url) { (result) in
             print("URLsave : \(url)")
             if result {
@@ -33,7 +33,7 @@ class RealmManager {
         }
     }
     
-    static func getRecentPDF() -> [MyDocument]? {
+    func getRecentPDF() -> [MyDocument]? {
         do {
             let realm = try Realm()
             
@@ -57,7 +57,7 @@ class RealmManager {
             return nil
         }
     }
-    static func deleteRecent(url: String, completion:(()->())? = nil) {
+    func deleteRecent(url: String, completion:(()->())? = nil) {
         autoreleasepool {
             guard let realm = try? Realm() else {return}
             let itemResult = realm.objects(RecentPDF.self).filter("url == '\(url)'")
@@ -68,7 +68,7 @@ class RealmManager {
         }
     }
     
-    static func updateRecentPDF(url: URL, completion:(()->())? = nil) {
+    func updateRecentPDF(url: URL, completion:(()->())? = nil) {
         autoreleasepool {
             guard let realm = try? Realm() else {return}
             guard let theRecentPDF = realm
@@ -83,7 +83,7 @@ class RealmManager {
             }
         }
     }
-    static func insertRecentPDF(url: URL, completion:(()->())? = nil){
+    func insertRecentPDF(url: URL, completion:(()->())? = nil){
         let recent = RecentPDF()
         recent.setData(url: url, date: Date())
         autoreleasepool {
@@ -98,7 +98,7 @@ class RealmManager {
         }
     }
     
-    static func existRecentPDF(url: URL, completion: @escaping ((Bool)->())) {
+    func existRecentPDF(url: URL, completion: @escaping ((Bool)->())) {
         autoreleasepool {
             do {
                 let realm = try Realm()

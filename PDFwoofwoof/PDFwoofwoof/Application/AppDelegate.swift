@@ -41,7 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController!)
         
-        UINavigationBar.appearance().tintColor = CMSConfigConstants.themeStyle.gray1
+        UINavigationBar.appearance().tintColor = CMSConfigConstants.themeStyle.tintColor
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 14)], for: .normal)
         
         leftViewController.mainViewController = nvc
         
@@ -67,10 +68,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func createDefaultFolder() {
-        
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let folderPath = documentDirectory.appendingPathComponent("Downloaded")
+
+        if !FileManager.default.checkFileExists(url: folderPath) {
+            do {
+                try FileManager.default.createDirectory(atPath: folderPath.path, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print(error.localizedDescription);
+            }
+        }
+
+        //save pdf default
         if UserDefaults.standard.object(forKey: "createDefaultFolder") == nil {
             
-            let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            
             guard let path = Bundle.main.url(forResource: "pdf-sample", withExtension: "pdf") else { return }
             let document = path
             let needTo = document.startAccessingSecurityScopedResource()
@@ -111,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard inputURL.isFileURL else { return false }
         guard let rootView = window?.rootViewController else { return false }
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
         
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         
