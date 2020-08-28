@@ -20,7 +20,11 @@ class ListDocCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var imgStar: UIImageView!
     @IBOutlet weak var imgThumbnail: UIImageView!
-    
+    override var isSelected: Bool {
+        didSet {
+            imgSelect.image = isSelected ? UIImage(named: "ic_Check") : UIImage(named: "ic_Circle")
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -42,6 +46,9 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
         vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
         
+//        imgSelect.layer.cornerRadius = 15.0
+//        imgSelect.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
+//        imgSelect.layer.borderWidth = 2.0
     }
     
     @IBAction func tapMore(_ sender: Any) {

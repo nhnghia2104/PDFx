@@ -43,7 +43,7 @@ extension UIViewController {
         btn.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
         btn.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
         btn.addTarget(self, action: action!, for: .touchUpInside)
-        
+        self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.setLeftBarButton(UIBarButtonItem(customView: btn), animated: false)
     }
     
@@ -54,7 +54,7 @@ extension UIViewController {
         btn.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
         btn.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
         btn.addTarget(self, action: action!, for: .touchUpInside)
-        
+        self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.setRightBarButton(UIBarButtonItem(customView: btn), animated: false)
     }
     

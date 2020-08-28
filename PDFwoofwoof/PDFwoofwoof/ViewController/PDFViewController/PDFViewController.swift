@@ -27,14 +27,16 @@ class PDFViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        accessDocument()
+        
     }
     // MARK: - public function
     func config(with file : Document) {
         self.document = file
+        accessDocument()
     }
     
     //MARK: - setup function

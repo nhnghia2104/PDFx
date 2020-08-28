@@ -17,6 +17,11 @@ class GridDocCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lblSubTitle: UILabel!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var imgThumbnail: UIImageView!
+    override var isSelected: Bool {
+        didSet {
+            imgSelect.image = isSelected ? UIImage(named: "ic_Check") : UIImage(named: "ic_Circle")
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         imgStar.isHidden = true

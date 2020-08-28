@@ -54,6 +54,17 @@ class DocumentsVC: UIViewController {
             clvDocument.reloadData()
         }
     }
+    private var selectedCount = 0 {
+        didSet {
+            isSelectAll = selectedCount == listFolder.count + listDocument.count
+            navigationItem.title = "\(selectedCount) selected"
+        }
+    }
+    private var isSelectAll = false {
+        didSet {
+            addLeftBarButtonWithTittle(title: isSelectAll ? "Deselect all" : "Select all", action: #selector(tapSelectAll))
+        }
+    }
 
     // MARK: - override function
     deinit {
@@ -186,7 +197,19 @@ class DocumentsVC: UIViewController {
         comebackViewMode()
     }
     @objc func tapSelectAll() {
-    
+        isSelectAll = !isSelectAll
+        if isSelectAll {
+            for row in 0..<clvDocument.numberOfItems(inSection: 0) {
+                self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .bottom)
+            }
+            selectedCount = clvDocument.numberOfItems(inSection: 0)
+        }
+        else {
+            for row in 0..<clvDocument.numberOfItems(inSection: 0) {
+                self.clvDocument.deselectItem(at: IndexPath(row: row, section: 0), animated: false)
+            }
+            selectedCount = 0
+        }
     }
     @objc func tapSearch() {
         startSearch()
@@ -258,6 +281,7 @@ class DocumentsVC: UIViewController {
         resortData()
     }
     func gotoSelectMode() {
+        navigationController?.navigationItem.title = "Select items"
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.isSelectMode = true
             self?.navigationItem.searchController = nil
@@ -272,6 +296,7 @@ class DocumentsVC: UIViewController {
     }
     func comebackViewMode() {
 //        removeNaviBarItem()
+        selectedCount = 0
         setupNavigation()
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.isSelectMode = false
@@ -296,7 +321,18 @@ class DocumentsVC: UIViewController {
 //        }
         topAnchorOfCollectionView.constant = 0
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.view.layoutIfNeeded()
         
+    }
+    func openPDF(pdfData : Document) {
+        let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        let pdfVC = navigationController.viewControllers.first as! PDFViewController
+        pdfVC.config(with: pdfData )
+        navigationController.modalTransitionStyle = .crossDissolve
+        // Presenting modal in iOS 13 fullscreen
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
@@ -365,24 +401,26 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item < listFolder.count {
-            let directVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
-            directVC.setLocation(url: listFolder[indexPath.item].url, isChildClass: true)
-            self.navigationController?.pushViewController(directVC, animated: true)
+        if !isSelectMode {
+            if indexPath.item < listFolder.count {
+                let directVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
+                directVC.setLocation(url: listFolder[indexPath.item].url, isChildClass: true)
+                self.navigationController?.pushViewController(directVC, animated: true)
+            }
+            else {
+                openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
+            }
         }
         else {
-            let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
-            
-            let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
-            
-            let pdfVC = navigationController.viewControllers.first as! PDFViewController
-            pdfVC.config(with: listDocument[indexPath.item - listFolder.count].getPDFData())
-            
-            navigationController.modalTransitionStyle = .crossDissolve
-            // Presenting modal in iOS 13 fullscreen
-            navigationController.modalPresentationStyle = .fullScreen
-            present(navigationController, animated: true, completion: nil)
+            selectedCount += 1
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if isSelectMode {
+            selectedCount -= 1
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
