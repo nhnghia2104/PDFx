@@ -44,18 +44,7 @@ class HomeVC: UIViewController {
     ]
     var isRecent : Bool = true {
         didSet {
-//            if isRecent {
-//                btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-//                btnFavorite.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
-//                btnRecent.alpha = 1.0
-//                btnFavorite.alpha = 0.7
-//            }
-//            else {
-//                btnFavorite.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-//                btnRecent.titleLabel?.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
-//                btnFavorite.alpha = 1.0
-//                btnRecent.alpha = 0.7
-//            }
+            collectionView.reloadData()
         }
     }
     
@@ -150,6 +139,9 @@ class HomeVC: UIViewController {
         listRecent = RealmManager.shared.getRecentPDF() ?? []
         resortRecentList()
     }
+    private func loadFavoriteList() {
+//        listFavorite =
+    }
     func resortRecentList() {
         listRecent = listRecent.sorted( by : {
             $0.getModified().compare($1.getModified()) == .orderedDescending
@@ -208,7 +200,7 @@ class HomeVC: UIViewController {
     func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
         picker.delegate = self
-        picker.modalPresentationStyle = .overCurrentContext
+        picker.modalPresentationStyle = .popover
         present(picker, animated: true)
     }
     func openPDF(url : URL) {
@@ -246,12 +238,7 @@ extension HomeVC : UICollectionViewDataSource {
         cell.setDocuemtData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
         return cell
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        openPDF(url: listRecent[indexPath.item].getPDFData().fileURL)
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.saveRecentPDF(url: (self?.listRecent[indexPath.item].getPDFData().fileURL)!)
-        }
-    }
+    
 }
 
 extension HomeVC : UICollectionViewDelegateFlowLayout {
@@ -269,6 +256,28 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        openPDF(url: listRecent[indexPath.item].getPDFData().fileURL)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.saveRecentPDF(url: (self?.listRecent[indexPath.item].getPDFData().fileURL)!)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderHomeView", for: indexPath) as? HeaderHomeView else {
+            return .init(frame: .zero)
+        }
+        
+        header.valueDidChange = {[weak self] (isRecent) in
+            self?.isRecent = isRecent
+        }
+
+        return header
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return .init(width: view.frame.width, height: 44)
     }
     
 }

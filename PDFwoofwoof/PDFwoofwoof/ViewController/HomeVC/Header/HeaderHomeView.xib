@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="HeaderHomeView" customModule="PDFwoofwoof" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="382" height="38"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
@@ -18,18 +18,24 @@
                     <rect key="frame" x="0.0" y="0.0" width="382" height="38"/>
                     <subviews>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDf-jJ-zpS">
-                            <rect key="frame" x="0.0" y="0.0" width="60" height="37"/>
+                            <rect key="frame" x="20" y="0.0" width="60" height="37"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="mvq-Kr-cMl"/>
                             </constraints>
                             <state key="normal" title="Recentcc"/>
+                            <connections>
+                                <action selector="changeOption:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="Jgl-2U-DkE"/>
+                            </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-aj-fir">
-                            <rect key="frame" x="70" y="0.0" width="60" height="37"/>
+                            <rect key="frame" x="90" y="0.0" width="60" height="37"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="j0C-As-wF4"/>
                             </constraints>
                             <state key="normal" title="Favoritee"/>
+                            <connections>
+                                <action selector="changeOption:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="V0N-wc-vai"/>
+                            </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQP-Re-ngp">
                             <rect key="frame" x="0.0" y="37" width="382" height="1"/>
@@ -39,10 +45,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RxR-A1-dYV">
-                            <rect key="frame" x="0.0" y="37" width="60" height="1"/>
+                            <rect key="frame" x="20" y="37" width="60" height="1.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="1.2" id="EAb-tM-ZT0"/>
+                                <constraint firstAttribute="height" constant="1.5" id="EAb-tM-ZT0"/>
                                 <constraint firstAttribute="width" constant="60" id="ZVP-a3-fwk"/>
                             </constraints>
                         </view>
@@ -52,7 +58,7 @@
                         <constraint firstItem="BDf-jJ-zpS" firstAttribute="top" secondItem="rMA-rP-CjS" secondAttribute="top" id="35y-qi-kAE"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="top" secondItem="hUc-aj-fir" secondAttribute="bottom" id="3KU-jg-5ps"/>
                         <constraint firstAttribute="trailing" secondItem="YQP-Re-ngp" secondAttribute="trailing" id="46X-LS-rKT"/>
-                        <constraint firstItem="BDf-jJ-zpS" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" id="KiF-rd-XbH"/>
+                        <constraint firstItem="BDf-jJ-zpS" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" constant="20" id="KiF-rd-XbH"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" id="Nwo-J1-qxq"/>
                         <constraint firstItem="hUc-aj-fir" firstAttribute="top" secondItem="rMA-rP-CjS" secondAttribute="top" id="QSj-wI-cta"/>
                         <constraint firstItem="RxR-A1-dYV" firstAttribute="leading" secondItem="BDf-jJ-zpS" secondAttribute="leading" id="Xms-JU-s0W"/>
@@ -70,6 +76,13 @@
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="rMA-rP-CjS" secondAttribute="bottom" id="oIW-YX-kmD"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <connections>
+                <outlet property="btnFavorite" destination="hUc-aj-fir" id="cis-mF-t1q"/>
+                <outlet property="btnRecent" destination="BDf-jJ-zpS" id="jNC-qK-Fff"/>
+                <outlet property="lineLeadingAnchor" destination="Xms-JU-s0W" id="S0V-mo-f6K"/>
+                <outlet property="vLine" destination="YQP-Re-ngp" id="oRc-LI-Faw"/>
+                <outlet property="vLineUnder" destination="RxR-A1-dYV" id="B4j-dj-jsk"/>
+            </connections>
             <point key="canvasLocation" x="182.60869565217394" y="111.83035714285714"/>
         </collectionReusableView>
     </objects>
