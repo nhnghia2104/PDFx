@@ -104,35 +104,6 @@ class HomeVC: UIViewController {
     }
     
     private func setupThemes() {
-//        imgMoreTools.tintColor = CMSConfigConstants.themeStyle.tintColor
-//        lblMoreTools.textColor = CMSConfigConstants.themeStyle.tintColor
-//        lblMoreTools.alpha = 1.0
-//        imgMoreTools.alpha = 1.0
-//        btnRecent.setTitle("Recent", for: .normal)
-//        btnFavorite.setTitle("Favorite", for: .normal)
-//        btnFavorite.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
-//        btnRecent.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
-//
-//        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
-//
-//        vLineUnder.backgroundColor = CMSConfigConstants.themeStyle.titleColor
-//        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-//        searchBar.tintColor = CMSConfigConstants.themeStyle.tintColor
-//        if let textFieldInsideSearchBar =  searchBar.value(forKey: "searchField") as? UITextField {
-//            textFieldInsideSearchBar.font = UIFont.getFontRegular(size: 14)
-//            textFieldInsideSearchBar.textColor = CMSConfigConstants.themeStyle.titleColor
-//            if let labelInsideSearchBar = textFieldInsideSearchBar.value(forKey: "placeholderLabel") as? UILabel {
-//                labelInsideSearchBar.font = UIFont.getFontRegular(size: 14)
-//                labelInsideSearchBar.textColor = CMSConfigConstants.themeStyle.tintColor
-//
-//            }
-//        }
-//
-//
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
-//            NSAttributedString.Key.foregroundColor : CMSConfigConstants.themeStyle.titleColor,
-//            NSAttributedString.Key.font : UIFont.getFontRegular(size: 14)
-//        ], for: .normal)
         setupNaviBarBtn()
     }
 
@@ -258,8 +229,11 @@ extension HomeVC : UICollectionViewDataSource {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if (listRecent.count == 0 && isRecent) || (!isRecent && listFavorite.count == 0) {
+        if listRecent.count == 0 && isRecent {
             collectionView.setEmptyView(title: "No recent files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "image_noRecent")!)
+        }
+        if !isRecent && listFavorite.count == 0 {
+            collectionView.setEmptyView(title: "No favorite files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "image_noRecent")!)
         }
         return isRecent ? listRecent.count : listFavorite.count
     }

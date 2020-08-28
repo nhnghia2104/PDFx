@@ -50,8 +50,8 @@
                             <constraint firstAttribute="height" constant="20" id="xGx-Q0-Me3"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Io3-6O-JZU">
-                        <rect key="frame" x="10" y="10.5" width="30" height="29"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_Circle" translatesAutoresizingMaskIntoConstraints="NO" id="Io3-6O-JZU">
+                        <rect key="frame" x="51.5" y="83.5" width="30" height="30"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="JGH-V8-mVI"/>
@@ -69,10 +69,11 @@
             <constraints>
                 <constraint firstItem="dqg-FK-H9C" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="36V-Qr-CaN"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="WSP-K6-oFe" secondAttribute="trailing" id="BNE-H5-Xgk"/>
-                <constraint firstItem="Io3-6O-JZU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="GtM-2I-nj2"/>
                 <constraint firstItem="zyD-lq-c74" firstAttribute="width" secondItem="dqg-FK-H9C" secondAttribute="width" multiplier="0.65" id="HuX-O4-WS1"/>
+                <constraint firstItem="Io3-6O-JZU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="MDr-Fw-Jgn"/>
                 <constraint firstItem="WSP-K6-oFe" firstAttribute="top" secondItem="zyD-lq-c74" secondAttribute="bottom" constant="8" id="OwQ-dh-D2t"/>
                 <constraint firstAttribute="trailing" secondItem="dqg-FK-H9C" secondAttribute="trailing" id="QSw-xQ-VjU"/>
+                <constraint firstItem="WSP-K6-oFe" firstAttribute="top" secondItem="Io3-6O-JZU" secondAttribute="bottom" constant="20" id="TTX-UE-SAt"/>
                 <constraint firstAttribute="bottom" secondItem="dqg-FK-H9C" secondAttribute="bottom" id="WJI-Gf-1fm"/>
                 <constraint firstItem="NiQ-CB-5JE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="bi1-vP-WFT"/>
                 <constraint firstItem="zyD-lq-c74" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="cWb-tS-JmY"/>
@@ -80,7 +81,6 @@
                 <constraint firstItem="dqg-FK-H9C" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gO7-wl-fhx"/>
                 <constraint firstItem="WSP-K6-oFe" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="qby-sj-AcA"/>
                 <constraint firstItem="Q1g-3T-Qdo" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="qgG-XV-umk"/>
-                <constraint firstItem="Io3-6O-JZU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="t1F-vM-GJh"/>
                 <constraint firstAttribute="trailing" secondItem="NiQ-CB-5JE" secondAttribute="trailing" constant="10" id="vVa-TT-wfC"/>
                 <constraint firstItem="zyD-lq-c74" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="yxT-9m-zwa"/>
                 <constraint firstItem="Q1g-3T-Qdo" firstAttribute="top" secondItem="WSP-K6-oFe" secondAttribute="bottom" constant="5" id="zWc-7x-ef7"/>
@@ -99,7 +99,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="ic_Circle" width="30" height="30"/>
         <image name="ic_folder" width="50" height="50"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
