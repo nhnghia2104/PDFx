@@ -51,6 +51,7 @@ class DocumentsVC: UIViewController {
     private var isViewAsList = true
     private var isSelectMode = false {
         didSet {
+//            clvDocument.reloadSections(IndexSet(integer: 0))
             clvDocument.reloadData()
         }
     }
@@ -73,17 +74,16 @@ class DocumentsVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewMode()
         loadFileFromDevice()
-        setupNavigation()
-        register()
-        setupTheme()
-        setupCollectionView()
         addNotification()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+         setupViewMode()
+        setupNavigation()
+        register()
+        setupCollectionView()
+        setupTheme()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -190,7 +190,7 @@ class DocumentsVC: UIViewController {
         gotoSelectMode()
     }
     @objc func didBecomeActive() {
-        loadFileFromDevice()
+        loadFileFromDeviceWithoutAnimate()
         clvDocument.reloadData()
     }
     @objc func tapDone() {
@@ -219,20 +219,33 @@ class DocumentsVC: UIViewController {
         clvDocument.reloadData()
     }
     private func loadFileFromDevice() {
-//        let fileManager = FileManager.default
-//
-//        if let documentURL = fileManager.urls(for: .documentDirectory, skipsHiddenFiles: true) {
-//
-//            loadPDFDocument(urls: documentURL.filter{ $0.pathExtension == "pdf" })
-//
-//            loadFolder(urls: documentURL.filter{ $0.pathExtension == "" })
-        //        }
-        if let documentURLs = FileManager.default.getFileURLs(from: location) {
-            
-            loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" })
-            loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" })
+        DispatchQueue.global(qos: .userInteractive).async {[weak self] in
+            if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
+                self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" })
+                self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" })
+            }
         }
-        resortData()
+    }
+    private func loadFileFromDeviceWithoutAnimate() {
+        
+        if let documentURLs = FileManager.default.getFileURLs(from: location) {
+            listDocument.removeAll()
+            listFolder.removeAll()
+            var urls = documentURLs.filter{ $0.pathExtension == "" }
+            for url in urls {
+                if PDFDocument(url: url) != nil {
+                    let child = MyFolder(url: url)
+                    listFolder.append(child)
+                }
+            }
+            urls = documentURLs.filter{ $0.pathExtension == "pdf" }
+            for url in urls {
+                let child = MyDocument(url: url)
+                listDocument.append(child)
+            }
+            resortData()
+        }
+        
     }
     private func loadPDFDocument(urls : [URL]) {
         listDocument.removeAll()
@@ -240,7 +253,15 @@ class DocumentsVC: UIViewController {
             if PDFDocument(url: url) != nil {
                 let child = MyDocument(url: url)
                 listDocument.append(child)
+                DispatchQueue.main.async {[weak self] in
+                    self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
+                }
             }
+        }
+        sortOnlyDocument()
+        DispatchQueue.main.async {[weak self] in
+            self?.clvDocument.reloadSections(IndexSet(integer: 0))
+            self?.clvDocument.layoutIfNeeded()
         }
     }
     private func loadFolder(urls : [URL]) {
@@ -248,12 +269,20 @@ class DocumentsVC: UIViewController {
         for url in urls {
             let child = MyFolder(url: url)
             listFolder.append(child)
+            DispatchQueue.main.async {[weak self] in
+                self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
+            }
         }
+        sortOnlyFolder()
     }
     private func resortData() {
         isSortByDate ? sortByDate() : sortByName()
         UserDefaults.standard.setValue([isSortByDate,orderedAscending], forKey: "SortMode")
-        clvDocument.reloadData()
+//        DispatchQueue.main.async {[weak self] in
+//            self?.clvDocument.reloadSections(IndexSet(integer: 0))
+//            self?.clvDocument.layoutIfNeeded()
+//        }
+        
     }
     private func sortByDate() {
 
@@ -275,10 +304,37 @@ class DocumentsVC: UIViewController {
         })
             
     }
+    private func sortOnlyFolder() {
+        if isSortByDate {
+            listFolder = listFolder.sorted(by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+                
+            })
+        }
+        else {
+            listFolder = listFolder.sorted (by: {
+                orderedAscending ? $0.getName().localizedStandardCompare($1.getName()) == .orderedAscending : $0.getName().localizedStandardCompare($1.getName()) == .orderedDescending
+                
+            })
+        }
+    }
+    private func sortOnlyDocument() {
+        if isSortByDate {
+            listDocument = listDocument.sorted( by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+            })
+        }
+        else {
+            listDocument = listDocument.sorted(by: {
+                orderedAscending ? $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedAscending : $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedDescending
+            })
+        }
+    }
     func changeSortMode(bool : [Bool]) {
         isSortByDate = bool[0]
         orderedAscending = bool[1]
         resortData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
     }
     func gotoSelectMode() {
         navigationController?.navigationItem.title = "Select items"
@@ -405,7 +461,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             if indexPath.item < listFolder.count {
                 let directVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
                 directVC.setLocation(url: listFolder[indexPath.item].url, isChildClass: true)
-                self.navigationController?.pushViewController(directVC, animated: true)
+                navigationController?.pushViewController(directVC, animated: true)
             }
             else {
                 openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
@@ -470,7 +526,7 @@ extension DocumentsVC : UISearchBarDelegate {
         searchBar.resignFirstResponder()
         listDocument = tempListDocument
         listFolder = tempListFolder
-        clvDocument.reloadData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
         stopSearch()
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -481,7 +537,7 @@ extension DocumentsVC : UISearchBarDelegate {
             listDocument = tempListDocument
             listFolder = tempListFolder
         }
-        clvDocument.reloadData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
     }
 }
 //extension DocumentsVC : UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {

@@ -11,7 +11,7 @@ import PDFKit
 class PDFViewController : UIViewController {
     
     @IBOutlet weak var pdfView: PDFView!
-    var document : Document?
+    weak var document : Document?
     
     //MARK: - override function
     deinit {

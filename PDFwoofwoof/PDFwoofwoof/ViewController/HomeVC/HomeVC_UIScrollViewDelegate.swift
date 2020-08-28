@@ -39,5 +39,8 @@ extension HomeVC : UIScrollViewDelegate {
         btnImport.transform = CGAffineTransform.identity
             .scaledBy(x: scale, y: scale)
             .translatedBy(x: xTranslation, y: yTranslation)
+        btnTool.transform = CGAffineTransform.identity
+        .scaledBy(x: scale, y: scale)
+        .translatedBy(x: xTranslation, y: yTranslation)
     }
 }
