@@ -230,6 +230,9 @@ extension HomeVC : UICollectionViewDataSource {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if (listRecent.count == 0 && isRecent) || (!isRecent && listFavorite.count == 0) {
+            collectionView.setEmptyView(title: "No recent files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "image_noRecent")!)
+        }
         return isRecent ? listRecent.count : listFavorite.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

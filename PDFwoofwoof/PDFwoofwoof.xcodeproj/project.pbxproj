@@ -62,7 +62,6 @@
 		AD4CEA1D24E3CCB600C165A3 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA1C24E3CCB600C165A3 /* UIApplication.swift */; };
 		AD4CEA2224E3E6C100C165A3 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2124E3E6C100C165A3 /* BaseTableViewCell.swift */; };
 		AD4CEA2424E3E70C00C165A3 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2324E3E70C00C165A3 /* String.swift */; };
-		AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */; };
 		AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */; };
 		AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA2924E40C3900C165A3 /* BaseVar.swift */; };
 		AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D4E4024E7A06500FD9AE8 /* UIView.swift */; };
@@ -76,6 +75,7 @@
 		AD7621A924F573230099D92E /* HeaderDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7621A724F573230099D92E /* HeaderDocumentView.swift */; };
 		AD7621AA24F573230099D92E /* HeaderDocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7621A824F573230099D92E /* HeaderDocumentView.xib */; };
 		AD8BAE3324F10937002995E5 /* MyFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8BAE3224F10937002995E5 /* MyFolder.swift */; };
+		ADB8309D24F90D29003EEAEA /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB8309C24F90D29003EEAEA /* UICollectionView.swift */; };
 		ADCC687A24ED410500F1691B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCC687924ED410500F1691B /* RealmManager.swift */; };
 		ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD47BDE24EE90F10097250C /* DocumentsVC.swift */; };
 		ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */; };
@@ -162,7 +162,6 @@
 		AD4CEA1C24E3CCB600C165A3 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		AD4CEA2124E3E6C100C165A3 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		AD4CEA2324E3E70C00C165A3 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AD4CEA2924E40C3900C165A3 /* BaseVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVar.swift; sourceTree = "<group>"; };
 		AD4D4E4024E7A06500FD9AE8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -176,6 +175,7 @@
 		AD7621A724F573230099D92E /* HeaderDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderDocumentView.swift; sourceTree = "<group>"; };
 		AD7621A824F573230099D92E /* HeaderDocumentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderDocumentView.xib; sourceTree = "<group>"; };
 		AD8BAE3224F10937002995E5 /* MyFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFolder.swift; sourceTree = "<group>"; };
+		ADB8309C24F90D29003EEAEA /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
 		ADCC687924ED410500F1691B /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		ADD47BDE24EE90F10097250C /* DocumentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsVC.swift; sourceTree = "<group>"; };
 		ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
@@ -524,13 +524,13 @@
 				AD4CEA1A24E3CC8400C165A3 /* ExSlideMenuControllers.swift */,
 				AD4CEA1C24E3CCB600C165A3 /* UIApplication.swift */,
 				AD4CEA2324E3E70C00C165A3 /* String.swift */,
-				AD4CEA2524E3E8C400C165A3 /* UITableViewExtension.swift */,
 				AD4CEA2724E409A600C165A3 /* UIColorExtension.swift */,
 				AD27E86224E55D12001979D4 /* UIFont.swift */,
 				AD4D4E4024E7A06500FD9AE8 /* UIView.swift */,
 				AD724A5624EE6BCC0028F61F /* FileManager.swift */,
 				AD41CF1C24F11EEF0084B0B7 /* Date.swift */,
 				AD76219D24F55C230099D92E /* UITableView.swift */,
+				ADB8309C24F90D29003EEAEA /* UICollectionView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -813,7 +813,6 @@
 				AD7621A924F573230099D92E /* HeaderDocumentView.swift in Sources */,
 				AD4CEA1B24E3CC8400C165A3 /* ExSlideMenuControllers.swift in Sources */,
 				AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */,
-				AD4CEA2624E3E8C400C165A3 /* UITableViewExtension.swift in Sources */,
 				AD07C9E324F6E4BF00A68E2D /* HeaderHomeView.swift in Sources */,
 				AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
@@ -829,6 +828,7 @@
 				AD8BAE3324F10937002995E5 /* MyFolder.swift in Sources */,
 				AD76219E24F55C230099D92E /* UITableView.swift in Sources */,
 				AD347D7124F28CF500C79657 /* RecentPDF.swift in Sources */,
+				ADB8309D24F90D29003EEAEA /* UICollectionView.swift in Sources */,
 				AD230E7324EA9F27000225D7 /* MyDocument.swift in Sources */,
 				AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */,
 				AD4CEA1424E3BC4C00C165A3 /* LeftMenuVC.swift in Sources */,
