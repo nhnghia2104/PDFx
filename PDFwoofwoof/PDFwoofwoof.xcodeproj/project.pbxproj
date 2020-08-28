@@ -77,6 +77,10 @@
 		AD8BAE3324F10937002995E5 /* MyFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8BAE3224F10937002995E5 /* MyFolder.swift */; };
 		ADB8309D24F90D29003EEAEA /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB8309C24F90D29003EEAEA /* UICollectionView.swift */; };
 		ADCC687A24ED410500F1691B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCC687924ED410500F1691B /* RealmManager.swift */; };
+		ADD139BA24F91A4E006AF675 /* ToolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD139B924F91A4E006AF675 /* ToolVC.swift */; };
+		ADD139BC24F91B74006AF675 /* Tool.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD139BB24F91B74006AF675 /* Tool.storyboard */; };
+		ADD139C024F91F78006AF675 /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD139BE24F91F78006AF675 /* ToolCollectionViewCell.swift */; };
+		ADD139C124F91F78006AF675 /* ToolCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADD139BF24F91F78006AF675 /* ToolCollectionViewCell.xib */; };
 		ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD47BDE24EE90F10097250C /* DocumentsVC.swift */; };
 		ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */; };
 		ADE5BBB224E1947F00492D5A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE5BBB124E1947E00492D5A /* HomeVC.swift */; };
@@ -177,6 +181,10 @@
 		AD8BAE3224F10937002995E5 /* MyFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFolder.swift; sourceTree = "<group>"; };
 		ADB8309C24F90D29003EEAEA /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
 		ADCC687924ED410500F1691B /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		ADD139B924F91A4E006AF675 /* ToolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolVC.swift; sourceTree = "<group>"; };
+		ADD139BB24F91B74006AF675 /* Tool.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tool.storyboard; sourceTree = "<group>"; };
+		ADD139BE24F91F78006AF675 /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
+		ADD139BF24F91F78006AF675 /* ToolCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToolCollectionViewCell.xib; sourceTree = "<group>"; };
 		ADD47BDE24EE90F10097250C /* DocumentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsVC.swift; sourceTree = "<group>"; };
 		ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
 		ADDBC61F24E2F2B4009E2864 /* SlideMenuControllerSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuControllerSwift.h; sourceTree = "<group>"; };
@@ -389,6 +397,7 @@
 		AD4CEA0B24E39E2B00C165A3 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				ADD139B624F919E1006AF675 /* ToolVC */,
 				AD4CEA1E24E3CD2A00C165A3 /* HomeVC */,
 				AD4CEA1F24E3CD3400C165A3 /* MenuVC */,
 				AD11E53E24F1B97A00A9FD49 /* PDFViewController */,
@@ -403,6 +412,7 @@
 				ADE5BBB824E1948000492D5A /* LaunchScreen.storyboard */,
 				ADE5BBB324E1947F00492D5A /* Main.storyboard */,
 				AD32330D24F60BDE00A21390 /* PDFDocument.storyboard */,
+				ADD139BB24F91B74006AF675 /* Tool.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -490,6 +500,24 @@
 				AD7621A824F573230099D92E /* HeaderDocumentView.xib */,
 			);
 			path = HeaderView;
+			sourceTree = "<group>";
+		};
+		ADD139B624F919E1006AF675 /* ToolVC */ = {
+			isa = PBXGroup;
+			children = (
+				ADD139B924F91A4E006AF675 /* ToolVC.swift */,
+				ADD139BD24F91F27006AF675 /* Cells */,
+			);
+			path = ToolVC;
+			sourceTree = "<group>";
+		};
+		ADD139BD24F91F27006AF675 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				ADD139BE24F91F78006AF675 /* ToolCollectionViewCell.swift */,
+				ADD139BF24F91F78006AF675 /* ToolCollectionViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		ADD47BDD24EE90C10097250C /* DocumentsVC */ = {
@@ -707,6 +735,7 @@
 				AD4CEA0D24E39EF400C165A3 /* Image.xcassets in Resources */,
 				AD4CEA1924E3C7D300C165A3 /* LeftMenuTableViewCell.xib in Resources */,
 				AD7621A324F5617E0099D92E /* EmptyView.xib in Resources */,
+				ADD139C124F91F78006AF675 /* ToolCollectionViewCell.xib in Resources */,
 				AD27E83C24E53626001979D4 /* Roboto-ThinItalic.ttf in Resources */,
 				AD27E83E24E53626001979D4 /* Roboto-LightItalic.ttf in Resources */,
 				AD27E84224E53626001979D4 /* Roboto-Bold.ttf in Resources */,
@@ -733,6 +762,7 @@
 				AD27E87124E56037001979D4 /* OpenSans-Light.ttf in Resources */,
 				AD27E83A24E53626001979D4 /* Roboto-Regular.ttf in Resources */,
 				AD27E83F24E53626001979D4 /* Roboto-Italic.ttf in Resources */,
+				ADD139BC24F91B74006AF675 /* Tool.storyboard in Resources */,
 				AD27E83924E53626001979D4 /* Roboto-Light.ttf in Resources */,
 				AD32330E24F60BDE00A21390 /* PDFDocument.storyboard in Resources */,
 				ADE5BBB524E1947F00492D5A /* Main.storyboard in Resources */,
@@ -816,6 +846,7 @@
 				AD07C9E324F6E4BF00A68E2D /* HeaderHomeView.swift in Sources */,
 				AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
+				ADD139BA24F91A4E006AF675 /* ToolVC.swift in Sources */,
 				ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */,
 				AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
@@ -830,6 +861,7 @@
 				AD347D7124F28CF500C79657 /* RecentPDF.swift in Sources */,
 				ADB8309D24F90D29003EEAEA /* UICollectionView.swift in Sources */,
 				AD230E7324EA9F27000225D7 /* MyDocument.swift in Sources */,
+				ADD139C024F91F78006AF675 /* ToolCollectionViewCell.swift in Sources */,
 				AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */,
 				AD4CEA1424E3BC4C00C165A3 /* LeftMenuVC.swift in Sources */,
 				AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */,

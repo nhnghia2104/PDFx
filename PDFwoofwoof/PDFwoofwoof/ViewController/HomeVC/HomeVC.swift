@@ -13,6 +13,7 @@ class HomeVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     var btnImport : UIButton!
+    var btnTool : UIButton!
     struct Const {
         /// Image height/width for Large NavBar state
         static let ImageSizeForLargeState: CGFloat = 40
@@ -162,9 +163,26 @@ class HomeVC: UIViewController {
         btnImport.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             btnImport.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
-        btnImport.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
-        btnImport.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-        btnImport.widthAnchor.constraint(equalTo: btnImport.heightAnchor)
+            btnImport.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
+            btnImport.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            btnImport.widthAnchor.constraint(equalTo: btnImport.heightAnchor)
+        ])
+        
+        btnTool = UIButton()
+        btnTool.setImage(UIImage(named: "ic_download"), for: .normal)
+        btnTool.addTarget(self, action: #selector(tapTool), for: .touchUpInside)
+        
+        navigationBar.addSubview(btnTool)
+        btnTool.tintColor = CMSConfigConstants.themeStyle.tintColor
+        btnTool.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        btnTool.layer.cornerRadius = 20.0
+        btnTool.clipsToBounds = true
+        btnTool.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            btnTool.rightAnchor.constraint(equalTo: btnImport.leftAnchor, constant: -16),
+            btnTool.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
+            btnTool.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            btnTool.widthAnchor.constraint(equalTo: btnImport.heightAnchor)
         ])
     }
     
@@ -174,6 +192,9 @@ class HomeVC: UIViewController {
     }
     @objc func tapImport() {
         openBrowser()
+    }
+    @objc func tapTool() {
+        goToTool()
     }
     
     //MARK: -IBAction
@@ -196,6 +217,13 @@ class HomeVC: UIViewController {
     }
     private func gotoMoreTools() {
         print("goto More Tools")
+    }
+    private func goToTool() {
+        let storyboard = UIStoryboard(name: "Tool", bundle: nil)
+        
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
     func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
