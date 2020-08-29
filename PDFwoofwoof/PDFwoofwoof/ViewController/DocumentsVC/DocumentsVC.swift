@@ -74,20 +74,30 @@ class DocumentsVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        register()
+        setupCollectionView()
+        setupTheme()
         loadFileFromDevice()
+        
+        setupViewMode()
+        setupNavigation()
         addNotification()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-         setupViewMode()
-        setupNavigation()
-        register()
-        setupCollectionView()
-        setupTheme()
+        didBecomeActive()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addNotification()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - setup functions
@@ -101,6 +111,7 @@ class DocumentsVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         isChildClass ? () : self.setSlideMenuVCNaviBarItem()
+        isChildClass ? self.navigationItem.setHidesBackButton(false, animated: true) : ()
         self.navigationItem.rightBarButtonItems = [selectBarbtn,searchBarbtn]
         setupBaseNavigation()
         searchBar.delegate = self
@@ -175,12 +186,12 @@ class DocumentsVC: UIViewController {
     func didTapListMode() {
         UserDefaults.standard.setValue(true, forKey: "isViewAsList")
         isViewAsList = true
-        resetCollectionViewLayout()
+        clvDocument.reloadData()
     }
     func didTapGridMode() {
         UserDefaults.standard.setValue(false, forKey: "isViewAsList")
         isViewAsList = false
-        resetCollectionViewLayout()
+        clvDocument.reloadData()
     }
     //MARK: - objc funtion
     @objc func openMore() {
@@ -215,8 +226,10 @@ class DocumentsVC: UIViewController {
         startSearch()
     }
     //MARK: - Action function
-    private func resetCollectionViewLayout() {
-        clvDocument.reloadData()
+    private func loadAndCheck() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+        }
     }
     private func loadFileFromDevice() {
         DispatchQueue.global(qos: .userInteractive).async {[weak self] in
@@ -233,10 +246,8 @@ class DocumentsVC: UIViewController {
             listFolder.removeAll()
             var urls = documentURLs.filter{ $0.pathExtension == "" }
             for url in urls {
-                if PDFDocument(url: url) != nil {
-                    let child = MyFolder(url: url)
-                    listFolder.append(child)
-                }
+                let child = MyFolder(url: url)
+                listFolder.append(child)
             }
             urls = documentURLs.filter{ $0.pathExtension == "pdf" }
             for url in urls {
@@ -247,33 +258,46 @@ class DocumentsVC: UIViewController {
         }
         
     }
-    private func loadPDFDocument(urls : [URL]) {
-        listDocument.removeAll()
+    private func loadPDFDocument(urls : [URL]) -> [MyDocument]{
+        var newList = [MyDocument]()
         for url in urls {
             if PDFDocument(url: url) != nil {
                 let child = MyDocument(url: url)
-                listDocument.append(child)
-                DispatchQueue.main.async {[weak self] in
-                    self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
-                }
+                newList.append(child)
+//                DispatchQueue.main.async {[weak self] in
+//                    self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
+//                }
             }
         }
-        sortOnlyDocument()
-        DispatchQueue.main.async {[weak self] in
-            self?.clvDocument.reloadSections(IndexSet(integer: 0))
-            self?.clvDocument.layoutIfNeeded()
-        }
+        return newList
+//        sortOnlyDocument()
+//        DispatchQueue.main.async {[weak self] in
+//            self?.clvDocument.reloadSections(IndexSet(integer: 0))
+//            self?.clvDocument.layoutIfNeeded()
+//        }
     }
-    private func loadFolder(urls : [URL]) {
-        listFolder.removeAll()
+    private func loadFolder(urls : [URL]) -> [MyFolder] {
+        var newList = [MyFolder]()
         for url in urls {
             let child = MyFolder(url: url)
-            listFolder.append(child)
-            DispatchQueue.main.async {[weak self] in
-                self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
-            }
+            newList.append(child)
+//            DispatchQueue.main.async {[weak self] in
+//                self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
+//            }
         }
-        sortOnlyFolder()
+        if isSortByDate {
+            newList = newList.sorted(by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+                
+            })
+        }
+        else {
+            newList = newList.sorted (by: {
+                orderedAscending ? $0.getName().localizedStandardCompare($1.getName()) == .orderedAscending : $0.getName().localizedStandardCompare($1.getName()) == .orderedDescending
+                
+            })
+        }
+        return newList
     }
     private func resortData() {
         isSortByDate ? sortByDate() : sortByName()
@@ -353,6 +377,7 @@ class DocumentsVC: UIViewController {
     func comebackViewMode() {
 //        removeNaviBarItem()
         selectedCount = 0
+        navigationItem.leftBarButtonItem = nil
         setupNavigation()
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.isSelectMode = false
@@ -389,6 +414,9 @@ class DocumentsVC: UIViewController {
         // Presenting modal in iOS 13 fullscreen
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
+    }
+    func saveRecentPDF(url : URL) {
+        RealmManager.shared.saveRecentPDF(url: url)
     }
 }
 
@@ -457,6 +485,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         if !isSelectMode {
             if indexPath.item < listFolder.count {
                 let directVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
@@ -464,11 +493,23 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
                 navigationController?.pushViewController(directVC, animated: true)
             }
             else {
+                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                    self?.saveRecentPDF(url: (self?.listDocument[indexPath.item - (self?.listFolder.count)!].getPDFData().fileURL)!)
+                }
                 openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
             }
         }
         else {
             selectedCount += 1
+        }
+        if !(searchBar.text?.isEmpty ?? true) {
+            searchBar.showsCancelButton = false
+            searchBar.text = ""
+            searchBar.resignFirstResponder()
+            listDocument = tempListDocument
+            listFolder = tempListFolder
+            clvDocument.reloadSections(IndexSet(integer: 0))
+            stopSearch()
         }
     }
     
@@ -516,7 +557,6 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
 extension DocumentsVC : UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
         tempListFolder = listFolder
         tempListDocument = listDocument
     }

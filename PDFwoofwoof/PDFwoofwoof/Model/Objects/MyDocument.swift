@@ -10,25 +10,23 @@ import UIKit
 import PDFKit
 
 class MyDocument {
-    var document : Document!
-    var isFavorite = false
+    private var document : Document!
+    private var isFavorite = false
     private var isFolder = false
-    var dateModified = Date()
+    private var dateModified = Date()
     private var thumbnail : UIImage?
     private var name : String?
     private var dateCreated : Date?
     private var strSize : String?
+    private var dateAcess : Date?
     init(url : URL) {
         document = Document(fileURL: url)
-        
-//        DispatchQueue.global(qos: .userInitiated).async {[weak self] in
             do {
-                let resources = try self.document.fileURL.resourceValues(forKeys:[.fileSizeKey,.creationDateKey,.thumbnailDictionaryKey,.contentAccessDateKey])
+                let resources = try self.document.fileURL.resourceValues(forKeys:[.fileSizeKey,.creationDateKey,.thumbnailDictionaryKey, .contentAccessDateKey])
                 let fileSize = resources.fileSize ?? 0
                 let strSize = Math.shared.convertSize(Double(fileSize))
                 self.strSize = strSize
-                
-//                print(resources.contentAccessDateKey)
+                self.dateAcess = resources.contentAccessDate ?? Date()
                 self.dateCreated = resources.creationDate ?? Date()
                 if let thumnailDict = resources.thumbnailDictionary {
                     if let img = (thumnailDict[URLThumbnailDictionaryItem(rawValue: "NSThumbnail1024x1024SizeKey")]) {
@@ -36,16 +34,9 @@ class MyDocument {
                     }
                 }
             } catch {
-                self.strSize = ""
                 print("Error: \(error)")
             }
 //        }
-    }
-    func setModified(date : Date) {
-        self.dateModified = date
-    }
-    func getModified() -> Date {
-        return dateModified
     }
     
     //  Getter
@@ -58,6 +49,13 @@ class MyDocument {
             dateCreated = date
         }
         return dateCreated!
+    }
+    
+    func getAccessDate() -> Date {
+        if dateAcess == nil {
+            self.dateAcess = Date()
+        }
+        return dateAcess!
     }
     func getFileName() -> String {
         if name == nil {

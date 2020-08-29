@@ -34,7 +34,7 @@ class HomeVC: UIViewController {
 
     var isRecent : Bool = true {
         didSet {
-            collectionView.reloadData()
+            collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
     
@@ -55,10 +55,19 @@ class HomeVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        resortRecentList()
-        collectionView.reloadData()
+        didBecomeActive()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addNotification()
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     deinit {
+        NotificationCenter.default.removeObserver(self)
         print("denited HomeVC")
     }
     // MARK: - setup function
@@ -91,7 +100,9 @@ class HomeVC: UIViewController {
         collectionView.collectionViewLayout = layout
         
     }
-    
+    private func addNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
     private func setupThemes() {
         setupNaviBarBtn()
     }
@@ -101,15 +112,19 @@ class HomeVC: UIViewController {
         resortRecentList()
     }
     private func loadFavoriteList() {
-//        listFavorite =
+        listFavorite = RealmManager.shared.getFavoritePDF() ?? []
+        resortFavoriteList()
     }
-    func resortRecentList() {
+    private func resortFavoriteList() {
+        listFavorite = listFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
+    }
+    private func resortRecentList() {
         listRecent = listRecent.sorted( by : {
-            $0.getModified().compare($1.getModified()) == .orderedDescending
+            $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
         })
     }
     
-    func setupNaviBarBtn() {
+    private func setupNaviBarBtn() {
         btnImport = UIButton()
         btnImport.setImage(UIImage(named: "ic_download"), for: .normal)
         btnImport.addTarget(self, action: #selector(tapImport), for: .touchUpInside)
@@ -156,6 +171,9 @@ class HomeVC: UIViewController {
     @objc func tapTool() {
         goToTool()
     }
+    @objc func didBecomeActive() {
+        loadAndCheck()
+    }
     
     //MARK: -IBAction
     @IBAction func tapMoreTools(_ sender: UIGestureRecognizer) {
@@ -168,6 +186,46 @@ class HomeVC: UIViewController {
     }
     
     //MARK: - Action Function
+    
+    // after become active, load a new list from database
+    // compare new list with present list
+    // if new list != present list -> reload
+    // else do nothing
+    private func loadAndCheck() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            var newRecent = RealmManager.shared.getRecentPDF() ?? []
+            newRecent = newRecent.sorted( by : {
+                $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
+            })
+            let result = zip(newRecent, self!.listRecent).enumerated().filter() {
+                $1.0.getFileName() == $1.1.getFileName()
+            }.map{$0.0}
+            if result.count == 0 && (self?.isRecent == true) {
+                self?.listRecent = newRecent
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+            }
+            
+            var newFavorite = RealmManager.shared.getFavoritePDF() ?? []
+            newFavorite = newFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
+            
+            let result2 = zip(newFavorite, self!.listFavorite).enumerated().filter() {
+                $1.0.getFileName() == $1.1.getFileName()
+            }.map{$0.0}
+            if result2.count == 0 && (self?.isRecent == false) {
+                self?.listFavorite = newFavorite
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+            }
+
+            
+        }
+    }
     private func changeValue() {
         UIView.animate(withDuration: 0.2, animations: {[weak self] in
 //            self?.lineLeadingAnchor.constant = (self?.isRecent)! ? 70.0 : 0
@@ -206,9 +264,8 @@ class HomeVC: UIViewController {
     func saveRecentPDF(url : URL) {
         RealmManager.shared.saveRecentPDF(url: url) {[weak self] (bool) in
             if bool {
-                self?.listRecent.append(MyDocument(url: url))
             }
-            self?.resortRecentList()
+//            self?.resortRecentList()
         }
     }
     
