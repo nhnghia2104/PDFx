@@ -53,7 +53,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cfy-ac-V6J">
-                            <rect key="frame" x="332" y="0.0" width="40" height="40"/>
+                            <rect key="frame" x="336" y="0.0" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="605-JX-FwP"/>
                                 <constraint firstAttribute="width" constant="40" id="rmI-O5-LPX"/>
@@ -74,7 +74,7 @@
                         <constraint firstItem="Cfy-ac-V6J" firstAttribute="centerY" secondItem="9hL-W3-F4p" secondAttribute="centerY" id="3UQ-Ia-xAI"/>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="5ev-v5-Ua8"/>
                         <constraint firstItem="Rvg-RW-y7N" firstAttribute="top" secondItem="9hL-W3-F4p" secondAttribute="top" id="cUu-JF-pqr"/>
-                        <constraint firstAttribute="trailing" secondItem="Cfy-ac-V6J" secondAttribute="trailing" constant="20" id="cq1-Y2-KBk"/>
+                        <constraint firstAttribute="trailing" secondItem="Cfy-ac-V6J" secondAttribute="trailing" constant="16" id="cq1-Y2-KBk"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="imp-hj-pIE"/>
                         <constraint firstItem="Rvg-RW-y7N" firstAttribute="leading" secondItem="4bL-6H-iU0" secondAttribute="leading" constant="20" id="off-e8-3tS"/>
                     </constraints>

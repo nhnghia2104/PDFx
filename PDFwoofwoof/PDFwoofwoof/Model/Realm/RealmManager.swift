@@ -67,6 +67,16 @@ class RealmManager {
             }
         }
     }
+    func clearAllRecent(completion : (()->())? = nil) {
+        autoreleasepool {
+            guard let realm = try? Realm() else {return}
+            let items = realm.objects(RecentPDF.self)
+            try? realm.write {
+                realm.delete(items)
+                completion?()
+            }
+        }
+    }
     
     func updateRecentPDF(url: URL, completion:(()->())? = nil) {
         autoreleasepool {

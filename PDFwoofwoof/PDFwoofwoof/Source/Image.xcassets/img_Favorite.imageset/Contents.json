@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Frame 21.png",
+      "filename" : "img_Favorite-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Frame 21@2x.png",
+      "filename" : "img_Favorite-01@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Frame 21@3x.png",
+      "filename" : "img_Favorite-01@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

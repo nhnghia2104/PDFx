@@ -11,29 +11,11 @@ import PDFKit
 import NVActivityIndicatorView
 
 class DocumentsVC: UIViewController {
-    
-
-//    @IBOutlet weak var leadingAnchor: NSLayoutConstraint!
-//    @IBOutlet weak var vBackground: UIView!
-//    @IBOutlet weak var btnSelect: UIButton!
-//    @IBOutlet weak var btnGrid: UIButton!
-//    @IBOutlet weak var btnList: UIButton!
-//    @IBOutlet weak var imgSortby: UIImageView!
-//    @IBOutlet weak var lblSortby: UILabel!
 
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var topAnchorOfCollectionView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var clvDocument: UICollectionView!
-//    var searchController: UISearchController {
-//        let search = UISearchController(searchResultsController: nil)
-//        search.obscuresBackgroundDuringPresentation = false
-//        search.searchResultsUpdater  = self
-//        search.dimsBackgroundDuringPresentation = false
-//        search.searchBar.searchBarStyle = .minimal
-//        search.searchBar.delegate = self/
-//        return search
-//    }
     lazy var tempListFolder = [MyFolder]()
     lazy var tempListDocument = [MyDocument]()
     lazy var searchBarbtn: UIBarButtonItem = {
@@ -53,7 +35,6 @@ class DocumentsVC: UIViewController {
     private var isViewAsList = true
     private var isSelectMode = false {
         didSet {
-//            clvDocument.reloadSections(IndexSet(integer: 0))
             clvDocument.reloadData()
         }
     }
@@ -81,8 +62,6 @@ class DocumentsVC: UIViewController {
         register()
         setupCollectionView()
         setupTheme()
-//        loadFileFromDevice()
-        
         setupViewMode()
         setupNavigation()
         addNotification()
@@ -105,18 +84,12 @@ class DocumentsVC: UIViewController {
     }
 
     // MARK: - setup functions
-    func showIndicator() {
-        needShowIndicator = true
-        activityIndicatorView.type = .circleStrokeSpin
-        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
-        activityIndicatorView.startAnimating()
-        vAddDismissTimer.invalidate()
-        vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(hideIndicator), userInfo: nil, repeats: false)
-    }
+    
     public func setLocation(url : URL, isChildClass : Bool) {
         self.location = url
         self.isChildClass = isChildClass
     }
+    
     private func setupNavigation() {
         self.navigationController?.view.layer.shadowColor = .none
         self.navigationItem.title = isChildClass ? location.lastPathComponent : "Documents"
@@ -184,27 +157,13 @@ class DocumentsVC: UIViewController {
             resortData()
         }
     }
-    
-//    private func showSearchControl() {
-//        navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = true
-//        definesPresentationContext = true
-//    }
+
     private func addNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     // MARK: - IBAction
-    func didTapListMode() {
-        UserDefaults.standard.setValue(true, forKey: "isViewAsList")
-        isViewAsList = true
-        clvDocument.reloadData()
-    }
-    func didTapGridMode() {
-        UserDefaults.standard.setValue(false, forKey: "isViewAsList")
-        isViewAsList = false
-        clvDocument.reloadData()
-    }
+    
     //MARK: - objc funtion
     @objc func openMore() {
         
@@ -307,6 +266,14 @@ class DocumentsVC: UIViewController {
             }
         }
     }
+    private func showIndicator() {
+        needShowIndicator = true
+        activityIndicatorView.type = .circleStrokeSpin
+        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
+        activityIndicatorView.startAnimating()
+        vAddDismissTimer.invalidate()
+        vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(hideIndicator), userInfo: nil, repeats: false)
+    }
     private func loadFileFromDevice() {
         DispatchQueue.global(qos: .userInteractive).async {[weak self] in
             if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
@@ -359,9 +326,6 @@ class DocumentsVC: UIViewController {
         for url in urls {
             let child = MyFolder(url: url)
             newList.append(child)
-//            DispatchQueue.main.async {[weak self] in
-//                self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
-//            }
         }
         if isSortByDate {
             newList = newList.sorted(by :{
@@ -380,11 +344,6 @@ class DocumentsVC: UIViewController {
     private func resortData() {
         isSortByDate ? sortByDate() : sortByName()
         UserDefaults.standard.setValue([isSortByDate,orderedAscending], forKey: "SortMode")
-//        DispatchQueue.main.async {[weak self] in
-//            self?.clvDocument.reloadSections(IndexSet(integer: 0))
-//            self?.clvDocument.layoutIfNeeded()
-//        }
-        
     }
     private func sortByDate() {
 
@@ -432,13 +391,23 @@ class DocumentsVC: UIViewController {
             })
         }
     }
-    func changeSortMode(bool : [Bool]) {
+    private func didTapListMode() {
+        UserDefaults.standard.setValue(true, forKey: "isViewAsList")
+        isViewAsList = true
+        clvDocument.reloadData()
+    }
+    private func didTapGridMode() {
+        UserDefaults.standard.setValue(false, forKey: "isViewAsList")
+        isViewAsList = false
+        clvDocument.reloadData()
+    }
+    private func changeSortMode(bool : [Bool]) {
         isSortByDate = bool[0]
         orderedAscending = bool[1]
         resortData()
         clvDocument.reloadSections(IndexSet(integer: 0))
     }
-    func gotoSelectMode() {
+    private func gotoSelectMode() {
         navigationController?.navigationItem.title = "Select items"
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.isSelectMode = true
@@ -452,8 +421,7 @@ class DocumentsVC: UIViewController {
         addLeftBarButtonWithTittle(title: "Select all", action: #selector(tapSelectAll))
         clvDocument.allowsMultipleSelection = true
     }
-    func comebackViewMode() {
-//        removeNaviBarItem()
+    private func comebackViewMode() {
         selectedCount = 0
         navigationItem.leftBarButtonItem = nil
         setupNavigation()
@@ -463,7 +431,7 @@ class DocumentsVC: UIViewController {
         }
         clvDocument.allowsMultipleSelection = false
     }
-    func startSearch() {
+    private func startSearch() {
         searchBar.isHidden = false
         self.navigationController?.navigationBar.prefersLargeTitles = false
         UIView.animate(withDuration: 0.2) {[weak self] in
@@ -473,19 +441,15 @@ class DocumentsVC: UIViewController {
         }
         searchBar.becomeFirstResponder()
     }
-    func stopSearch() {
+    private func stopSearch() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         searchBar.isHidden = true
-//        UIView.animate(withDuration: 0.2) {[weak self] in
-//            self?.topAnchorOfCollectionView.constant = 0
-//            self?.navigationController?.setNavigationBarHidden(false, animated: false)
-//        }
         topAnchorOfCollectionView.constant = 0
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.view.layoutIfNeeded()
         
     }
-    func openPDF(pdfData : Document) {
+    private func openPDF(pdfData : Document) {
         let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         let pdfVC = navigationController.viewControllers.first as! PDFViewController
@@ -495,7 +459,7 @@ class DocumentsVC: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
-    func saveRecentPDF(url : URL) {
+    private func saveRecentPDF(url : URL) {
         RealmManager.shared.saveRecentPDF(url: url)
     }
 }
@@ -621,20 +585,6 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
         return .init(width: view.frame.width, height: isSelectMode ? 0 : 50)
     }
 }
-//extension DocumentsVC : UISearchResultsUpdating {
-//    func updateSearchResults(for searchController: UISearchController) {
-//        if let text = searchController.searchBar.text, !text.isEmpty {
-//            listDocument = (tempListDocument.filter({String($0.getFileName()).lowercased().contains(text.lowercased())}))
-//            listFolder = (tempListFolder.filter({String($0.getName()).lowercased().contains(text.lowercased())}))
-//        }else {
-//            listDocument = tempListDocument
-//            listFolder = tempListFolder
-//        }
-//        clvDocument.reloadData()
-//    }
-//
-//
-//}
 extension DocumentsVC : UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
@@ -661,16 +611,3 @@ extension DocumentsVC : UISearchBarDelegate {
         clvDocument.reloadSections(IndexSet(integer: 0))
     }
 }
-//extension DocumentsVC : UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
-//
-//    func navigationController(
-//        _ navigationController: UINavigationController,
-//        animationControllerFor operation: UINavigationController.Operation,
-//        from fromVC: UIViewController,
-//        to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//
-//        simpleOver.popStyle = (operation == .pop)
-//
-//        return simpleOver
-//    }
-//}

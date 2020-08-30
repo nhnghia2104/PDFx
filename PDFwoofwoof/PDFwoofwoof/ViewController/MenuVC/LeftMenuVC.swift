@@ -9,11 +9,8 @@
 import UIKit
 
 enum LeftMenu: Int {
-    case search = 0
-    case home
+    case home = 0
     case document
-    case starred
-    case recent
     case settings
 }
 
@@ -24,12 +21,12 @@ protocol LeftMenuProtocol : class {
 class LeftMenuVC : UIViewController, LeftMenuProtocol {
     
     @IBOutlet weak var tableView: UITableView!
-    var menus = ["Search", "Home", "Documents", "Starred", "Recent","Settings"]
+    var menus = ["Home", "Documents","Settings"]
     var mainViewController: UIViewController!
     var documentVC: UIViewController!
-    var javaViewController: UIViewController!
-    var goViewController: UIViewController!
-    var nonMenuViewController: UIViewController!
+//    var javaViewController: UIViewController!
+//    var goViewController: UIViewController!
+//    var nonMenuViewController: UIViewController!
     private var lastSelect : IndexPath?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -80,10 +77,10 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
     func changeViewController(_ menu: LeftMenu) {
         switch menu {
         case .home:
-            UserDefaults.standard.setValue(1, forKey: "MainView")
+            UserDefaults.standard.setValue(0, forKey: "MainView")
             self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
         case .document:
-            UserDefaults.standard.setValue(2, forKey: "MainView")
+            UserDefaults.standard.setValue(1, forKey: "MainView")
              self.slideMenuController()?.changeMainViewController(self.documentVC, close: true)
         default:
             break

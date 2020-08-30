@@ -86,7 +86,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DjW-ZL-CTh" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
-                                <rect key="frame" x="189" y="430" width="36" height="36"/>
+                                <rect key="frame" x="189" y="385" width="36" height="36"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="qD8-R9-Cb4"/>
@@ -102,18 +102,28 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="ballRotateChase"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8s-RN-cYP">
+                                <rect key="frame" x="0.0" y="802" width="414" height="100"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="IHt-no-3Df"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="TYt-dX-8nW" firstAttribute="bottom" secondItem="y1M-Sd-dop" secondAttribute="bottom" constant="-40" id="0ev-Tu-daN"/>
+                            <constraint firstItem="N8s-RN-cYP" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" id="8Iz-Zf-UC4"/>
                             <constraint firstItem="TYt-dX-8nW" firstAttribute="trailing" secondItem="y1M-Sd-dop" secondAttribute="trailing" id="8kS-3c-ofP"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" id="Fqc-OU-i2l"/>
-                            <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerY" secondItem="jWI-jD-0sF" secondAttribute="centerY" id="GmZ-Pa-s3y"/>
+                            <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerY" secondItem="jWI-jD-0sF" secondAttribute="centerY" multiplier="0.9" id="GmZ-Pa-s3y"/>
                             <constraint firstItem="0dD-uO-BEA" firstAttribute="trailing" secondItem="TYt-dX-8nW" secondAttribute="trailing" constant="-10" id="Jni-GZ-NHX"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="top" secondItem="TYt-dX-8nW" secondAttribute="top" id="KdE-wy-2en"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="top" secondItem="0dD-uO-BEA" secondAttribute="bottom" id="L5M-9p-RAE"/>
+                            <constraint firstItem="TYt-dX-8nW" firstAttribute="bottom" secondItem="N8s-RN-cYP" secondAttribute="bottom" constant="-40" id="NLd-Z7-tHF"/>
                             <constraint firstItem="0dD-uO-BEA" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" constant="10" id="P38-58-OEg"/>
                             <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerX" secondItem="jWI-jD-0sF" secondAttribute="centerX" id="bdq-ly-00T"/>
+                            <constraint firstItem="N8s-RN-cYP" firstAttribute="trailing" secondItem="TYt-dX-8nW" secondAttribute="trailing" id="ca6-q3-HAK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TYt-dX-8nW"/>
                     </view>

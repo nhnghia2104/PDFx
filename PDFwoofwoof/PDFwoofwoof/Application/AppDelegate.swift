@@ -27,10 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if let key = UserDefaults.standard.object(forKey: "MainView") as? Int {
             switch key {
-            case 1:
+            case 0:
                 mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                 break
-            case 2 :
+            case 1 :
                 mainViewController = storyboard.instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
                 break
             default:

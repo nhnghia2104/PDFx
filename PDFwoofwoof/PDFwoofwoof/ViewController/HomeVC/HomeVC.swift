@@ -12,7 +12,7 @@ import PDFKit
 class HomeVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var btnImport : UIButton!
+    var btnNotice : UIButton!
     var btnTool : UIButton!
     struct Const {
         /// Image height/width for Large NavBar state
@@ -77,7 +77,7 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         self.setSlideMenuVCNaviBarItem()
-        self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
+        //self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
         setupBaseNavigation()
     }
     private func register() {
@@ -125,39 +125,39 @@ class HomeVC: UIViewController {
     }
     
     private func setupNaviBarBtn() {
-        btnImport = UIButton()
-        btnImport.setImage(UIImage(named: "ic_download"), for: .normal)
-        btnImport.addTarget(self, action: #selector(tapImport), for: .touchUpInside)
+        btnNotice = UIButton()
+        btnNotice.setImage(UIImage(named: "ic_notifications_black_24dp"), for: .normal)
+        btnNotice.addTarget(self, action: #selector(openNotice), for: .touchUpInside)
         guard let navigationBar = self.navigationController?.navigationBar else { return }
         
-        navigationBar.addSubview(btnImport)
-        btnImport.tintColor = CMSConfigConstants.themeStyle.tintColor
-        btnImport.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-        btnImport.layer.cornerRadius = 20.0
-        btnImport.clipsToBounds = true
-        btnImport.translatesAutoresizingMaskIntoConstraints = false
+        navigationBar.addSubview(btnNotice)
+        btnNotice.tintColor = UIColor(hex: "555B6E") //CMSConfigConstants.themeStyle.tintColor
+        btnNotice.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        btnNotice.layer.cornerRadius = 20.0
+        btnNotice.clipsToBounds = true
+        btnNotice.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            btnImport.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
-            btnImport.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
-            btnImport.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-            btnImport.widthAnchor.constraint(equalTo: btnImport.heightAnchor)
+            btnNotice.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
+            btnNotice.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
+            btnNotice.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            btnNotice.widthAnchor.constraint(equalTo: btnNotice.heightAnchor)
         ])
         
         btnTool = UIButton()
-        btnTool.setImage(UIImage(named: "ic_download"), for: .normal)
+        btnTool.setImage(UIImage(named: "ic_Tool"), for: .normal)
         btnTool.addTarget(self, action: #selector(tapTool), for: .touchUpInside)
         
         navigationBar.addSubview(btnTool)
-        btnTool.tintColor = CMSConfigConstants.themeStyle.tintColor
+        btnTool.tintColor = UIColor(hex: "555B6E") //CMSConfigConstants.themeStyle.tintColor
         btnTool.backgroundColor = CMSConfigConstants.themeStyle.borderColor
         btnTool.layer.cornerRadius = 20.0
         btnTool.clipsToBounds = true
         btnTool.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            btnTool.rightAnchor.constraint(equalTo: btnImport.leftAnchor, constant: -16),
+            btnTool.rightAnchor.constraint(equalTo: btnNotice.leftAnchor, constant: -16),
             btnTool.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
             btnTool.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-            btnTool.widthAnchor.constraint(equalTo: btnImport.heightAnchor)
+            btnTool.widthAnchor.constraint(equalTo: btnNotice.heightAnchor)
         ])
     }
     
@@ -173,6 +173,17 @@ class HomeVC: UIViewController {
     }
     @objc func didBecomeActive() {
         loadAndCheck()
+    }
+    @objc func didTapClearRecent() {
+        let alertView = UIAlertController(title: "Confirm", message: "Are you sure you want to clear all recent files?", preferredStyle: .alert)
+        let actionDelete = UIAlertAction(title: "Clear", style: .default, handler: { [weak self](alert) in
+            self?.removeAllRecent()
+        })
+        let actionCancel = UIAlertAction(title: "Cancel", style: .default, handler: { (alert) in
+        })
+        alertView.addAction(actionCancel)
+        alertView.addAction(actionDelete)
+        present(alertView, animated: true, completion: nil)
     }
     
     //MARK: -IBAction
@@ -307,6 +318,14 @@ class HomeVC: UIViewController {
         }
     }
     
+    func removeAllRecent() {
+        RealmManager.shared.clearAllRecent(completion: {[weak self] in
+            self?.listRecent.removeAll()
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
+            print("clear all :(")
+        })
+    }
+    
 }
 extension HomeVC : UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -315,10 +334,10 @@ extension HomeVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         collectionView.backgroundView = .none
         if listRecent.count == 0 && isRecent {
-            collectionView.setEmptyView(title: "No recent files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "image_noRecent")!)
+            collectionView.setEmptyView(title: "No recent files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "img_noRecent")!)
         }
         if !isRecent && listFavorite.count == 0 {
-            collectionView.setEmptyView(title: "No favorite files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "image_noRecent")!)
+            collectionView.setEmptyView(title: "No favorite files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "img_Favorite")!)
         }
         return isRecent ? listRecent.count : listFavorite.count
     }
@@ -362,6 +381,9 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         
         header.valueDidChange = {[weak self] (isRecent) in
             self?.isRecent = isRecent
+        }
+        header.didTapClear = {[weak self] in
+            self?.didTapClearRecent()
         }
 
         return header

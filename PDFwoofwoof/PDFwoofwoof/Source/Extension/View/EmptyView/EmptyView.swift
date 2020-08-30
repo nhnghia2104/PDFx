@@ -28,7 +28,7 @@ class EmptyView: UIView {
         lblMessage.textColor = CMSConfigConstants.themeStyle.tintColor
         lblMessage.alpha = 0.8
         imgImage.tintColor = CMSConfigConstants.themeStyle.tintColor
-        imgImage.alpha = 0.6
+        imgImage.alpha = 0.8
         
         lblTitle.textAlignment = .center
         lblMessage.textAlignment = .center
