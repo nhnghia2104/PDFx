@@ -30,10 +30,18 @@ class ToolVC: UIViewController {
         super.viewDidLoad()
         register()
         setupCollectionView()
+        setupNavigation()
     }
     
     
     // MARK: - setup functions
+    private func setupNavigation() {
+        
+        self.navigationItem.title = "Tool"
+        self.addRightBarButtonWithTittle(title: "Done", action: #selector(tapBack))
+        setupBaseNavigation()
+    }
+    
     private func register() {
         clcTool.register(UINib(nibName: "ToolCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ToolCollectionViewCell")
     }
@@ -51,6 +59,17 @@ class ToolVC: UIViewController {
         layout.headerReferenceSize = CGSize(width: 0, height: 0)
         clcTool.collectionViewLayout = layout
         
+    }
+    
+    
+    // MARK: - @objc function
+    @objc func tapBack() {
+        goToHome()
+    }
+    
+    //MARK: - Action Function
+    private func goToHome() {
+        self.dismiss(animated: true, completion: nil)
     }
 
 }

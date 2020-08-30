@@ -79,7 +79,7 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         self.setSlideMenuVCNaviBarItem()
-//        self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
+        self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
         setupBaseNavigation()
     }
     private func register() {
@@ -159,7 +159,7 @@ class HomeVC: UIViewController {
     
     // MARK: - @objc function
     @objc func openNotice() {
-        
+        goToNotice()
     }
     @objc func tapImport() {
         openBrowser()
@@ -196,6 +196,15 @@ class HomeVC: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
+    
+    func goToNotice() {
+        let noticeVC = NoticeVC(nibName: "NoticeVC", bundle: nil)
+        let nvc: UINavigationController = UINavigationController(rootViewController: noticeVC)
+        nvc.modalPresentationStyle = .fullScreen
+         present(nvc, animated: true, completion: nil)
+        
+    }
+    
     func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
         picker.delegate = self

@@ -12,6 +12,11 @@
 		AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD09B75724E9413E00E21304 /* LaunchState.swift */; };
 		AD11E53D24F1B25200A9FD49 /* pdf-sample.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AD11E53C24F1B25200A9FD49 /* pdf-sample.pdf */; };
 		AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD11E53F24F1B9AA00A9FD49 /* PDFViewController.swift */; };
+		AD22C16F24F943F100906A0C /* NoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22C16D24F943F100906A0C /* NoticeVC.swift */; };
+		AD22C17024F943F100906A0C /* NoticeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD22C16E24F943F100906A0C /* NoticeVC.xib */; };
+		AD22C17424F946D700906A0C /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22C17224F946D700906A0C /* NoticeTableViewCell.swift */; };
+		AD22C17524F946D700906A0C /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD22C17324F946D700906A0C /* NoticeTableViewCell.xib */; };
+		AD22C17724F952FC00906A0C /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22C17624F952FC00906A0C /* Notice.swift */; };
 		AD230E7124EA9588000225D7 /* PDFObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD230E7024EA9588000225D7 /* PDFObject.swift */; };
 		AD230E7324EA9F27000225D7 /* MyDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD230E7224EA9F27000225D7 /* MyDocument.swift */; };
 		AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD27E81C24E4EFF3001979D4 /* Tool.swift */; };
@@ -118,6 +123,11 @@
 		AD09B75724E9413E00E21304 /* LaunchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchState.swift; sourceTree = "<group>"; };
 		AD11E53C24F1B25200A9FD49 /* pdf-sample.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "pdf-sample.pdf"; sourceTree = "<group>"; };
 		AD11E53F24F1B9AA00A9FD49 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
+		AD22C16D24F943F100906A0C /* NoticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeVC.swift; sourceTree = "<group>"; };
+		AD22C16E24F943F100906A0C /* NoticeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeVC.xib; sourceTree = "<group>"; };
+		AD22C17224F946D700906A0C /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
+		AD22C17324F946D700906A0C /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
+		AD22C17624F952FC00906A0C /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		AD230E7024EA9588000225D7 /* PDFObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFObject.swift; sourceTree = "<group>"; };
 		AD230E7224EA9F27000225D7 /* MyDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDocument.swift; sourceTree = "<group>"; };
 		AD27E81C24E4EFF3001979D4 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
@@ -263,6 +273,25 @@
 			path = PDFViewController;
 			sourceTree = "<group>";
 		};
+		AD22C16B24F9434700906A0C /* NoticeVC */ = {
+			isa = PBXGroup;
+			children = (
+				AD22C17124F946B700906A0C /* Cells */,
+				AD22C16D24F943F100906A0C /* NoticeVC.swift */,
+				AD22C16E24F943F100906A0C /* NoticeVC.xib */,
+			);
+			path = NoticeVC;
+			sourceTree = "<group>";
+		};
+		AD22C17124F946B700906A0C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				AD22C17224F946D700906A0C /* NoticeTableViewCell.swift */,
+				AD22C17324F946D700906A0C /* NoticeTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		AD230E6F24EA9572000225D7 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +311,7 @@
 				AD230E7224EA9F27000225D7 /* MyDocument.swift */,
 				AD8BAE3224F10937002995E5 /* MyFolder.swift */,
 				AD461DB824F3DAD2006F4647 /* Document.swift */,
+				AD22C17624F952FC00906A0C /* Notice.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -397,6 +427,7 @@
 		AD4CEA0B24E39E2B00C165A3 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AD22C16B24F9434700906A0C /* NoticeVC */,
 				ADD139B624F919E1006AF675 /* ToolVC */,
 				AD4CEA1E24E3CD2A00C165A3 /* HomeVC */,
 				AD4CEA1F24E3CD3400C165A3 /* MenuVC */,
@@ -731,6 +762,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD22C17024F943F100906A0C /* NoticeVC.xib in Resources */,
 				ADE5BBBA24E1948000492D5A /* LaunchScreen.storyboard in Resources */,
 				AD4CEA0D24E39EF400C165A3 /* Image.xcassets in Resources */,
 				AD4CEA1924E3C7D300C165A3 /* LeftMenuTableViewCell.xib in Resources */,
@@ -749,6 +781,7 @@
 				AD27E84124E53626001979D4 /* Roboto-BlackItalic.ttf in Resources */,
 				AD443ED824EFCDAC0025FA49 /* GridDocCollectionViewCell.xib in Resources */,
 				AD5B140724E805EB00E80DDA /* DocumentTableViewCell.xib in Resources */,
+				AD22C17524F946D700906A0C /* NoticeTableViewCell.xib in Resources */,
 				AD27E82824E510D9001979D4 /* ToolCell.xib in Resources */,
 				AD07C9E424F6E4BF00A68E2D /* HeaderHomeView.xib in Resources */,
 				AD27E83D24E53626001979D4 /* Roboto-BoldItalic.ttf in Resources */,
@@ -838,6 +871,7 @@
 				AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */,
 				AD41CF1D24F11EEF0084B0B7 /* Date.swift in Sources */,
 				AD443ED724EFCDAC0025FA49 /* GridDocCollectionViewCell.swift in Sources */,
+				AD22C17724F952FC00906A0C /* Notice.swift in Sources */,
 				AD461DBE24F3DE8B006F4647 /* PDFViewExtension.swift in Sources */,
 				AD4CEA2424E3E70C00C165A3 /* String.swift in Sources */,
 				AD7621A924F573230099D92E /* HeaderDocumentView.swift in Sources */,
@@ -848,6 +882,7 @@
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
 				ADD139BA24F91A4E006AF675 /* ToolVC.swift in Sources */,
 				ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */,
+				AD22C16F24F943F100906A0C /* NoticeVC.swift in Sources */,
 				AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
 				AD27E86324E55D12001979D4 /* UIFont.swift in Sources */,
@@ -867,6 +902,7 @@
 				AD4D4E4124E7A06500FD9AE8 /* UIView.swift in Sources */,
 				AD347D6F24F2846900C79657 /* FavoritePDF.swift in Sources */,
 				ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */,
+				AD22C17424F946D700906A0C /* NoticeTableViewCell.swift in Sources */,
 				AD32331024F60CB300A21390 /* HomeVC_UIScrollViewDelegate.swift in Sources */,
 				AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */,
 				AD4CEA2224E3E6C100C165A3 /* BaseTableViewCell.swift in Sources */,
