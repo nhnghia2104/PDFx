@@ -79,4 +79,14 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         avtLeadingAnchor.constant = isSelectMode ? 70 : 20
         imgThumbnail.layer.borderWidth = 0
     }
+    
+    public func setRecentData(pdf : MyDocument, isFavorite : Bool = false) {
+        imgThumbnail.layer.borderWidth = 1
+        imgStar.isHidden = !isFavorite
+        trallingAnchor.constant = isFavorite ? 23 : 2
+        
+        lblTitle.text = pdf.getFileName()
+        lblSubTitle.text = pdf.getStrAccessDate() + "\t" + pdf.getStrSize()
+        imgThumbnail.image = pdf.getThumbnail()
+    }
 }

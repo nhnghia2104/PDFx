@@ -32,17 +32,6 @@ class HomeVC: UIViewController {
     }
     weak var delegate: LeftMenuProtocol?
 
-    var listTools : [Tool] = [
-        Tool(name: "Open File", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "0f4c75"), background: UIColor(hex: "3282b8",alpha: 0.5)),
-        Tool(name: "Fill & Sign", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "3b6978"), background: UIColor(hex: "84a9ac",alpha: 0.5)),
-        Tool(name: "Scan", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "c7b198"), background: UIColor(hex: "dfd3c3",alpha: 0.5)),
-        Tool(name: "Create PDF", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "e79cc2"), background: UIColor(hex: "f6bed6",alpha: 0.5)),
-        Tool(name: "Arrange Page", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "3b5249"), background: UIColor(hex: "519872",alpha: 0.5)),
-        Tool(name: "Protect PDF", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "776d8a"), background: UIColor(hex: "f3e6e3",alpha: 0.5)),
-        Tool(name: "Split PDF", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "a35d6a"), background: UIColor(hex: "d9c6a5",alpha: 0.5)),
-        Tool(name: "Merge PDFs", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "810000"), background: UIColor(hex: "e97171",alpha: 0.5)),
-        Tool(name: "Extract Page", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "8675a9"), background: UIColor(hex: "c3aed6",alpha: 0.5)),
-    ]
     var isRecent : Bool = true {
         didSet {
             collectionView.reloadData()
@@ -58,7 +47,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadRecentPDF()
+//        loadRecentPDF()
         setupCollectionView()
         setupNavigation()
         register()
@@ -66,10 +55,19 @@ class HomeVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        resortRecentList()
-        collectionView.reloadData()
+        didBecomeActive()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addNotification()
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     deinit {
+        NotificationCenter.default.removeObserver(self)
         print("denited HomeVC")
     }
     // MARK: - setup function
@@ -102,7 +100,9 @@ class HomeVC: UIViewController {
         collectionView.collectionViewLayout = layout
         
     }
-    
+    private func addNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
     private func setupThemes() {
         setupNaviBarBtn()
     }
@@ -112,15 +112,19 @@ class HomeVC: UIViewController {
         resortRecentList()
     }
     private func loadFavoriteList() {
-//        listFavorite =
+        listFavorite = RealmManager.shared.getFavoritePDF() ?? []
+        resortFavoriteList()
     }
-    func resortRecentList() {
+    private func resortFavoriteList() {
+        listFavorite = listFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
+    }
+    private func resortRecentList() {
         listRecent = listRecent.sorted( by : {
-            $0.getModified().compare($1.getModified()) == .orderedDescending
+            $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
         })
     }
     
-    func setupNaviBarBtn() {
+    private func setupNaviBarBtn() {
         btnImport = UIButton()
         btnImport.setImage(UIImage(named: "ic_download"), for: .normal)
         btnImport.addTarget(self, action: #selector(tapImport), for: .touchUpInside)
@@ -167,6 +171,9 @@ class HomeVC: UIViewController {
     @objc func tapTool() {
         goToTool()
     }
+    @objc func didBecomeActive() {
+        loadAndCheck()
+    }
     
     //MARK: -IBAction
     @IBAction func tapMoreTools(_ sender: UIGestureRecognizer) {
@@ -179,6 +186,75 @@ class HomeVC: UIViewController {
     }
     
     //MARK: - Action Function
+    
+    // after become active, load a new list from database
+    // compare new list with present list
+    // if new list != present list -> reload
+    // else do nothing
+    private func loadAndCheck() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            var newRecent = RealmManager.shared.getRecentPDF() ?? []
+            newRecent = newRecent.sorted( by : {
+                $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
+            })
+            // Case 1 :
+            if (self?.isRecent == true) && newRecent.count != self?.listRecent.count {
+                self?.listRecent = newRecent
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+            }
+            else {
+                
+                let result = zip(newRecent, self!.listRecent).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.getAccessDate() == $1.1.getAccessDate()
+                }.map{$0.0}
+                print(result)
+                // Case 2
+                if result.count == self?.listRecent.count { }
+                else {
+                    self?.listRecent = newRecent
+                    if (self?.isRecent == true) {
+                        DispatchQueue.main.async {
+                            [weak self] in
+                            self?.collectionView.reloadSections(IndexSet(integer: 0))
+                        }
+                    }
+                }
+            }
+            
+            var newFavorite = RealmManager.shared.getFavoritePDF() ?? []
+            newFavorite = newFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
+            if (self?.isRecent == false) && newFavorite.count != self?.listFavorite
+                .count {
+                self?.listFavorite = newFavorite
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+            }
+            else {
+                
+                let result2 = zip(newFavorite, self!.listFavorite).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName()
+                }.map{$0.0}
+                if result2.count == self?.listFavorite.count { }
+                else {
+                    self?.listFavorite = newFavorite
+                    if (self?.isRecent == false) {
+                        DispatchQueue.main.async {
+                            [weak self] in
+                            self?.collectionView.reloadSections(IndexSet(integer: 0))
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+    }
     private func changeValue() {
         UIView.animate(withDuration: 0.2, animations: {[weak self] in
 //            self?.lineLeadingAnchor.constant = (self?.isRecent)! ? 70.0 : 0
@@ -226,9 +302,8 @@ class HomeVC: UIViewController {
     func saveRecentPDF(url : URL) {
         RealmManager.shared.saveRecentPDF(url: url) {[weak self] (bool) in
             if bool {
-                self?.listRecent.append(MyDocument(url: url))
             }
-            self?.resortRecentList()
+//            self?.resortRecentList()
         }
     }
     
@@ -238,6 +313,7 @@ extension HomeVC : UICollectionViewDataSource {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        collectionView.backgroundView = .none
         if listRecent.count == 0 && isRecent {
             collectionView.setEmptyView(title: "No recent files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "image_noRecent")!)
         }
@@ -249,7 +325,7 @@ extension HomeVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListDocCollectionViewCell", for: indexPath) as? ListDocCollectionViewCell else {return UICollectionViewCell()}
         
-        cell.setDocuemtData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
+        cell.setRecentData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
         return cell
     }
     

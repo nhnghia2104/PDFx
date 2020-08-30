@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func createDefaultFolder() {
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let folderPath = documentDirectory.appendingPathComponent("Downloaded")
+        let folderPath = documentDirectory.appendingPathComponent("Downloads")
 
         if !FileManager.default.checkFileExists(url: folderPath) {
             do {
@@ -106,12 +106,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         self.createMenuView()
-       
-        var config = Realm.Configuration()
-        config.fileURL = inLibraryFolder(fileName: "default.realm")
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm(configuration: config)
-        print("Realm Path : \(String(describing: realm.configuration.fileURL?.absoluteURL))")
+//        let defaultPath = Realm.Configuration.defaultConfiguration.description
+//        try! FileManager.default.removeItem(atPath: defaultPath)
+        do {
+            var config = Realm.Configuration()
+            config.fileURL = inLibraryFolder(fileName: "default.realm")
+            Realm.Configuration.defaultConfiguration = config
+            let realm = try Realm(configuration: config)
+            print("Realm Path : \(String(describing: realm.configuration.fileURL?.absoluteURL))")
+        }
+        catch {
+            print(error)
+        }
         return true
     }
     func inLibraryFolder(fileName : String) -> URL {

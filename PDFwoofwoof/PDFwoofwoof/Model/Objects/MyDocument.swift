@@ -10,21 +10,39 @@ import UIKit
 import PDFKit
 
 class MyDocument {
-    var document : Document!
-    var isFavorite = false
-    var isFolder = false
-    var dateModified = Date()
+    private var document : Document!
+    private var isFavorite = false
+    private var isFolder = false
+    private var dateModified = Date()
+    private var thumbnail : UIImage?
     private var name : String?
     private var dateCreated : Date?
+    private var strSize : String?
+    private var dateAcess : Date?
     init(url : URL) {
         document = Document(fileURL: url)
+            do {
+                let resources = try self.document.fileURL.resourceValues(forKeys:[.fileSizeKey,.creationDateKey,.thumbnailDictionaryKey, .contentAccessDateKey])
+                let fileSize = resources.fileSize ?? 0
+                let strSize = Math.shared.convertSize(Double(fileSize))
+                self.strSize = strSize
+//                self.dateAcess = resources.contentAccessDate ?? Date()
+                self.dateCreated = resources.creationDate ?? Date()
+                if let thumnailDict = resources.thumbnailDictionary {
+                    if let img = (thumnailDict[URLThumbnailDictionaryItem(rawValue: "NSThumbnail1024x1024SizeKey")]) {
+                        self.thumbnail = img
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+//        }
     }
-    func setModified(date : Date) {
-        self.dateModified = date
+    func setDateAccess(date : Date) {
+        self.dateAcess = date
     }
-    func getModified() -> Date {
-        return dateModified
-    }
+    
+    //  Getter
     func getDateCreated() -> Date {
         if dateCreated == nil {
             guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else {
@@ -35,6 +53,26 @@ class MyDocument {
         }
         return dateCreated!
     }
+    
+    func getAccessDate() -> Date {
+        if dateAcess == nil {
+            do {
+                let resources = try self.document.fileURL.resourceValues(forKeys:[.contentAccessDateKey])
+                self.dateAcess = resources.contentAccessDate ?? Date()
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        return dateAcess!
+    }
+    
+    func getStrAccessDate() -> String {
+        if dateAcess == nil {
+            self.dateAcess = Date()
+        }
+        return (dateAcess?.timeAgoDisplay())!
+    }
+    
     func getFileName() -> String {
         if name == nil {
             var fileName = document.fileURL.lastPathComponent
@@ -47,15 +85,18 @@ class MyDocument {
     }
 
     func getStrSize() -> String {
-        do {
-            let resources = try document.fileURL.resourceValues(forKeys:[.fileSizeKey])
-            let fileSize = resources.fileSize ?? 0
-            let strSize = Math.shared.convertSize(Double(fileSize))
-            return strSize
-        } catch {
-            print("Error: \(error)")
+        if strSize == nil {
+            do {
+                let resources = try document.fileURL.resourceValues(forKeys:[.fileSizeKey])
+                let fileSize = resources.fileSize ?? 0
+                let strSize = Math.shared.convertSize(Double(fileSize))
+                self.strSize = strSize
+            } catch {
+                strSize = ""
+                print("Error: \(error)")
+            }
         }
-        return ""
+        return strSize!
     }
     
     func getStrDateCreated() -> String {
@@ -66,7 +107,7 @@ class MyDocument {
             let dateModified = pdf.documentAttributes?[AnyHashable("ModDate")] as? Date
             dateCreated = dateModified == nil ? Date() : dateModified
         }
-        return (dateCreated?.toString(format: "dd-MM-yyyy"))!
+        return (dateCreated?.toString(format: "MMM dd, yyyy"))!
     }
     
     func getStrTimeCreated() -> String {
@@ -88,7 +129,7 @@ class MyDocument {
             let dateModified = pdf.documentAttributes?[AnyHashable("ModDate")] as? Date
             dateCreated = dateModified == nil ? Date() : dateModified
         }
-        return (dateCreated?.toString(format: "dd-MM-yyyy  hh:mm a"))! + "  •  "
+        return (dateCreated?.toString(format: "MMM dd, yyyy  hh:mm a"))! + "  •  "
     }
     
     func getPDFData() -> Document {
@@ -96,9 +137,12 @@ class MyDocument {
     }
     
     func getThumbnail() -> UIImage {
-        guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else { return UIImage() }
-        guard let page = pdf.page(at: 0) else { return UIImage() }
-        return page.thumbnail(of: CGSize(width: 90, height: 120), for: .cropBox)
+        if self.thumbnail == nil {
+            guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else { return UIImage() }
+            guard let page = pdf.page(at: 0) else { return UIImage() }
+            self.thumbnail = page.thumbnail(of: CGSize(width: 90, height: 120), for: .cropBox)
+        }
+        return self.thumbnail!
     }
     
     func canGetPDF() -> Bool {

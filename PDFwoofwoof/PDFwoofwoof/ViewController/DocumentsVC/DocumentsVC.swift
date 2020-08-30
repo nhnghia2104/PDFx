@@ -8,6 +8,7 @@
 
 import UIKit
 import PDFKit
+import NVActivityIndicatorView
 
 class DocumentsVC: UIViewController {
     
@@ -20,6 +21,7 @@ class DocumentsVC: UIViewController {
 //    @IBOutlet weak var imgSortby: UIImageView!
 //    @IBOutlet weak var lblSortby: UILabel!
 
+    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var topAnchorOfCollectionView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var clvDocument: UICollectionView!
@@ -46,11 +48,12 @@ class DocumentsVC: UIViewController {
     var listDocument = [MyDocument]()
     var location = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     var isChildClass = false
-    private var isSortByDate = true
+    private var isSortByDate = false
     private var orderedAscending = true
     private var isViewAsList = true
     private var isSelectMode = false {
         didSet {
+//            clvDocument.reloadSections(IndexSet(integer: 0))
             clvDocument.reloadData()
         }
     }
@@ -65,7 +68,8 @@ class DocumentsVC: UIViewController {
             addLeftBarButtonWithTittle(title: isSelectAll ? "Deselect all" : "Select all", action: #selector(tapSelectAll))
         }
     }
-
+    private var vAddDismissTimer = Timer()
+    private var needShowIndicator = false
     // MARK: - override function
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -73,24 +77,42 @@ class DocumentsVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewMode()
-        loadFileFromDevice()
-        setupNavigation()
+        showIndicator()
         register()
-        setupTheme()
         setupCollectionView()
+        setupTheme()
+//        loadFileFromDevice()
+        
+        setupViewMode()
+        setupNavigation()
         addNotification()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        didBecomeActive()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addNotification()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
 
     // MARK: - setup functions
+    func showIndicator() {
+        needShowIndicator = true
+        activityIndicatorView.type = .circleStrokeSpin
+        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
+        activityIndicatorView.startAnimating()
+        vAddDismissTimer.invalidate()
+        vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(hideIndicator), userInfo: nil, repeats: false)
+    }
     public func setLocation(url : URL, isChildClass : Bool) {
         self.location = url
         self.isChildClass = isChildClass
@@ -101,6 +123,7 @@ class DocumentsVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         isChildClass ? () : self.setSlideMenuVCNaviBarItem()
+        isChildClass ? self.navigationItem.setHidesBackButton(false, animated: true) : ()
         self.navigationItem.rightBarButtonItems = [selectBarbtn,searchBarbtn]
         setupBaseNavigation()
         searchBar.delegate = self
@@ -175,12 +198,12 @@ class DocumentsVC: UIViewController {
     func didTapListMode() {
         UserDefaults.standard.setValue(true, forKey: "isViewAsList")
         isViewAsList = true
-        resetCollectionViewLayout()
+        clvDocument.reloadData()
     }
     func didTapGridMode() {
         UserDefaults.standard.setValue(false, forKey: "isViewAsList")
         isViewAsList = false
-        resetCollectionViewLayout()
+        clvDocument.reloadData()
     }
     //MARK: - objc funtion
     @objc func openMore() {
@@ -190,8 +213,7 @@ class DocumentsVC: UIViewController {
         gotoSelectMode()
     }
     @objc func didBecomeActive() {
-        loadFileFromDevice()
-        clvDocument.reloadData()
+        loadAndCheck()
     }
     @objc func tapDone() {
         comebackViewMode()
@@ -214,46 +236,155 @@ class DocumentsVC: UIViewController {
     @objc func tapSearch() {
         startSearch()
     }
-    //MARK: - Action function
-    private func resetCollectionViewLayout() {
-        clvDocument.reloadData()
-    }
-    private func loadFileFromDevice() {
-//        let fileManager = FileManager.default
-//
-//        if let documentURL = fileManager.urls(for: .documentDirectory, skipsHiddenFiles: true) {
-//
-//            loadPDFDocument(urls: documentURL.filter{ $0.pathExtension == "pdf" })
-//
-//            loadFolder(urls: documentURL.filter{ $0.pathExtension == "" })
-        //        }
-        if let documentURLs = FileManager.default.getFileURLs(from: location) {
-            
-            loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" })
-            loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" })
+    @objc func hideIndicator() {
+        if needShowIndicator == false {
+            if activityIndicatorView.isAnimating && !needShowIndicator {
+                activityIndicatorView.stopAnimating()
+            }
         }
-        resortData()
+        else {
+            needShowIndicator = false
+        }
     }
-    private func loadPDFDocument(urls : [URL]) {
-        listDocument.removeAll()
-        for url in urls {
-            if PDFDocument(url: url) != nil {
-                let child = MyDocument(url: url)
-                listDocument.append(child)
+    //MARK: - Action function
+    /*
+        compare 2 list ( new list and present list )
+     find the same elements
+     reload when new list != present list
+     */
+    private func loadAndCheck() {
+        DispatchQueue.global(qos: .userInitiated).async {[weak self] in
+            var newListDoc = [MyDocument]()
+            var newListFolder = [MyFolder]()
+            var needReload = false
+            if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
+                newListFolder = self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" }) ?? []
+                newListDoc = self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" }) ?? []
+            }
+            if newListFolder.count != self?.listFolder.count || newListDoc.count != self?.listDocument.count {
+                if newListFolder.count != self?.listFolder.count {
+                    self?.listFolder = newListFolder
+                }
+                if newListDoc.count != self?.listDocument.count {
+                    self?.listDocument = newListDoc
+                }
+                needReload = true
+                
+            }
+            else {
+                let result1 = zip(newListFolder, self!.listFolder).enumerated().filter() {
+                    $1.0.getName() == $1.1.getName()
+                }.map{$0.0}
+                if result1.count == self?.listFolder.count { }
+                else {
+                    needReload = true
+                    self?.listFolder = newListFolder
+                }
+                let result2 = zip(newListDoc, self!.listDocument).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName()
+                }.map{$0.0}
+                if result2.count == self?.listDocument.count { }
+                else {
+                    needReload = true
+                    self?.listDocument = newListDoc
+                }
+            }
+            
+            if needReload {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    if self?.needShowIndicator == false {
+                        if (self?.activityIndicatorView.isAnimating)! {
+                            self?.activityIndicatorView.stopAnimating()
+                        }
+                    }
+                    else {
+                        self?.needShowIndicator = false
+                    }
+
+                    self?.clvDocument.reloadSections(IndexSet(integer: 0))
+                }
             }
         }
     }
-    private func loadFolder(urls : [URL]) {
-        listFolder.removeAll()
+    private func loadFileFromDevice() {
+        DispatchQueue.global(qos: .userInteractive).async {[weak self] in
+            if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
+                self?.listFolder = self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" }) ?? []
+                self?.listDocument = self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" }) ?? []
+            }
+        }
+    }
+    private func loadFileFromDeviceWithoutAnimate() {
+        
+        if let documentURLs = FileManager.default.getFileURLs(from: location) {
+            listDocument.removeAll()
+            listFolder.removeAll()
+            var urls = documentURLs.filter{ $0.pathExtension == "" }
+            for url in urls {
+                let child = MyFolder(url: url)
+                listFolder.append(child)
+            }
+            urls = documentURLs.filter{ $0.pathExtension == "pdf" }
+            for url in urls {
+                let child = MyDocument(url: url)
+                listDocument.append(child)
+            }
+            resortData()
+        }
+        
+    }
+    private func loadPDFDocument(urls : [URL]) -> [MyDocument]{
+        var newList = [MyDocument]()
+        for url in urls {
+            if PDFDocument(url: url) != nil {
+                let child = MyDocument(url: url)
+                newList.append(child)
+            }
+        }
+        if isSortByDate {
+            newList = newList.sorted( by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+            })
+        }
+        else {
+            newList = newList.sorted(by: {
+                orderedAscending ? $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedAscending : $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedDescending
+            })
+        }
+        return newList
+    }
+    private func loadFolder(urls : [URL]) -> [MyFolder] {
+        var newList = [MyFolder]()
         for url in urls {
             let child = MyFolder(url: url)
-            listFolder.append(child)
+            newList.append(child)
+//            DispatchQueue.main.async {[weak self] in
+//                self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
+//            }
         }
+        if isSortByDate {
+            newList = newList.sorted(by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+                
+            })
+        }
+        else {
+            newList = newList.sorted (by: {
+                orderedAscending ? $0.getName().localizedStandardCompare($1.getName()) == .orderedAscending : $0.getName().localizedStandardCompare($1.getName()) == .orderedDescending
+                
+            })
+        }
+        return newList
     }
     private func resortData() {
         isSortByDate ? sortByDate() : sortByName()
         UserDefaults.standard.setValue([isSortByDate,orderedAscending], forKey: "SortMode")
-        clvDocument.reloadData()
+//        DispatchQueue.main.async {[weak self] in
+//            self?.clvDocument.reloadSections(IndexSet(integer: 0))
+//            self?.clvDocument.layoutIfNeeded()
+//        }
+        
     }
     private func sortByDate() {
 
@@ -275,10 +406,37 @@ class DocumentsVC: UIViewController {
         })
             
     }
+    private func sortOnlyFolder() {
+        if isSortByDate {
+            listFolder = listFolder.sorted(by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+                
+            })
+        }
+        else {
+            listFolder = listFolder.sorted (by: {
+                orderedAscending ? $0.getName().localizedStandardCompare($1.getName()) == .orderedAscending : $0.getName().localizedStandardCompare($1.getName()) == .orderedDescending
+                
+            })
+        }
+    }
+    private func sortOnlyDocument() {
+        if isSortByDate {
+            listDocument = listDocument.sorted( by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+            })
+        }
+        else {
+            listDocument = listDocument.sorted(by: {
+                orderedAscending ? $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedAscending : $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedDescending
+            })
+        }
+    }
     func changeSortMode(bool : [Bool]) {
         isSortByDate = bool[0]
         orderedAscending = bool[1]
         resortData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
     }
     func gotoSelectMode() {
         navigationController?.navigationItem.title = "Select items"
@@ -297,6 +455,7 @@ class DocumentsVC: UIViewController {
     func comebackViewMode() {
 //        removeNaviBarItem()
         selectedCount = 0
+        navigationItem.leftBarButtonItem = nil
         setupNavigation()
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.isSelectMode = false
@@ -306,6 +465,7 @@ class DocumentsVC: UIViewController {
     }
     func startSearch() {
         searchBar.isHidden = false
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.navigationController?.setNavigationBarHidden(true, animated: false)
             self?.topAnchorOfCollectionView.constant = 44
@@ -314,6 +474,7 @@ class DocumentsVC: UIViewController {
         searchBar.becomeFirstResponder()
     }
     func stopSearch() {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         searchBar.isHidden = true
 //        UIView.animate(withDuration: 0.2) {[weak self] in
 //            self?.topAnchorOfCollectionView.constant = 0
@@ -333,6 +494,9 @@ class DocumentsVC: UIViewController {
         // Presenting modal in iOS 13 fullscreen
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
+    }
+    func saveRecentPDF(url : URL) {
+        RealmManager.shared.saveRecentPDF(url: url)
     }
 }
 
@@ -401,18 +565,32 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         if !isSelectMode {
             if indexPath.item < listFolder.count {
                 let directVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
                 directVC.setLocation(url: listFolder[indexPath.item].url, isChildClass: true)
-                self.navigationController?.pushViewController(directVC, animated: true)
+                navigationController?.pushViewController(directVC, animated: true)
             }
             else {
+                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                    self?.saveRecentPDF(url: (self?.listDocument[indexPath.item - (self?.listFolder.count)!].getPDFData().fileURL)!)
+                    print("Date Access : \(self?.listDocument[indexPath.item - (self?.listFolder.count)!].getAccessDate())")
+                }
                 openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
             }
         }
         else {
             selectedCount += 1
+        }
+        if !(searchBar.text?.isEmpty ?? true) {
+            searchBar.showsCancelButton = false
+            searchBar.text = ""
+            searchBar.resignFirstResponder()
+            listDocument = tempListDocument
+            listFolder = tempListFolder
+            clvDocument.reloadSections(IndexSet(integer: 0))
+            stopSearch()
         }
     }
     
@@ -460,7 +638,6 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
 extension DocumentsVC : UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
         tempListFolder = listFolder
         tempListDocument = listDocument
     }
@@ -470,7 +647,7 @@ extension DocumentsVC : UISearchBarDelegate {
         searchBar.resignFirstResponder()
         listDocument = tempListDocument
         listFolder = tempListFolder
-        clvDocument.reloadData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
         stopSearch()
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -481,7 +658,7 @@ extension DocumentsVC : UISearchBarDelegate {
             listDocument = tempListDocument
             listFolder = tempListFolder
         }
-        clvDocument.reloadData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
     }
 }
 //extension DocumentsVC : UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
