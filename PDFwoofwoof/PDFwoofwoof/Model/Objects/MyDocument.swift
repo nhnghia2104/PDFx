@@ -26,7 +26,7 @@ class MyDocument {
                 let fileSize = resources.fileSize ?? 0
                 let strSize = Math.shared.convertSize(Double(fileSize))
                 self.strSize = strSize
-                self.dateAcess = resources.contentAccessDate ?? Date()
+//                self.dateAcess = resources.contentAccessDate ?? Date()
                 self.dateCreated = resources.creationDate ?? Date()
                 if let thumnailDict = resources.thumbnailDictionary {
                     if let img = (thumnailDict[URLThumbnailDictionaryItem(rawValue: "NSThumbnail1024x1024SizeKey")]) {
@@ -37,6 +37,9 @@ class MyDocument {
                 print("Error: \(error)")
             }
 //        }
+    }
+    func setDateAccess(date : Date) {
+        self.dateAcess = date
     }
     
     //  Getter
@@ -53,10 +56,23 @@ class MyDocument {
     
     func getAccessDate() -> Date {
         if dateAcess == nil {
-            self.dateAcess = Date()
+            do {
+                let resources = try self.document.fileURL.resourceValues(forKeys:[.contentAccessDateKey])
+                self.dateAcess = resources.contentAccessDate ?? Date()
+            } catch {
+                print("Error: \(error)")
+            }
         }
         return dateAcess!
     }
+    
+    func getStrAccessDate() -> String {
+        if dateAcess == nil {
+            self.dateAcess = Date()
+        }
+        return (dateAcess?.timeAgoDisplay())!
+    }
+    
     func getFileName() -> String {
         if name == nil {
             var fileName = document.fileURL.lastPathComponent

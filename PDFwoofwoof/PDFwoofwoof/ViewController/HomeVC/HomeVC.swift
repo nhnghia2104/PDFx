@@ -34,7 +34,7 @@ class HomeVC: UIViewController {
 
     var isRecent : Bool = true {
         didSet {
-            collectionView.reloadSections(IndexSet(integer: 0))
+            collectionView.reloadData()
         }
     }
     
@@ -47,7 +47,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadRecentPDF()
+//        loadRecentPDF()
         setupCollectionView()
         setupNavigation()
         register()
@@ -198,31 +198,60 @@ class HomeVC: UIViewController {
             newRecent = newRecent.sorted( by : {
                 $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
             })
-            let result = zip(newRecent, self!.listRecent).enumerated().filter() {
-                $1.0.getFileName() == $1.1.getFileName()
-            }.map{$0.0}
-            if result.count == 0 && (self?.isRecent == true) {
+            // Case 1 :
+            if (self?.isRecent == true) && newRecent.count != self?.listRecent.count {
                 self?.listRecent = newRecent
                 DispatchQueue.main.async {
                     [weak self] in
                     self?.collectionView.reloadSections(IndexSet(integer: 0))
                 }
             }
+            else {
+                
+                let result = zip(newRecent, self!.listRecent).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.getAccessDate() == $1.1.getAccessDate()
+                }.map{$0.0}
+                print(result)
+                // Case 2
+                if result.count == self?.listRecent.count { }
+                else {
+                    self?.listRecent = newRecent
+                    if (self?.isRecent == true) {
+                        DispatchQueue.main.async {
+                            [weak self] in
+                            self?.collectionView.reloadSections(IndexSet(integer: 0))
+                        }
+                    }
+                }
+            }
             
             var newFavorite = RealmManager.shared.getFavoritePDF() ?? []
             newFavorite = newFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
-            
-            let result2 = zip(newFavorite, self!.listFavorite).enumerated().filter() {
-                $1.0.getFileName() == $1.1.getFileName()
-            }.map{$0.0}
-            if result2.count == 0 && (self?.isRecent == false) {
+            if (self?.isRecent == false) && newFavorite.count != self?.listFavorite
+                .count {
                 self?.listFavorite = newFavorite
                 DispatchQueue.main.async {
                     [weak self] in
                     self?.collectionView.reloadSections(IndexSet(integer: 0))
                 }
             }
-
+            else {
+                
+                let result2 = zip(newFavorite, self!.listFavorite).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName()
+                }.map{$0.0}
+                if result2.count == self?.listFavorite.count { }
+                else {
+                    self?.listFavorite = newFavorite
+                    if (self?.isRecent == false) {
+                        DispatchQueue.main.async {
+                            [weak self] in
+                            self?.collectionView.reloadSections(IndexSet(integer: 0))
+                        }
+                    }
+                }
+            }
+            
             
         }
     }
@@ -287,7 +316,7 @@ extension HomeVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListDocCollectionViewCell", for: indexPath) as? ListDocCollectionViewCell else {return UICollectionViewCell()}
         
-        cell.setDocuemtData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
+        cell.setRecentData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
         return cell
     }
     

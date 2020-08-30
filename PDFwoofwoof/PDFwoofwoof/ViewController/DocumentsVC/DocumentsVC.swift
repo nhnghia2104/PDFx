@@ -8,6 +8,7 @@
 
 import UIKit
 import PDFKit
+import NVActivityIndicatorView
 
 class DocumentsVC: UIViewController {
     
@@ -20,6 +21,7 @@ class DocumentsVC: UIViewController {
 //    @IBOutlet weak var imgSortby: UIImageView!
 //    @IBOutlet weak var lblSortby: UILabel!
 
+    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var topAnchorOfCollectionView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var clvDocument: UICollectionView!
@@ -74,10 +76,13 @@ class DocumentsVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicatorView.type = .circleStrokeSpin
+        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
+        activityIndicatorView.startAnimating()
         register()
         setupCollectionView()
         setupTheme()
-        loadFileFromDevice()
+//        loadFileFromDevice()
         
         setupViewMode()
         setupNavigation()
@@ -201,8 +206,7 @@ class DocumentsVC: UIViewController {
         gotoSelectMode()
     }
     @objc func didBecomeActive() {
-        loadFileFromDeviceWithoutAnimate()
-        clvDocument.reloadData()
+        loadAndCheck()
     }
     @objc func tapDone() {
         comebackViewMode()
@@ -226,16 +230,70 @@ class DocumentsVC: UIViewController {
         startSearch()
     }
     //MARK: - Action function
+    /*
+        compare 2 list ( new list and present list )
+        find the same elements
+        reload when new list != present list
+     */
     private func loadAndCheck() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            
+        DispatchQueue.global(qos: .userInitiated).async {[weak self] in
+            var newListDoc = [MyDocument]()
+            var newListFolder = [MyFolder]()
+            if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
+                newListFolder = self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" }) ?? []
+                newListDoc = self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" }) ?? []
+            }
+            if newListFolder.count != self?.listFolder.count || newListDoc.count != self?.listDocument.count {
+                if newListFolder.count != self?.listFolder.count {
+                    self?.listFolder = newListFolder
+                }
+                if newListDoc.count != self?.listDocument.count {
+                    self?.listDocument = newListDoc
+                }
+                DispatchQueue.main.async {
+                    [weak self] in
+                    if (self?.activityIndicatorView.isAnimating)! {
+                        self?.activityIndicatorView.stopAnimating()
+                    }
+                    self?.clvDocument.reloadSections(IndexSet(integer: 0))
+                }
+            }
+            else {
+                var needReload = false
+                let result1 = zip(newListFolder, self!.listFolder).enumerated().filter() {
+                    $1.0.getName() == $1.1.getName()
+                }.map{$0.0}
+                if result1.count == self?.listFolder.count { }
+                else {
+                    needReload = true
+                    self?.listFolder = newListFolder
+                }
+                let result2 = zip(newListDoc, self!.listDocument).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName()
+                }.map{$0.0}
+                if result2.count == self?.listDocument.count { }
+                else {
+                    needReload = true
+                    self?.listDocument = newListDoc
+                }
+                if needReload {
+                    DispatchQueue.main.async {
+                        [weak self] in
+                        if (self?.activityIndicatorView.isAnimating)! {
+                            self?.activityIndicatorView.stopAnimating()
+                        }
+                        self?.clvDocument.reloadSections(IndexSet(integer: 0))
+                    }
+                }
+                
+            }
         }
     }
     private func loadFileFromDevice() {
         DispatchQueue.global(qos: .userInteractive).async {[weak self] in
             if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
-                self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" })
-                self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" })
+                self?.listFolder = self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" }) ?? []
+                self?.listDocument = self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" }) ?? []
             }
         }
     }
@@ -264,17 +322,19 @@ class DocumentsVC: UIViewController {
             if PDFDocument(url: url) != nil {
                 let child = MyDocument(url: url)
                 newList.append(child)
-//                DispatchQueue.main.async {[weak self] in
-//                    self?.clvDocument.insertItems(at: [IndexPath(row: (self!.listDocument.count + self!.listFolder.count) - 1, section: 0)])
-//                }
             }
         }
+        if isSortByDate {
+            newList = newList.sorted( by :{
+                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
+            })
+        }
+        else {
+            newList = newList.sorted(by: {
+                orderedAscending ? $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedAscending : $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedDescending
+            })
+        }
         return newList
-//        sortOnlyDocument()
-//        DispatchQueue.main.async {[weak self] in
-//            self?.clvDocument.reloadSections(IndexSet(integer: 0))
-//            self?.clvDocument.layoutIfNeeded()
-//        }
     }
     private func loadFolder(urls : [URL]) -> [MyFolder] {
         var newList = [MyFolder]()
@@ -495,6 +555,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             else {
                 DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                     self?.saveRecentPDF(url: (self?.listDocument[indexPath.item - (self?.listFolder.count)!].getPDFData().fileURL)!)
+                    print("Date Access : \(self?.listDocument[indexPath.item - (self?.listFolder.count)!].getAccessDate())")
                 }
                 openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
             }

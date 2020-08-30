@@ -85,20 +85,40 @@
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DjW-ZL-CTh" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="189" y="430" width="36" height="36"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="qD8-R9-Cb4"/>
+                                    <constraint firstAttribute="width" constant="36" id="z8t-th-idc"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="padding">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="ballRotateChase"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="TYt-dX-8nW" firstAttribute="bottom" secondItem="y1M-Sd-dop" secondAttribute="bottom" constant="-40" id="0ev-Tu-daN"/>
                             <constraint firstItem="TYt-dX-8nW" firstAttribute="trailing" secondItem="y1M-Sd-dop" secondAttribute="trailing" id="8kS-3c-ofP"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" id="Fqc-OU-i2l"/>
+                            <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerY" secondItem="jWI-jD-0sF" secondAttribute="centerY" id="GmZ-Pa-s3y"/>
                             <constraint firstItem="0dD-uO-BEA" firstAttribute="trailing" secondItem="TYt-dX-8nW" secondAttribute="trailing" constant="-10" id="Jni-GZ-NHX"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="top" secondItem="TYt-dX-8nW" secondAttribute="top" id="KdE-wy-2en"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="top" secondItem="0dD-uO-BEA" secondAttribute="bottom" id="L5M-9p-RAE"/>
                             <constraint firstItem="0dD-uO-BEA" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" constant="10" id="P38-58-OEg"/>
+                            <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerX" secondItem="jWI-jD-0sF" secondAttribute="centerX" id="bdq-ly-00T"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TYt-dX-8nW"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="DjW-ZL-CTh" id="azN-kw-gWJ"/>
                         <outlet property="clvDocument" destination="y1M-Sd-dop" id="8we-cN-9ch"/>
                         <outlet property="searchBar" destination="0dD-uO-BEA" id="0Of-di-7hj"/>
                         <outlet property="topAnchorOfCollectionView" destination="KdE-wy-2en" id="8CS-lw-F61"/>

@@ -13,12 +13,15 @@ import PDFKit
 
 class RecentPDF : Object {
     @objc dynamic var url : String = ""
+    @objc dynamic var dateAccess : Date?
     
-    func setData(url : URL) {
+    func setData(url : URL, date : Date) {
         self.url = url.path.description
+        self.dateAccess = date
     }
     func getRecentPDF() -> MyDocument {
         let theRecent = MyDocument(url: URL(fileURLWithPath: self.url))
+        theRecent.setDateAccess(date: self.dateAccess ?? Date())
         return theRecent
     }
     func destroyObject() {

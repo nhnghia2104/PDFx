@@ -18,10 +18,10 @@ class RealmManager {
         existRecentPDF(url: url) { (result) in
             print("URLsave : \(url)")
             if result {
-//                self.updateRecentPDF(url: url) {
-//                    print("updated")
-//                    completion?(false)
-//                }
+                self.updateRecentPDF(url: url) {
+                    print("updated")
+                    completion?(false)
+                }
             }
             else {
                 self.insertRecentPDF(url: url) {
@@ -68,24 +68,24 @@ class RealmManager {
         }
     }
     
-//    func updateRecentPDF(url: URL, completion:(()->())? = nil) {
-//        autoreleasepool {
-//            guard let realm = try? Realm() else {return}
-//            guard let theRecentPDF = realm
-//                .objects(RecentPDF.self)
-//                .filter("url == '\(url.path.description)'")
-//                .first else {
-//                    return
-//            }
-//            try? realm.write {
-//                theRecentPDF.url = Date()
-//                completion?()
-//            }
-//        }
-//    }
+    func updateRecentPDF(url: URL, completion:(()->())? = nil) {
+        autoreleasepool {
+            guard let realm = try? Realm() else {return}
+            guard let theRecentPDF = realm
+                .objects(RecentPDF.self)
+                .filter("url == '\(url.path.description)'")
+                .first else {
+                    return
+            }
+            try? realm.write {
+                theRecentPDF.dateAccess = Date()
+                completion?()
+            }
+        }
+    }
     func insertRecentPDF(url: URL, completion:(()->())? = nil){
         let recent = RecentPDF()
-        recent.setData(url: url)
+        recent.setData(url: url, date: Date())
         autoreleasepool {
             guard let realm = try? Realm() else {return}
             
