@@ -48,7 +48,7 @@ class DocumentsVC: UIViewController {
     var listDocument = [MyDocument]()
     var location = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     var isChildClass = false
-    private var isSortByDate = true
+    private var isSortByDate = false
     private var orderedAscending = true
     private var isViewAsList = true
     private var isSelectMode = false {
@@ -68,7 +68,8 @@ class DocumentsVC: UIViewController {
             addLeftBarButtonWithTittle(title: isSelectAll ? "Deselect all" : "Select all", action: #selector(tapSelectAll))
         }
     }
-
+    private var vAddDismissTimer = Timer()
+    private var needShowIndicator = false
     // MARK: - override function
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -76,9 +77,7 @@ class DocumentsVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicatorView.type = .circleStrokeSpin
-        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
-        activityIndicatorView.startAnimating()
+        showIndicator()
         register()
         setupCollectionView()
         setupTheme()
@@ -106,6 +105,14 @@ class DocumentsVC: UIViewController {
     }
 
     // MARK: - setup functions
+    func showIndicator() {
+        needShowIndicator = true
+        activityIndicatorView.type = .circleStrokeSpin
+        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
+        activityIndicatorView.startAnimating()
+        vAddDismissTimer.invalidate()
+        vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(hideIndicator), userInfo: nil, repeats: false)
+    }
     public func setLocation(url : URL, isChildClass : Bool) {
         self.location = url
         self.isChildClass = isChildClass
@@ -229,16 +236,27 @@ class DocumentsVC: UIViewController {
     @objc func tapSearch() {
         startSearch()
     }
+    @objc func hideIndicator() {
+        if needShowIndicator == false {
+            if activityIndicatorView.isAnimating && !needShowIndicator {
+                activityIndicatorView.stopAnimating()
+            }
+        }
+        else {
+            needShowIndicator = false
+        }
+    }
     //MARK: - Action function
     /*
         compare 2 list ( new list and present list )
-        find the same elements
-        reload when new list != present list
+     find the same elements
+     reload when new list != present list
      */
     private func loadAndCheck() {
         DispatchQueue.global(qos: .userInitiated).async {[weak self] in
             var newListDoc = [MyDocument]()
             var newListFolder = [MyFolder]()
+            var needReload = false
             if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
                 newListFolder = self?.loadFolder(urls: documentURLs.filter{ $0.pathExtension == "" }) ?? []
                 newListDoc = self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" }) ?? []
@@ -250,16 +268,10 @@ class DocumentsVC: UIViewController {
                 if newListDoc.count != self?.listDocument.count {
                     self?.listDocument = newListDoc
                 }
-                DispatchQueue.main.async {
-                    [weak self] in
-                    if (self?.activityIndicatorView.isAnimating)! {
-                        self?.activityIndicatorView.stopAnimating()
-                    }
-                    self?.clvDocument.reloadSections(IndexSet(integer: 0))
-                }
+                needReload = true
+                
             }
             else {
-                var needReload = false
                 let result1 = zip(newListFolder, self!.listFolder).enumerated().filter() {
                     $1.0.getName() == $1.1.getName()
                 }.map{$0.0}
@@ -276,16 +288,22 @@ class DocumentsVC: UIViewController {
                     needReload = true
                     self?.listDocument = newListDoc
                 }
-                if needReload {
-                    DispatchQueue.main.async {
-                        [weak self] in
+            }
+            
+            if needReload {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    if self?.needShowIndicator == false {
                         if (self?.activityIndicatorView.isAnimating)! {
                             self?.activityIndicatorView.stopAnimating()
                         }
-                        self?.clvDocument.reloadSections(IndexSet(integer: 0))
                     }
+                    else {
+                        self?.needShowIndicator = false
+                    }
+
+                    self?.clvDocument.reloadSections(IndexSet(integer: 0))
                 }
-                
             }
         }
     }
@@ -447,6 +465,7 @@ class DocumentsVC: UIViewController {
     }
     func startSearch() {
         searchBar.isHidden = false
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.navigationController?.setNavigationBarHidden(true, animated: false)
             self?.topAnchorOfCollectionView.constant = 44
@@ -455,6 +474,7 @@ class DocumentsVC: UIViewController {
         searchBar.becomeFirstResponder()
     }
     func stopSearch() {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         searchBar.isHidden = true
 //        UIView.animate(withDuration: 0.2) {[weak self] in
 //            self?.topAnchorOfCollectionView.constant = 0
