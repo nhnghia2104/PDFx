@@ -65,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //            print("tạch :(")
         //        }
         createDefaultFolder()
+
     }
     
     func createDefaultFolder() {
@@ -118,6 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         catch {
             print(error)
         }
+        
         return true
     }
     func inLibraryFolder(fileName : String) -> URL {
@@ -134,7 +136,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         
         let pdfVC = navigationController.viewControllers.first as! PDFViewController
+//        pdfVC.document = Document(fileURL: inputURL)
         pdfVC.config(with: Document(fileURL: inputURL))
+        
         
         navigationController.modalTransitionStyle = .crossDissolve
         // Presenting modal in iOS 13 fullscreen

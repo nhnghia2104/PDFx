@@ -53,7 +53,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKv-x7-8Kv">
-                            <rect key="frame" x="320" y="3.5" width="46" height="30"/>
+                            <rect key="frame" x="316" y="3.5" width="46" height="30"/>
                             <state key="normal" title="Button"/>
                             <connections>
                                 <action selector="tapClear" destination="U6b-Vx-4bR" eventType="touchUpInside" id="pq3-hd-DzG"/>
@@ -65,7 +65,7 @@
                         <constraint firstItem="BDf-jJ-zpS" firstAttribute="top" secondItem="rMA-rP-CjS" secondAttribute="top" id="35y-qi-kAE"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="top" secondItem="hUc-aj-fir" secondAttribute="bottom" id="3KU-jg-5ps"/>
                         <constraint firstAttribute="trailing" secondItem="YQP-Re-ngp" secondAttribute="trailing" id="46X-LS-rKT"/>
-                        <constraint firstAttribute="trailing" secondItem="zKv-x7-8Kv" secondAttribute="trailing" constant="16" id="IcY-93-FL8"/>
+                        <constraint firstAttribute="trailing" secondItem="zKv-x7-8Kv" secondAttribute="trailing" constant="20" id="IcY-93-FL8"/>
                         <constraint firstItem="BDf-jJ-zpS" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" constant="20" id="KiF-rd-XbH"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" id="Nwo-J1-qxq"/>
                         <constraint firstItem="hUc-aj-fir" firstAttribute="top" secondItem="rMA-rP-CjS" secondAttribute="top" id="QSj-wI-cta"/>

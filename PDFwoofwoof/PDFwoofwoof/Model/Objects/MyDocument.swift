@@ -11,7 +11,8 @@ import PDFKit
 
 class MyDocument {
     private var document : Document!
-    private var isFavorite = false
+    var isFavorite = false
+    var url : URL?
     private var isFolder = false
     private var dateModified = Date()
     private var thumbnail : UIImage?
@@ -20,13 +21,13 @@ class MyDocument {
     private var strSize : String?
     private var dateAcess : Date?
     init(url : URL) {
+        self.url = url
         document = Document(fileURL: url)
             do {
                 let resources = try self.document.fileURL.resourceValues(forKeys:[.fileSizeKey,.creationDateKey,.thumbnailDictionaryKey, .contentAccessDateKey])
                 let fileSize = resources.fileSize ?? 0
                 let strSize = Math.shared.convertSize(Double(fileSize))
                 self.strSize = strSize
-//                self.dateAcess = resources.contentAccessDate ?? Date()
                 self.dateCreated = resources.creationDate ?? Date()
                 if let thumnailDict = resources.thumbnailDictionary {
                     if let img = (thumnailDict[URLThumbnailDictionaryItem(rawValue: "NSThumbnail1024x1024SizeKey")]) {
@@ -36,7 +37,11 @@ class MyDocument {
             } catch {
                 print("Error: \(error)")
             }
-//        }
+        
+        RealmManager.shared.existFavoritePDF(url: url) { [weak self] (isFavorite) in
+                self?.isFavorite = isFavorite
+        }
+
     }
     func setDateAccess(date : Date) {
         self.dateAcess = date
@@ -52,6 +57,10 @@ class MyDocument {
             dateCreated = date
         }
         return dateCreated!
+    }
+    
+    func getURL() -> URL {
+        return self.url!
     }
     
     func getAccessDate() -> Date {
@@ -140,7 +149,7 @@ class MyDocument {
         if self.thumbnail == nil {
             guard let pdf = PDFDocument(url: document.fileURL.absoluteURL) else { return UIImage() }
             guard let page = pdf.page(at: 0) else { return UIImage() }
-            self.thumbnail = page.thumbnail(of: CGSize(width: 90, height: 120), for: .cropBox)
+            self.thumbnail = page.thumbnail(of: isiPadUI ? CGSize(width: 1024, height: 1024) : CGSize(width: 90, height: 120), for: .cropBox)
         }
         return self.thumbnail!
     }

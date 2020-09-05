@@ -10,7 +10,7 @@ import UIKit
 
 enum LeftMenu: Int {
     case home = 0
-    case document
+    case files
     case settings
 }
 
@@ -20,6 +20,7 @@ protocol LeftMenuProtocol : class {
 
 class LeftMenuVC : UIViewController, LeftMenuProtocol {
     
+    @IBOutlet weak var lblMenu: UILabel!
     @IBOutlet weak var tableView: UITableView!
     var menus = ["Home", "Documents","Settings"]
     var mainViewController: UIViewController!
@@ -55,6 +56,10 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
         mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
         self.mainViewController = UINavigationController(rootViewController: mainViewController)
         
+        lblMenu.font = UIFont.getFontBold(size: 30)
+        lblMenu.textColor = CMSConfigConstants.themeStyle.titleColor
+        
+        
     }
     
     private func setupTableView() {
@@ -79,7 +84,7 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
         case .home:
             UserDefaults.standard.setValue(0, forKey: "MainView")
             self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
-        case .document:
+        case .files:
             UserDefaults.standard.setValue(1, forKey: "MainView")
              self.slideMenuController()?.changeMainViewController(self.documentVC, close: true)
         default:
@@ -101,8 +106,11 @@ extension LeftMenuVC : UITableViewDataSource {
         cell.setTilte(str: menus[indexPath.row])
         return cell
     }
-
-
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60.0
+    }
+    
 }
 extension LeftMenuVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -58,7 +58,7 @@ extension FileManager {
         }
         // Step 2.
         // Save file to url created
-        let needTo = url.startAccessingSecurityScopedResource()
+//        let needTo = url.startAccessingSecurityScopedResource()
         do {
             let data = try Data(contentsOf: url)
             try data.write(to: documentDirectory.appendingPathComponent(name + ".pdf"))
@@ -66,9 +66,9 @@ extension FileManager {
         catch {
             
         }
-        if needTo {
-            url.stopAccessingSecurityScopedResource()
-        }
+//        if needTo {
+//            url.stopAccessingSecurityScopedResource()
+//        }
         complete(true,documentDirectory.appendingPathComponent(name + ".pdf"))
         
         

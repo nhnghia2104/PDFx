@@ -16,6 +16,9 @@ struct CMSConfigConstants {
 struct ThemeStyle {
     var tintColor : UIColor = UIColor(hex: "393e46")
     var titleColor : UIColor = UIColor(hex: "222831")
+    var title2 : UIColor = UIColor(hex: "393b44")
     var selectColor : UIColor = UIColor(hex: "3282b8")
     var borderColor : UIColor = UIColor(hex: "ececec", alpha: 1)
+    var backgroundBlue : UIColor = UIColor(hex: "ececec", alpha: 1)
+    var backgroundGray : UIColor = UIColor(hex: "f8f9fa", alpha: 1)
 }

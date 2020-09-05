@@ -8,18 +8,18 @@
 
 import Foundation
 import PDFKit
-enum ToolType {
-    
-}
+
 class Tool {
+    var type : TypeTool
     var name : String = ""
     var icon : UIImage?
     var tintColor : UIColor?
     var backgroundColor : UIColor?
-    init(name : String, icon : UIImage, tintColor : UIColor, background : UIColor) {
+    init(name : String, icon : UIImage, tintColor : UIColor, background : UIColor, type : TypeTool = .none) {
         self.name = name
         self.icon = icon
         self.tintColor = tintColor
         self.backgroundColor = background
+        self.type = type
     }
 }

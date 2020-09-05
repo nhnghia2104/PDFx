@@ -8,6 +8,7 @@
 
 import UIKit
 import PDFKit
+import SwipeCellKit
 
 class HomeVC: UIViewController {
     
@@ -18,7 +19,7 @@ class HomeVC: UIViewController {
         /// Image height/width for Large NavBar state
         static let ImageSizeForLargeState: CGFloat = 40
         /// Margin from right anchor of safe area to right anchor of Image
-        static let ImageRightMargin: CGFloat = 16
+        static let ImageRightMargin: CGFloat = 20
         /// Margin from bottom anchor of NavBar to bottom anchor of Image for Large NavBar state
         static let ImageBottomMarginForLargeState: CGFloat = 12
         /// Margin from bottom anchor of NavBar to bottom anchor of Image for Small NavBar state
@@ -40,7 +41,7 @@ class HomeVC: UIViewController {
     
     lazy var listRecent = [MyDocument]()
     lazy var listFavorite = [MyDocument]()
-    
+    private var dataDidLoad = false
     
     
     //MARK: - override function
@@ -52,10 +53,18 @@ class HomeVC: UIViewController {
         setupNavigation()
         register()
         setupThemes()
+        didBecomeActive()
+        dataDidLoad = true
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        didBecomeActive()
+        if dataDidLoad == false {
+            didBecomeActive()
+        }
+        else {
+            dataDidLoad = false
+        }
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -209,18 +218,17 @@ class HomeVC: UIViewController {
             newRecent = newRecent.sorted( by : {
                 $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
             })
+            var needReload = false
             // Case 1 :
-            if (self?.isRecent == true) && newRecent.count != self?.listRecent.count {
-                self?.listRecent = newRecent
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+            if newRecent.count != self?.listRecent.count {
+                if self?.isRecent == true {
+                    needReload = true
                 }
             }
             else {
                 
                 let result = zip(newRecent, self!.listRecent).enumerated().filter() {
-                    $1.0.getFileName() == $1.1.getFileName() && $1.0.getAccessDate() == $1.1.getAccessDate()
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.getAccessDate() == $1.1.getAccessDate() && $1.0.isFavorite == $1.1.isFavorite
                 }.map{$0.0}
                 print(result)
                 // Case 2
@@ -228,38 +236,40 @@ class HomeVC: UIViewController {
                 else {
                     self?.listRecent = newRecent
                     if (self?.isRecent == true) {
-                        DispatchQueue.main.async {
-                            [weak self] in
-                            self?.collectionView.reloadSections(IndexSet(integer: 0))
-                        }
+                        needReload = true
                     }
                 }
             }
             
             var newFavorite = RealmManager.shared.getFavoritePDF() ?? []
-            newFavorite = newFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
-            if (self?.isRecent == false) && newFavorite.count != self?.listFavorite
-                .count {
-                self?.listFavorite = newFavorite
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+            newFavorite = newFavorite.sorted(by: {
+                $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
+            })
+            if newFavorite.count != self?.listFavorite.count {
+                
+                if self?.isRecent == false {
+                    needReload = true
                 }
             }
             else {
-                
                 let result2 = zip(newFavorite, self!.listFavorite).enumerated().filter() {
-                    $1.0.getFileName() == $1.1.getFileName()
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.isFavorite == $1.1.isFavorite 
                 }.map{$0.0}
                 if result2.count == self?.listFavorite.count { }
                 else {
                     self?.listFavorite = newFavorite
                     if (self?.isRecent == false) {
-                        DispatchQueue.main.async {
-                            [weak self] in
-                            self?.collectionView.reloadSections(IndexSet(integer: 0))
-                        }
+                        needReload = true
                     }
+                }
+            }
+            
+            self?.listRecent = newRecent
+            self?.listFavorite = newFavorite
+            if needReload {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.collectionView.reloadSections(IndexSet(integer: 0))
                 }
             }
             
@@ -288,7 +298,7 @@ class HomeVC: UIViewController {
         let noticeVC = NoticeVC(nibName: "NoticeVC", bundle: nil)
         let nvc: UINavigationController = UINavigationController(rootViewController: noticeVC)
         nvc.modalPresentationStyle = .fullScreen
-         present(nvc, animated: true, completion: nil)
+        present(nvc, animated: true, completion: nil)
         
     }
     
@@ -303,7 +313,7 @@ class HomeVC: UIViewController {
         let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         let pdfVC = navigationController.viewControllers.first as! PDFViewController
-        pdfVC.config(with: document )
+        pdfVC.config(with: Document(fileURL: url))
         navigationController.modalTransitionStyle = .crossDissolve
         // Presenting modal in iOS 13 fullscreen
         navigationController.modalPresentationStyle = .fullScreen
@@ -326,6 +336,24 @@ class HomeVC: UIViewController {
         })
     }
     
+    private func saveFavorite(indexPath : IndexPath) {
+        let newDoc = isRecent ? listRecent[indexPath.item] : listFavorite[indexPath.item]
+        newDoc.isFavorite.toggle()
+        RealmManager.shared.saveFavoritePDF(url: newDoc.getURL(), isFavorite: newDoc.isFavorite)
+        if isRecent {
+            listRecent[indexPath.item] = newDoc
+        } else {
+            listFavorite[indexPath.item] = newDoc
+        }
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ListDocCollectionViewCell else {
+            collectionView.reloadItems(at: [indexPath])
+            return
+        }
+        cell.isFavorite = newDoc.isFavorite
+        cell.hideSwipe(animated: false)
+    }
+    
 }
 extension HomeVC : UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -343,8 +371,8 @@ extension HomeVC : UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListDocCollectionViewCell", for: indexPath) as? ListDocCollectionViewCell else {return UICollectionViewCell()}
-        
-        cell.setRecentData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
+        cell.delegate = self
+        cell.setRecentData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item], isFavorite: isRecent ?  listRecent[indexPath.item].isFavorite : listFavorite[indexPath.item].isFavorite)
         return cell
     }
     
@@ -368,9 +396,10 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        openPDF(url: listRecent[indexPath.item].getPDFData().fileURL)
+        let itemSelected = isRecent ? listRecent[indexPath.item] : listFavorite[indexPath.item]
+        openPDF(url: itemSelected.getURL() )
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.saveRecentPDF(url: (self?.listRecent[indexPath.item].getPDFData().fileURL)!)
+            self?.saveRecentPDF(url: itemSelected.getURL())
         }
     }
     
@@ -458,3 +487,49 @@ extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
 }
 
 
+extension HomeVC : SwipeCollectionViewCellDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+
+
+        guard orientation == .right else { return nil }
+        let isFavor = isRecent ? listRecent[indexPath.item].isFavorite : listFavorite[indexPath.item].isFavorite
+        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfovorite" : "Favorite") { [weak self](action, indexPath) in
+            self?.saveFavorite(indexPath: indexPath)
+            self?.didBecomeActive()
+        }
+        favorite.image = UIImage(named: isFavor ? "ic_unStar-mini" : "ic_Star-mini")
+        favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        favorite.textColor = CMSConfigConstants.themeStyle.title2
+
+        
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+        }
+        deleteAction.image = UIImage(named: "ic_Delete-mini")
+        deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        deleteAction.textColor = CMSConfigConstants.themeStyle.title2
+        
+        let moreAction = SwipeAction(style: .default, title: "More") { action, indexPath in
+            // handle action by updating model with deletion
+        }
+        moreAction.image = UIImage(named: "ic_Expand-right")
+        moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        moreAction.textColor = CMSConfigConstants.themeStyle.title2
+        
+        return [moreAction,deleteAction,favorite]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .none
+        options.transitionStyle = .border
+//        options.maximumButtonWidth = 64
+        options.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        return options
+    }
+}

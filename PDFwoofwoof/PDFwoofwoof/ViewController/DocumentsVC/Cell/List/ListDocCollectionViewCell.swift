@@ -8,8 +8,9 @@
 
 import UIKit
 import PDFKit
+import SwipeCellKit
 
-class ListDocCollectionViewCell: UICollectionViewCell {
+class ListDocCollectionViewCell: SwipeCollectionViewCell {
     
     @IBOutlet weak var vLine: UIView!
     @IBOutlet weak var avtLeadingAnchor: NSLayoutConstraint!
@@ -20,6 +21,21 @@ class ListDocCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var imgStar: UIImageView!
     @IBOutlet weak var imgThumbnail: UIImageView!
+    var isFavorite = false {
+        didSet {
+            UIView.animate(withDuration: 0.2) {[weak self] in
+                self?.imgStar.isHidden = !self!.isFavorite
+                self?.trallingAnchor.constant = self!.isFavorite ? 23 : 2
+                self?.layoutIfNeeded()
+            }
+            
+        }
+    }
+    var isExpanding = false {
+        didSet {
+            btnMore.isHidden = isExpanding
+        }
+    }
     override var isSelected: Bool {
         didSet {
             imgSelect.image = isSelected ? UIImage(named: "ic_Check") : UIImage(named: "ic_Circle")
@@ -52,6 +68,7 @@ class ListDocCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func tapMore(_ sender: Any) {
+        self.showSwipe(orientation: .right)
     }
     
     public func setDocuemtData(pdf : MyDocument, isFavorite : Bool = false, isSelectMode : Bool = false) {
@@ -75,7 +92,7 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         imgThumbnail.image = UIImage(named : "ic_folder")
         imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
         btnMore.isHidden = isSelectMode
-        imgSelect.isHidden = !isSelectMode
+        imgSelect.isHidden = true
         avtLeadingAnchor.constant = isSelectMode ? 70 : 20
         imgThumbnail.layer.borderWidth = 0
     }

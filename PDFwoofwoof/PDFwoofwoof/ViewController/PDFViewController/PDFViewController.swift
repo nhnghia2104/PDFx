@@ -6,92 +6,70 @@
 //  Copyright © 2020 WereSheep. All rights reserved.
 //
 
+
 import UIKit
 import PDFKit
-class PDFViewController : UIViewController {
+import CloudKit
+
+class PDFViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var btnSearch: UIBarButtonItem!
     @IBOutlet weak var pdfView: PDFView!
-    weak var document : Document?
     
-    //MARK: - override function
+    var document: Document?
+
+    
     deinit {
-        print("denited PDFView")
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupPDFView()
-        setupNaviBar()
-     
+        print("deinit PDFViewController")
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
+
         super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnTap = true
         
-    }
-    // MARK: - public function
-    func config(with file : Document) {
-        self.document = file
-        accessDocument()
-    }
-    
-    //MARK: - setup function
-    private func accessDocument() {
-        document?.open(completionHandler: { [weak self](success) in
+        if (pdfView.document != nil) { return }
+        
+        // Access the document
+        document?.open(completionHandler: { [weak self] (success) in
             if success {
-                // Display the content of the document, e.g.:
-                self?.navigationItem.title = self?.document?.localizedName
+                
                 guard let pdfURL: URL = (self?.document?.fileURL) else { return }
                 guard let document = PDFDocument(url: pdfURL) else { return }
                 
-//                self.isEncrypted = document.isEncrypted
-                
                 self?.pdfView.document = document
-                
-//                self.moveToLastViewedPage()
-//                self.getScaleFactorForSizeToFitAndOffset()
-//                self.pdfView.setMinScaleFactorForSizeToFit()
-//                self.pdfView.setScaleFactorForUser()
-                
-//                self.setPDFThumbnailView()
-                
-//                if let documentEntity = self.currentEntity {
-//                    self.isHorizontalScroll = documentEntity.isHorizontalScroll
-//                    self.isRightToLeft = documentEntity.isRightToLeft
-//                    self.updateScrollDirection()
-//                }
-//                self.moveToLastViewedOffset()
-//
-//                self.checkForNewerRecords()
+                self?.pdfView.minScaleFactor = self?.pdfView.scaleFactorForSizeToFit as! CGFloat
             } else {
-                // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
+
             }
         })
     }
-    private func setupPDFView() {
+    
+    override func viewDidLoad() {
+
         pdfView.autoScales = true
         pdfView.displaysPageBreaks = true
         pdfView.displayBox = .cropBox
-
-        pdfView.displayMode = .singlePageContinuous
-        pdfView.displayDirection = .vertical
-
+        
+        
+        pdfView.scrollView?.scrollsToTop = false
+        pdfView.scrollView?.contentInsetAdjustmentBehavior = .scrollableAxes
+        
     }
-    private func setupNaviBar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.titleColor,
-        NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
-        setupBaseNavigation()
-        addLeftBarButtonWithImage(img: UIImage(named: "navi_Back")!, action: #selector(tapBack))
+    //MARK: - START NGHIAXXXXX
+
+    func config(with doc : Document) {
+        self.document = doc
     }
     
-    @objc func tapBack() {
-        dismiss(animated: true) {
-            //do something
-        }
+    @IBAction func tapDissmis() {
+        self.dismiss(animated: true, completion: nil)
     }
-    
 }
+    //MARK: - END NGHIAXXXXX

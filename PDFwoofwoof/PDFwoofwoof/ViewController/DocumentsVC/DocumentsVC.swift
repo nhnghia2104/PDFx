@@ -9,9 +9,12 @@
 import UIKit
 import PDFKit
 import NVActivityIndicatorView
+import SwipeCellKit
 
 class DocumentsVC: UIViewController {
 
+    @IBOutlet weak var vBottomTool: UIView!
+    @IBOutlet weak var vToolBottomAnchor: NSLayoutConstraint!
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var topAnchorOfCollectionView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -92,7 +95,7 @@ class DocumentsVC: UIViewController {
     
     private func setupNavigation() {
         self.navigationController?.view.layer.shadowColor = .none
-        self.navigationItem.title = isChildClass ? location.lastPathComponent : "Documents"
+        self.navigationItem.title = isChildClass ? location.lastPathComponent : "Files"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         isChildClass ? () : self.setSlideMenuVCNaviBarItem()
@@ -156,6 +159,9 @@ class DocumentsVC: UIViewController {
             orderedAscending = mode[1]
             resortData()
         }
+        
+        vToolBottomAnchor.constant = -140
+        vBottomTool.isHidden = true
     }
 
     private func addNotification() {
@@ -163,6 +169,9 @@ class DocumentsVC: UIViewController {
     }
     
     // MARK: - IBAction
+    @IBAction func tapDelete() {
+        actionDelete()
+    }
     
     //MARK: - objc funtion
     @objc func openMore() {
@@ -206,6 +215,18 @@ class DocumentsVC: UIViewController {
         }
     }
     //MARK: - Action function
+    
+    private func actionDelete() {
+        if let selectedRows = clvDocument.indexPathsForSelectedItems?.sorted(by: {$0 > $1}) {
+            for indexPath in selectedRows  {
+                removeDocument(indexPath: indexPath)
+            }
+
+            selectedCount = 0
+            isSelectAll = false
+        }
+    }
+    
     /*
         compare 2 list ( new list and present list )
      find the same elements
@@ -240,7 +261,7 @@ class DocumentsVC: UIViewController {
                     self?.listFolder = newListFolder
                 }
                 let result2 = zip(newListDoc, self!.listDocument).enumerated().filter() {
-                    $1.0.getFileName() == $1.1.getFileName()
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.isFavorite == $1.1.isFavorite
                 }.map{$0.0}
                 if result2.count == self?.listDocument.count { }
                 else {
@@ -264,12 +285,15 @@ class DocumentsVC: UIViewController {
                     self?.clvDocument.reloadSections(IndexSet(integer: 0))
                 }
             }
+            else {
+                self?.needShowIndicator = false
+            }
         }
     }
     private func showIndicator() {
         needShowIndicator = true
         activityIndicatorView.type = .circleStrokeSpin
-        activityIndicatorView.color = UIColor(hex: "3282b8", alpha: 1)
+        activityIndicatorView.color = UIColor(hex: "0077B6", alpha: 1)
         activityIndicatorView.startAnimating()
         vAddDismissTimer.invalidate()
         vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(hideIndicator), userInfo: nil, repeats: false)
@@ -410,9 +434,12 @@ class DocumentsVC: UIViewController {
     private func gotoSelectMode() {
         navigationController?.navigationItem.title = "Select items"
         UIView.animate(withDuration: 0.2) {[weak self] in
+            self?.vBottomTool.isHidden = false
+            self?.vToolBottomAnchor.constant = -40
             self?.isSelectMode = true
             self?.navigationItem.searchController = nil
             self?.navigationController?.navigationBar.prefersLargeTitles = false
+            self?.view.layoutIfNeeded()
             self?.navigationController?.view.layoutIfNeeded()
             
         }
@@ -426,9 +453,13 @@ class DocumentsVC: UIViewController {
         navigationItem.leftBarButtonItem = nil
         setupNavigation()
         UIView.animate(withDuration: 0.2) {[weak self] in
+           
+            self?.vToolBottomAnchor.constant = -140
             self?.isSelectMode = false
+            self?.view.layoutIfNeeded()
             self?.navigationController?.view.layoutIfNeeded()
         }
+        vBottomTool.isHidden = true
         clvDocument.allowsMultipleSelection = false
     }
     private func startSearch() {
@@ -453,7 +484,7 @@ class DocumentsVC: UIViewController {
         let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         let pdfVC = navigationController.viewControllers.first as! PDFViewController
-        pdfVC.config(with: pdfData )
+        pdfVC.config(with: pdfData)
         navigationController.modalTransitionStyle = .crossDissolve
         // Presenting modal in iOS 13 fullscreen
         navigationController.modalPresentationStyle = .fullScreen
@@ -461,6 +492,35 @@ class DocumentsVC: UIViewController {
     }
     private func saveRecentPDF(url : URL) {
         RealmManager.shared.saveRecentPDF(url: url)
+    }
+    private func saveFavorite(indexPath : IndexPath) {
+        let newDoc = listDocument[indexPath.item - listFolder.count]
+        newDoc.isFavorite.toggle()
+        RealmManager.shared.saveFavoritePDF(url: newDoc.getURL(), isFavorite: newDoc.isFavorite)
+        listDocument[indexPath.item - listFolder.count] = newDoc
+        guard let cell = clvDocument.cellForItem(at: indexPath) as? ListDocCollectionViewCell else {
+            clvDocument.reloadItems(at: [indexPath])
+            return
+        }
+        cell.isFavorite = newDoc.isFavorite
+        cell.hideSwipe(animated: false)
+    }
+    private func removeDocument(indexPath : IndexPath) {
+        do {
+            try FileManager.default.removeItem(at: listDocument[indexPath.row - listFolder.count].getURL())
+        }
+        catch {
+            print("delete fail")
+        }
+        clvDocument.deleteItems(at: [indexPath])
+        listDocument.remove(at: indexPath.row - listFolder.count)
+    }
+    private func openBrowser() {
+        let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
+        picker.delegate = self
+//        picker.modalPresentationStyle = .none
+
+        present(picker, animated: true)
     }
 }
 
@@ -480,7 +540,8 @@ extension DocumentsVC : UICollectionViewDataSource {
                 cell.setFolderData(folder: listFolder[indexPath.item], isSelectMode: isSelectMode)
             }
             else {
-                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count], isFavorite: false , isSelectMode: isSelectMode)
+                cell.delegate = self
+                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count], isFavorite: listDocument[indexPath.item - listFolder.count].isFavorite , isSelectMode: isSelectMode)
             }
             return cell
         }
@@ -490,7 +551,7 @@ extension DocumentsVC : UICollectionViewDataSource {
                 cell.setFolderData(folder: listFolder[indexPath.item], isSelectMode: isSelectMode)
             }
             else {
-                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count], isFavorite: false, isSelectMode: isSelectMode)
+                cell.setDocuemtData(pdf: listDocument[indexPath.item - listFolder.count], isFavorite: listDocument[indexPath.item - listFolder.count].isFavorite, isSelectMode: isSelectMode)
             }
             return cell
         }
@@ -529,7 +590,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
         if !isSelectMode {
             if indexPath.item < listFolder.count {
                 let directVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocumentsVC") as! DocumentsVC
@@ -538,7 +599,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             }
             else {
                 DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                    self?.saveRecentPDF(url: (self?.listDocument[indexPath.item - (self?.listFolder.count)!].getPDFData().fileURL)!)
+                    self?.saveRecentPDF(url: (self?.listDocument[indexPath.item - (self?.listFolder.count)!].getURL())!)
                     print("Date Access : \(self?.listDocument[indexPath.item - (self?.listFolder.count)!].getAccessDate())")
                 }
                 openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
@@ -578,6 +639,9 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
         header.didTapSelectMode = {[weak self] in
             self?.gotoSelectMode()
         }
+        header.didTapAdd = { [weak self] in
+            self?.openBrowser()
+        }
         header.setupSortModeUI(sortMode: [isSortByDate,orderedAscending], isViewAsList: isViewAsList)
         return header
     }
@@ -609,5 +673,83 @@ extension DocumentsVC : UISearchBarDelegate {
             listFolder = tempListFolder
         }
         clvDocument.reloadSections(IndexSet(integer: 0))
+    }
+}
+extension DocumentsVC : UIDocumentPickerDelegate, LaunchURLDelegate {
+    func open(url: URL) {
+        DispatchQueue.main.async { [weak self] in
+            self?.openPDF(pdfData: Document(fileURL: url))
+        }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            FileManager.default.saveFile(from: url) { [weak self] (done,urlSaved) in
+                // :(
+            }
+        }
+    }
+    
+    // UIDocumentPickerDelegate
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let sourceURL = urls.first else { return }
+        open(url: sourceURL)
+    }
+}
+
+extension DocumentsVC : SwipeCollectionViewCellDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        if isSelectMode { return nil }
+        if indexPath.item < listFolder.count { return nil }
+        guard orientation == .right else { return nil }
+        let isFavor = listDocument[indexPath.item - listFolder.count].isFavorite
+        
+        // Favorite action
+        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfovorite" : "Favorite") { [weak self](action, indexPath) in
+            self?.saveFavorite(indexPath: indexPath)
+        }
+        favorite.image = UIImage(named: isFavor ? "ic_unStar-mini" : "ic_Star-mini")
+        favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        favorite.textColor = CMSConfigConstants.themeStyle.title2
+
+        
+        // Delete action
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] action, indexPath in
+            self?.removeDocument(indexPath: indexPath)
+        }
+        deleteAction.image = UIImage(named: "ic_Delete-mini")
+        deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        deleteAction.textColor = CMSConfigConstants.themeStyle.title2
+        
+        
+        // More action
+        let moreAction = SwipeAction(style: .default, title: "More") { action, indexPath in
+            
+        }
+        moreAction.image = UIImage(named: "ic_Expand-right")
+        moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        moreAction.textColor = CMSConfigConstants.themeStyle.title2
+        
+        return [deleteAction,favorite,moreAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .none
+        options.transitionStyle = .border
+        options.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        return options
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willBeginEditingItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ListDocCollectionViewCell  else { return }
+        cell.isExpanding = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndEditingItemAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
+        if indexPath == nil { return }
+        guard let cell = collectionView.cellForItem(at: indexPath ?? IndexPath(item: 0, section: 0)) as? ListDocCollectionViewCell  else { return }
+        cell.isExpanding = false
     }
 }
