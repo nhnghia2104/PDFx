@@ -15,7 +15,7 @@ public final class ScannerViewController: UIViewController {
     
     private var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
-    
+    private var imagePicker = UIImagePickerController()
     /// The view that shows the focus rectangle (when the user taps to focus, similar to the Camera app)
     private var focusRectangle: FocusRectangleView!
     
@@ -34,18 +34,42 @@ public final class ScannerViewController: UIViewController {
         button.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         return button
     }()
-    
+    private lazy var photoLibButton : UIButton = {
+        let img = UIImage(named: "ic_PhotoLib")
+        let button = UIButton()
+        button.setImage(img, for: .normal)
+        button.addTarget(self, action: #selector(openPhotoLibrary), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .white
+        return button
+    }()
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
+//        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
+        button.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 15)
+        button.setTitle("Cancel", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
         return button
     }()
-    
+    private lazy var closeButton : UIBarButtonItem = {
+        let image = UIImage(named: "close")
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(cancelImageScannerController))
+        button.tintColor = .white
+        
+        return button
+    }()
     private lazy var autoScanButton: UIBarButtonItem = {
         let title = NSLocalizedString("wescan.scanning.auto", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Auto", comment: "The auto button state")
+//        let button = UIButton()
+//        button.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
+//        button.setTitle("Auto", for: .normal)
+//        button.addTarget(self, action: #selector(toggleAutoScan), for: .touchUpInside)
+//        let barButton = UIBarButtonItem(customView: button)
+        
+        
         let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(toggleAutoScan))
+        
         button.tintColor = .white
         
         return button
@@ -73,11 +97,10 @@ public final class ScannerViewController: UIViewController {
         
         title = nil
         view.backgroundColor = UIColor.black
-        
+//        imagePicker.delegate = self
         setupViews()
         setupNavigationBar()
         setupConstraints()
-        
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer, delegate: self)
         
         originalBarStyle = navigationController?.navigationBar.barStyle
@@ -124,14 +147,17 @@ public final class ScannerViewController: UIViewController {
         quadView.translatesAutoresizingMaskIntoConstraints = false
         quadView.editable = false
         view.addSubview(quadView)
-        view.addSubview(cancelButton)
+//        view.addSubview(cancelButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
+        view.addSubview(photoLibButton)
     }
     
     private func setupNavigationBar() {
-        navigationItem.setLeftBarButton(flashButton, animated: false)
-        navigationItem.setRightBarButton(autoScanButton, animated: false)
+//        navigationItem.setLeftBarButton(flashButton, animated: false)
+//        navigationItem.setRightBarButton(autoScanButton, animated: false)
+        navigationItem.setLeftBarButton(closeButton, animated: false)
+        navigationItem.setRightBarButton(flashButton, animated: false)
         
         if UIImagePickerController.isFlashAvailable(for: .rear) == false {
             let flashOffImage = UIImage(systemName: "bolt.slash.fill", named: "flashUnavailable", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
@@ -142,9 +168,10 @@ public final class ScannerViewController: UIViewController {
     
     private func setupConstraints() {
         var quadViewConstraints = [NSLayoutConstraint]()
-        var cancelButtonConstraints = [NSLayoutConstraint]()
+//        var cancelButtonConstraints = [NSLayoutConstraint]()
         var shutterButtonConstraints = [NSLayoutConstraint]()
         var activityIndicatorConstraints = [NSLayoutConstraint]()
+        var photoLibraryButtonConstraints = [NSLayoutConstraint]()
         
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -164,25 +191,40 @@ public final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
+        photoLibraryButtonConstraints = [
+            photoLibButton.widthAnchor.constraint(equalToConstant: 50.0),
+            photoLibButton.heightAnchor.constraint(equalToConstant: 50.0),
+            photoLibButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor)
+        ]
+//        let photoLibraryButtonCenterYAnchor = photoLibButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor)
+//        photoLibraryButtonConstraints.append(photoLibraryButtonCenterYAnchor)
+        
         if #available(iOS 11.0, *) {
-            cancelButtonConstraints = [
-                cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
-                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
-            ]
+//            cancelButtonConstraints = [
+//                cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
+//                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+//            ]
+            let photoLibraryButtonLeftConstraint = photoLibButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24)
+            photoLibraryButtonConstraints.append(photoLibraryButtonLeftConstraint)
             
             let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
+            
+            
         } else {
-            cancelButtonConstraints = [
-                cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
-                view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
-            ]
+//            cancelButtonConstraints = [
+//                cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
+//                view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+//            ]
+            let photoLibraryButtonLeftConstraint = photoLibButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24)
+            photoLibraryButtonConstraints.append(photoLibraryButtonLeftConstraint)
             
             let shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         }
         
-        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
+        // Sunday, Sep 6th, 2020 : removed cancelButtonConstraints -- Nghia NH
+        NSLayoutConstraint.activate(quadViewConstraints + photoLibraryButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }
     
     // MARK: - Tap to Focus
@@ -270,6 +312,18 @@ public final class ScannerViewController: UIViewController {
         imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
     }
     
+    @objc private func openPhotoLibrary() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            print("Button capture")
+
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {
@@ -322,5 +376,13 @@ extension ScannerViewController: RectangleDetectionDelegateProtocol {
         quadView.drawQuadrilateral(quad: transformedQuad, animated: true)
     }
     
+}
+
+extension ScannerViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+        self.dismiss(animated: true, completion: { () -> Void in
+
+        })
+    }
 }
 

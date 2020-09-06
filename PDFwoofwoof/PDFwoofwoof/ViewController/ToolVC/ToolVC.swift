@@ -44,6 +44,8 @@ class ToolVC: UIViewController {
     private func setupNavigation() {
         
         self.navigationItem.title = "Tool"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
         self.addRightBarButtonWithTittle(title: "Done", action: #selector(tapBack))
         setupBaseNavigation()
     }
@@ -56,8 +58,8 @@ class ToolVC: UIViewController {
 //        self.clcTool.decelerationRate = UIScrollView.DecelerationRate.normal
         clcTool.contentInset.bottom = clcTool.contentInset.bottom + 40.0
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ( clcTool.frame.width - 80 ) / 3 , height: (( clcTool.frame.width - 80 ) / 3) * ( 1 / 1 ))
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        layout.itemSize = CGSize(width: ( clcTool.frame.width - 60 ) / 2 , height: (( clcTool.frame.width - 80 ) / 3) * ( 1 / 1 ))
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         layout.minimumInteritemSpacing =  20
         layout.minimumLineSpacing = 20
         layout.scrollDirection = .vertical
@@ -84,6 +86,8 @@ class ToolVC: UIViewController {
     private func presentCamera() {
         let scannerViewController = ImageScannerController()
         scannerViewController.imageScannerDelegate = self
+        scannerViewController.modalPresentationStyle = .fullScreen
+        scannerViewController.modalTransitionStyle = .crossDissolve
         present(scannerViewController, animated: true)
     }
 
@@ -112,7 +116,7 @@ extension ToolVC : UICollectionViewDataSource {
 
 extension ToolVC : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = ( clcTool.frame.width - 80 ) / 3
+        let width = ( clcTool.frame.width - 60 ) / 2
         return CGSize(width: width , height: width * ( 1 / 1 ))
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

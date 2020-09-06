@@ -16,7 +16,7 @@ class ToolCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         vBackground.layer.cornerRadius = 5.0
-        lblToolName.font = UIFont.getFontOpenSans(style: .Regular, size: 13)
+        lblToolName.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
         lblToolName.textColor = CMSConfigConstants.themeStyle.tintColor
     }
     

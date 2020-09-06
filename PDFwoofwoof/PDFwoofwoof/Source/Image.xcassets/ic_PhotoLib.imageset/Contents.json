@@ -1,16 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "Frame 31.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "flash@2x.png",
+      "filename" : "Frame 31@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "flash@3x.png",
+      "filename" : "Frame 31@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
@@ -18,5 +19,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
   }
 }

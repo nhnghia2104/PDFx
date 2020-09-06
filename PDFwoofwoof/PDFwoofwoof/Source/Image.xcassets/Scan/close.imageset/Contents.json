@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "flash.png",
+      "filename" : "codicon_close.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "flash@2x.png",
+      "filename" : "codicon_close@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "flash@3x.png",
+      "filename" : "codicon_close@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
