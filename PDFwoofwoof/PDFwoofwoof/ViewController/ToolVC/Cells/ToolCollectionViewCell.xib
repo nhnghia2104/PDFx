@@ -41,20 +41,6 @@
                             <constraint firstItem="Vil-EK-enb" firstAttribute="centerX" secondItem="SGF-NV-GCp" secondAttribute="centerX" id="pm8-2l-nDo"/>
                             <constraint firstItem="euT-q3-WIq" firstAttribute="centerX" secondItem="SGF-NV-GCp" secondAttribute="centerX" id="xPz-Py-j2Q"/>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                <color key="value" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                <real key="value" value="1"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                <size key="value" width="1" height="1"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                <real key="value" value="5"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
             </view>

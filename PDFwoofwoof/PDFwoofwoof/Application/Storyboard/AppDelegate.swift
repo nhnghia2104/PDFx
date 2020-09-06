@@ -22,8 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var mainViewController : UIViewController?
         let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftMenuVC") as! LeftMenuVC
+        
+        
         if UserDefaults.standard.object(forKey: "MainView") == nil {
-            UserDefaults.standard.setValue(1, forKey: "MainView")
+            // HomeVC is default view
+            UserDefaults.standard.setValue(0, forKey: "MainView")
         }
         if let key = UserDefaults.standard.object(forKey: "MainView") as? Int {
             switch key {

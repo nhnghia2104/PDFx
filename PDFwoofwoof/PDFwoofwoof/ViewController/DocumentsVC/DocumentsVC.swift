@@ -43,7 +43,7 @@ class DocumentsVC: UIViewController {
     }
     private var selectedCount = 0 {
         didSet {
-            isSelectAll = selectedCount == listFolder.count + listDocument.count
+            isSelectAll = selectedCount == listDocument.count
             navigationItem.title = "\(selectedCount) selected"
         }
     }
@@ -190,9 +190,11 @@ class DocumentsVC: UIViewController {
         isSelectAll = !isSelectAll
         if isSelectAll {
             for row in 0..<clvDocument.numberOfItems(inSection: 0) {
-                self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .bottom)
+                if (row < listFolder.count) == false {
+                    self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .bottom)
+                }
             }
-            selectedCount = clvDocument.numberOfItems(inSection: 0)
+            selectedCount = clvDocument.numberOfItems(inSection: 0) - listFolder.count
         }
         else {
             for row in 0..<clvDocument.numberOfItems(inSection: 0) {
@@ -607,7 +609,9 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             }
         }
         else {
-            selectedCount += 1
+            if (indexPath.item < listFolder.count) == false {
+                selectedCount += 1
+            }
         }
         if !(searchBar.text?.isEmpty ?? true) {
             searchBar.showsCancelButton = false
@@ -622,7 +626,9 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if isSelectMode {
-            selectedCount -= 1
+            if (indexPath.item < listFolder.count) == false {
+                selectedCount -= 1
+            }
         }
         
     }
@@ -682,7 +688,7 @@ extension DocumentsVC : UIDocumentPickerDelegate, LaunchURLDelegate {
             self?.openPDF(pdfData: Document(fileURL: url))
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            FileManager.default.saveFile(from: url) { [weak self] (done,urlSaved) in
+            FileManager.default.saveFile(from: url, at: self?.location) { [weak self] (done,urlSaved) in
                 // :(
             }
         }
@@ -727,7 +733,7 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         let moreAction = SwipeAction(style: .default, title: "More") { action, indexPath in
             
         }
-        moreAction.image = UIImage(named: "ic_Expand-right")
+        moreAction.image = UIImage(named: "ic_More-mini")
         moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
         moreAction.textColor = CMSConfigConstants.themeStyle.title2

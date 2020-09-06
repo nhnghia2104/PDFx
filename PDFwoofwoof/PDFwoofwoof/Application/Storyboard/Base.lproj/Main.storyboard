@@ -116,7 +116,7 @@
                                             <constraint firstAttribute="width" constant="40" id="O8v-lB-rPs"/>
                                             <constraint firstAttribute="height" constant="40" id="vpG-pi-FVM"/>
                                         </constraints>
-                                        <state key="normal" image="trash.fill" catalog="system"/>
+                                        <state key="normal" image="ic_Delete-mini"/>
                                         <connections>
                                             <action selector="tapDelete" destination="4IS-Yh-WyK" eventType="touchUpInside" id="3zr-PY-xgc"/>
                                         </connections>
@@ -235,7 +235,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="trash.fill" catalog="system" width="121" height="128"/>
+        <image name="ic_Delete-mini" width="128" height="128"/>
         <image name="tray.and.arrow.down.fill" catalog="system" width="128" height="114"/>
     </resources>
 </document>
