@@ -502,6 +502,7 @@ class DocumentsVC: UIViewController {
             clvDocument.reloadItems(at: [indexPath])
             return
         }
+        cell.isExpanding = false
         cell.isFavorite = newDoc.isFavorite
         cell.hideSwipe(animated: false)
     }
@@ -706,7 +707,7 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         let favorite = SwipeAction(style: .default, title: isFavor ? "Unfovorite" : "Favorite") { [weak self](action, indexPath) in
             self?.saveFavorite(indexPath: indexPath)
         }
-        favorite.image = UIImage(named: isFavor ? "ic_unStar-mini" : "ic_Star-mini")
+        favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
         favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
         favorite.textColor = CMSConfigConstants.themeStyle.title2

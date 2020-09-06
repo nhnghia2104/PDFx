@@ -22,7 +22,7 @@ class ToolVC: UIViewController {
     var listTools : [Tool] = [
         Tool(name: "Open File", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "0f4c75"), background: UIColor(hex: "3282b8",alpha: 0.5)),
         Tool(name: "Fill & Sign", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "3b6978"), background: UIColor(hex: "84a9ac",alpha: 0.5)),
-        Tool(name: "Scan", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "c7b198"), background: UIColor(hex: "dfd3c3",alpha: 0.5)),
+        Tool(name: "Scan", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "c7b198"), background: UIColor(hex: "dfd3c3",alpha: 0.5), type: .scan),
         Tool(name: "Create PDF", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "e79cc2"), background: UIColor(hex: "f6bed6",alpha: 0.5)),
         Tool(name: "Arrange Page", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "3b5249"), background: UIColor(hex: "519872",alpha: 0.5)),
         Tool(name: "Protect PDF", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "776d8a"), background: UIColor(hex: "f3e6e3",alpha: 0.5)),
@@ -81,6 +81,11 @@ class ToolVC: UIViewController {
         
         self.navigationController?.pushViewController(mergeVC, animated: true)
     }
+    private func presentCamera() {
+        let scannerViewController = ImageScannerController()
+        scannerViewController.imageScannerDelegate = self
+        present(scannerViewController, animated: true)
+    }
 
 }
 
@@ -126,6 +131,9 @@ extension ToolVC : UICollectionViewDelegateFlowLayout {
         case .merge:
             goToMerge()
             break
+        case .scan:
+            presentCamera()
+            break
         case .none:
             break
         default:
@@ -135,5 +143,19 @@ extension ToolVC : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .init(width: view.frame.width, height: 50)
+    }
+}
+
+extension ToolVC : ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
+        scanner.dismiss(animated: true)
+    }
+    
+    func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
+        scanner.dismiss(animated: true)
+    }
+    
+    func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+        print(error)
     }
 }

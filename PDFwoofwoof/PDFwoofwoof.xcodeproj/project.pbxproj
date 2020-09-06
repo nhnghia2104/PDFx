@@ -7,6 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD05625825047FDA0044037B /* ImageScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05625725047FDA0044037B /* ImageScannerController.swift */; };
+		AD05625B2504801A0044037B /* RectangleFeaturesFunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05625A2504801A0044037B /* RectangleFeaturesFunnel.swift */; };
+		AD05625D250480C30044037B /* CaptureSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05625C250480C30044037B /* CaptureSessionManager.swift */; };
+		AD05625F250480DC0044037B /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05625E250480DC0044037B /* ShutterButton.swift */; };
+		AD056261250481050044037B /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056260250481050044037B /* CameraScannerViewController.swift */; };
+		AD0562632504811F0044037B /* FocusRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0562622504811F0044037B /* FocusRectangleView.swift */; };
+		AD056265250481330044037B /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056264250481330044037B /* ScannerViewController.swift */; };
+		AD0562682504816F0044037B /* AVCaptureVideoOrientation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0562672504816F0044037B /* AVCaptureVideoOrientation+Utils.swift */; };
+		AD05626A250481A80044037B /* CGPoint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056269250481A80044037B /* CGPoint+Utils.swift */; };
+		AD05626C2504822F0044037B /* CGSize+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05626B2504822F0044037B /* CGSize+Utils.swift */; };
+		AD05626E250482400044037B /* CGImagePropertyOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05626D250482400044037B /* CGImagePropertyOrientation.swift */; };
+		AD056270250482520044037B /* CIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05626F250482520044037B /* CIImage+Utils.swift */; };
+		AD056272250482630044037B /* CGAffineTransform+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056271250482630044037B /* CGAffineTransform+Utils.swift */; };
+		AD056274250482720044037B /* CGRect+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056273250482720044037B /* CGRect+Utils.swift */; };
+		AD056276250482840044037B /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056275250482840044037B /* Array+Utils.swift */; };
+		AD056278250482960044037B /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056277250482960044037B /* UIImage+Orientation.swift */; };
+		AD05627A250482A70044037B /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056279250482A70044037B /* UIImage+Utils.swift */; };
+		AD05627C250482BB0044037B /* UIImage+SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05627B250482BB0044037B /* UIImage+SFSymbol.swift */; };
+		AD05627F250482F30044037B /* EditImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05627E250482F30044037B /* EditImageViewController.swift */; };
+		AD0562812504830F0044037B /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0562802504830F0044037B /* ZoomGestureController.swift */; };
+		AD056283250483310044037B /* EditScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056282250483310044037B /* EditScanViewController.swift */; };
+		AD056286250483650044037B /* EditScanCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056285250483650044037B /* EditScanCornerView.swift */; };
+		AD0562882504837E0044037B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0562872504837E0044037B /* Error.swift */; };
+		AD05628A250483910044037B /* VisionRectangleDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056289250483910044037B /* VisionRectangleDetector.swift */; };
+		AD05628C250483A50044037B /* CIRectangleDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05628B250483A50044037B /* CIRectangleDetector.swift */; };
+		AD05628E250483B60044037B /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05628D250483B60044037B /* QuadrilateralView.swift */; };
+		AD056290250483D20044037B /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05628F250483D20044037B /* Quadrilateral.swift */; };
+		AD0562932504844D0044037B /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0562922504844D0044037B /* ReviewViewController.swift */; };
+		AD056296250484C40044037B /* CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056295250484C40044037B /* CaptureDevice.swift */; };
+		AD056298250484D90044037B /* Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD056297250484D90044037B /* Transformable.swift */; };
+		AD05629B250484FB0044037B /* CaptureSession+Flash.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05629A250484FB0044037B /* CaptureSession+Flash.swift */; };
+		AD05629D2504850E0044037B /* CaptureSession+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05629C2504850E0044037B /* CaptureSession+Orientation.swift */; };
+		AD05629F250485280044037B /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD05629E250485280044037B /* CaptureSession.swift */; };
+		AD0562A1250485390044037B /* CaptureSession+Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0562A0250485390044037B /* CaptureSession+Focus.swift */; };
 		AD07C9E324F6E4BF00A68E2D /* HeaderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD07C9E124F6E4BF00A68E2D /* HeaderHomeView.swift */; };
 		AD07C9E424F6E4BF00A68E2D /* HeaderHomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD07C9E224F6E4BF00A68E2D /* HeaderHomeView.xib */; };
 		AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD09B75724E9413E00E21304 /* LaunchState.swift */; };
@@ -42,6 +76,8 @@
 		AD27E87624E56037001979D4 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86B24E56037001979D4 /* OpenSans-SemiBoldItalic.ttf */; };
 		AD27E87924E56037001979D4 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86E24E56037001979D4 /* OpenSans-Regular.ttf */; };
 		AD27E87A24E56037001979D4 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD27E86F24E56037001979D4 /* OpenSans-BoldItalic.ttf */; };
+		AD2AB2992503F1F400380E8C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD2AB2982503F1F400380E8C /* Realm.framework */; };
+		AD2AB29D2503F1FA00380E8C /* NVActivityIndicatorView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD2AB29C2503F1FA00380E8C /* NVActivityIndicatorView.framework */; };
 		AD32330E24F60BDE00A21390 /* PDFDocument.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD32330D24F60BDE00A21390 /* PDFDocument.storyboard */; };
 		AD32331024F60CB300A21390 /* HomeVC_UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD32330F24F60CB300A21390 /* HomeVC_UIScrollViewDelegate.swift */; };
 		AD347D6F24F2846900C79657 /* FavoritePDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD347D6E24F2846900C79657 /* FavoritePDF.swift */; };
@@ -124,6 +160,40 @@
 		09A7023CCE1FB987793CF78B /* Pods-PDFwoofwoof.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFwoofwoof.release.xcconfig"; path = "Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof.release.xcconfig"; sourceTree = "<group>"; };
 		266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PDFwoofwoof.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98A20A43BA2F32DE43D2C96F /* Pods-PDFwoofwoof.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFwoofwoof.debug.xcconfig"; path = "Target Support Files/Pods-PDFwoofwoof/Pods-PDFwoofwoof.debug.xcconfig"; sourceTree = "<group>"; };
+		AD05625725047FDA0044037B /* ImageScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScannerController.swift; sourceTree = "<group>"; };
+		AD05625A2504801A0044037B /* RectangleFeaturesFunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnel.swift; sourceTree = "<group>"; };
+		AD05625C250480C30044037B /* CaptureSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionManager.swift; sourceTree = "<group>"; };
+		AD05625E250480DC0044037B /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
+		AD056260250481050044037B /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
+		AD0562622504811F0044037B /* FocusRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRectangleView.swift; sourceTree = "<group>"; };
+		AD056264250481330044037B /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		AD0562672504816F0044037B /* AVCaptureVideoOrientation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVCaptureVideoOrientation+Utils.swift"; sourceTree = "<group>"; };
+		AD056269250481A80044037B /* CGPoint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Utils.swift"; sourceTree = "<group>"; };
+		AD05626B2504822F0044037B /* CGSize+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Utils.swift"; sourceTree = "<group>"; };
+		AD05626D250482400044037B /* CGImagePropertyOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImagePropertyOrientation.swift; sourceTree = "<group>"; };
+		AD05626F250482520044037B /* CIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Utils.swift"; sourceTree = "<group>"; };
+		AD056271250482630044037B /* CGAffineTransform+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+Utils.swift"; sourceTree = "<group>"; };
+		AD056273250482720044037B /* CGRect+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Utils.swift"; sourceTree = "<group>"; };
+		AD056275250482840044037B /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
+		AD056277250482960044037B /* UIImage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
+		AD056279250482A70044037B /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
+		AD05627B250482BB0044037B /* UIImage+SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SFSymbol.swift"; sourceTree = "<group>"; };
+		AD05627E250482F30044037B /* EditImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImageViewController.swift; sourceTree = "<group>"; };
+		AD0562802504830F0044037B /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
+		AD056282250483310044037B /* EditScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanViewController.swift; sourceTree = "<group>"; };
+		AD056285250483650044037B /* EditScanCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScanCornerView.swift; sourceTree = "<group>"; };
+		AD0562872504837E0044037B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		AD056289250483910044037B /* VisionRectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionRectangleDetector.swift; sourceTree = "<group>"; };
+		AD05628B250483A50044037B /* CIRectangleDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIRectangleDetector.swift; sourceTree = "<group>"; };
+		AD05628D250483B60044037B /* QuadrilateralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
+		AD05628F250483D20044037B /* Quadrilateral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
+		AD0562922504844D0044037B /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
+		AD056295250484C40044037B /* CaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureDevice.swift; sourceTree = "<group>"; };
+		AD056297250484D90044037B /* Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformable.swift; sourceTree = "<group>"; };
+		AD05629A250484FB0044037B /* CaptureSession+Flash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureSession+Flash.swift"; sourceTree = "<group>"; };
+		AD05629C2504850E0044037B /* CaptureSession+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureSession+Orientation.swift"; sourceTree = "<group>"; };
+		AD05629E250485280044037B /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
+		AD0562A0250485390044037B /* CaptureSession+Focus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureSession+Focus.swift"; sourceTree = "<group>"; };
 		AD07C9E124F6E4BF00A68E2D /* HeaderHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderHomeView.swift; sourceTree = "<group>"; };
 		AD07C9E224F6E4BF00A68E2D /* HeaderHomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderHomeView.xib; sourceTree = "<group>"; };
 		AD09B75724E9413E00E21304 /* LaunchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchState.swift; sourceTree = "<group>"; };
@@ -159,6 +229,9 @@
 		AD27E86B24E56037001979D4 /* OpenSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		AD27E86E24E56037001979D4 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		AD27E86F24E56037001979D4 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		AD2AB2982503F1F400380E8C /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD2AB29C2503F1FA00380E8C /* NVActivityIndicatorView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NVActivityIndicatorView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD2AB29F2503F20200380E8C /* WeScan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WeScan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD32330D24F60BDE00A21390 /* PDFDocument.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PDFDocument.storyboard; sourceTree = "<group>"; };
 		AD32330F24F60CB300A21390 /* HomeVC_UIScrollViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC_UIScrollViewDelegate.swift; sourceTree = "<group>"; };
 		AD347D6E24F2846900C79657 /* FavoritePDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePDF.swift; sourceTree = "<group>"; };
@@ -231,7 +304,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD2AB2992503F1F400380E8C /* Realm.framework in Frameworks */,
 				B9872126178C3E757399B30A /* Pods_PDFwoofwoof.framework in Frameworks */,
+				AD2AB29D2503F1FA00380E8C /* NVActivityIndicatorView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,9 +330,94 @@
 		0043D9026E9228C70917630E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AD2AB29F2503F20200380E8C /* WeScan.framework */,
+				AD2AB29C2503F1FA00380E8C /* NVActivityIndicatorView.framework */,
+				AD2AB2982503F1F400380E8C /* Realm.framework */,
 				266DAD181D1D1EF768A481B7 /* Pods_PDFwoofwoof.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD0562592504800F0044037B /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				AD05625A2504801A0044037B /* RectangleFeaturesFunnel.swift */,
+				AD05625C250480C30044037B /* CaptureSessionManager.swift */,
+				AD05625E250480DC0044037B /* ShutterButton.swift */,
+				AD056260250481050044037B /* CameraScannerViewController.swift */,
+				AD0562622504811F0044037B /* FocusRectangleView.swift */,
+				AD056264250481330044037B /* ScannerViewController.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		AD056266250481590044037B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AD0562672504816F0044037B /* AVCaptureVideoOrientation+Utils.swift */,
+				AD056269250481A80044037B /* CGPoint+Utils.swift */,
+				AD05626B2504822F0044037B /* CGSize+Utils.swift */,
+				AD05626D250482400044037B /* CGImagePropertyOrientation.swift */,
+				AD05626F250482520044037B /* CIImage+Utils.swift */,
+				AD056271250482630044037B /* CGAffineTransform+Utils.swift */,
+				AD056273250482720044037B /* CGRect+Utils.swift */,
+				AD056275250482840044037B /* Array+Utils.swift */,
+				AD056277250482960044037B /* UIImage+Orientation.swift */,
+				AD056279250482A70044037B /* UIImage+Utils.swift */,
+				AD05627B250482BB0044037B /* UIImage+SFSymbol.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		AD05627D250482E10044037B /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				AD05627E250482F30044037B /* EditImageViewController.swift */,
+				AD0562802504830F0044037B /* ZoomGestureController.swift */,
+				AD056282250483310044037B /* EditScanViewController.swift */,
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
+		AD0562842504834B0044037B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				AD056285250483650044037B /* EditScanCornerView.swift */,
+				AD0562872504837E0044037B /* Error.swift */,
+				AD056289250483910044037B /* VisionRectangleDetector.swift */,
+				AD05628B250483A50044037B /* CIRectangleDetector.swift */,
+				AD05628D250483B60044037B /* QuadrilateralView.swift */,
+				AD05628F250483D20044037B /* Quadrilateral.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		AD0562912504840F0044037B /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				AD0562922504844D0044037B /* ReviewViewController.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		AD056294250484A00044037B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				AD056295250484C40044037B /* CaptureDevice.swift */,
+				AD056297250484D90044037B /* Transformable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		AD056299250484E90044037B /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				AD05629A250484FB0044037B /* CaptureSession+Flash.swift */,
+				AD05629C2504850E0044037B /* CaptureSession+Orientation.swift */,
+				AD05629E250485280044037B /* CaptureSession.swift */,
+				AD0562A0250485390044037B /* CaptureSession+Focus.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 		AD07C9DD24F6D9B500A68E2D /* Lib */ = {
@@ -342,7 +502,6 @@
 			isa = PBXGroup;
 			children = (
 				AD4CEA0E24E39F2800C165A3 /* Storyboard */,
-				ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */,
 				AD09B75724E9413E00E21304 /* LaunchState.swift */,
 			);
 			path = Application;
@@ -398,6 +557,21 @@
 				AD27E86F24E56037001979D4 /* OpenSans-BoldItalic.ttf */,
 			);
 			path = Open_Sans;
+			sourceTree = "<group>";
+		};
+		AD2AB2A22503F4B800380E8C /* ScanVC */ = {
+			isa = PBXGroup;
+			children = (
+				AD05625725047FDA0044037B /* ImageScannerController.swift */,
+				AD0562592504800F0044037B /* Scan */,
+				AD056266250481590044037B /* Extension */,
+				AD05627D250482E10044037B /* Edit */,
+				AD0562842504834B0044037B /* Common */,
+				AD0562912504840F0044037B /* Review */,
+				AD056294250484A00044037B /* Protocol */,
+				AD056299250484E90044037B /* Session */,
+			);
+			path = ScanVC;
 			sourceTree = "<group>";
 		};
 		AD3DFC26250039530076235D /* IBDesignable */ = {
@@ -466,6 +640,7 @@
 				ADE5BBB324E1947F00492D5A /* Main.storyboard */,
 				AD32330D24F60BDE00A21390 /* PDFDocument.storyboard */,
 				ADD139BB24F91B74006AF675 /* Tool.storyboard */,
+				ADE5BBAD24E1947E00492D5A /* AppDelegate.swift */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -558,9 +733,10 @@
 		ADD139B624F919E1006AF675 /* ToolVC */ = {
 			isa = PBXGroup;
 			children = (
-				ADD7829025001FB0009C76D6 /* MergeVC */,
 				ADD139B924F91A4E006AF675 /* ToolVC.swift */,
 				ADD139BD24F91F27006AF675 /* Cells */,
+				AD2AB2A22503F4B800380E8C /* ScanVC */,
+				ADD7829025001FB0009C76D6 /* MergeVC */,
 			);
 			path = ToolVC;
 			sourceTree = "<group>";
@@ -786,6 +962,19 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
+				"es-419",
+				es,
+				fr,
+				hu,
+				it,
+				pl,
+				"pt-BR",
+				"pt-PT",
+				ru,
+				tr,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = ADE5BBA124E1947E00492D5A;
 			productRefGroup = ADE5BBAB24E1947E00492D5A /* Products */;
@@ -909,26 +1098,50 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD05628E250483B60044037B /* QuadrilateralView.swift in Sources */,
 				AD4CEA1124E3AFBC00C165A3 /* SlideMenuController.swift in Sources */,
 				AD3DFC252500366F0076235D /* UIDevice.swift in Sources */,
 				AD41CF1B24F1170D0084B0B7 /* Math.swift in Sources */,
 				AD4D4E4324E7C76500FD9AE8 /* CMSConfigConstants.swift in Sources */,
 				AD41889824FCF76A00D8B817 /* PDF+Zoom.swift in Sources */,
+				AD05627F250482F30044037B /* EditImageViewController.swift in Sources */,
 				AD41CF1D24F11EEF0084B0B7 /* Date.swift in Sources */,
+				AD05629F250485280044037B /* CaptureSession.swift in Sources */,
 				ADD7829225002447009C76D6 /* MergeVC.swift in Sources */,
+				AD05625825047FDA0044037B /* ImageScannerController.swift in Sources */,
+				AD05626C2504822F0044037B /* CGSize+Utils.swift in Sources */,
 				AD443ED724EFCDAC0025FA49 /* GridDocCollectionViewCell.swift in Sources */,
 				AD22C17724F952FC00906A0C /* Notice.swift in Sources */,
+				AD0562682504816F0044037B /* AVCaptureVideoOrientation+Utils.swift in Sources */,
+				AD05626A250481A80044037B /* CGPoint+Utils.swift in Sources */,
+				AD056296250484C40044037B /* CaptureDevice.swift in Sources */,
+				AD056283250483310044037B /* EditScanViewController.swift in Sources */,
 				AD461DBE24F3DE8B006F4647 /* PDFViewExtension.swift in Sources */,
+				AD05628C250483A50044037B /* CIRectangleDetector.swift in Sources */,
+				AD05627C250482BB0044037B /* UIImage+SFSymbol.swift in Sources */,
 				AD4CEA2424E3E70C00C165A3 /* String.swift in Sources */,
+				AD05625B2504801A0044037B /* RectangleFeaturesFunnel.swift in Sources */,
 				AD7621A924F573230099D92E /* HeaderDocumentView.swift in Sources */,
+				AD0562932504844D0044037B /* ReviewViewController.swift in Sources */,
+				AD056286250483650044037B /* EditScanCornerView.swift in Sources */,
+				AD056274250482720044037B /* CGRect+Utils.swift in Sources */,
+				AD056298250484D90044037B /* Transformable.swift in Sources */,
 				AD4CEA1B24E3CC8400C165A3 /* ExSlideMenuControllers.swift in Sources */,
 				AD27E81D24E4EFF3001979D4 /* Tool.swift in Sources */,
+				AD05627A250482A70044037B /* UIImage+Utils.swift in Sources */,
 				AD07C9E324F6E4BF00A68E2D /* HeaderHomeView.swift in Sources */,
+				AD05625D250480C30044037B /* CaptureSessionManager.swift in Sources */,
 				AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
 				ADD139BA24F91A4E006AF675 /* ToolVC.swift in Sources */,
+				AD056265250481330044037B /* ScannerViewController.swift in Sources */,
+				AD05629D2504850E0044037B /* CaptureSession+Orientation.swift in Sources */,
+				AD056270250482520044037B /* CIImage+Utils.swift in Sources */,
+				AD05629B250484FB0044037B /* CaptureSession+Flash.swift in Sources */,
+				AD0562A1250485390044037B /* CaptureSession+Focus.swift in Sources */,
 				ADD47BDF24EE90F10097250C /* DocumentsVC.swift in Sources */,
 				AD22C16F24F943F100906A0C /* NoticeVC.swift in Sources */,
+				AD056290250483D20044037B /* Quadrilateral.swift in Sources */,
 				AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
 				AD27E86324E55D12001979D4 /* UIFont.swift in Sources */,
@@ -941,8 +1154,11 @@
 				AD76219E24F55C230099D92E /* UITableView.swift in Sources */,
 				AD347D7124F28CF500C79657 /* RecentPDF.swift in Sources */,
 				ADB8309D24F90D29003EEAEA /* UICollectionView.swift in Sources */,
+				AD056272250482630044037B /* CGAffineTransform+Utils.swift in Sources */,
 				ADDD22BB24FE41EE000AE175 /* SearchResultCell.swift in Sources */,
 				AD230E7324EA9F27000225D7 /* MyDocument.swift in Sources */,
+				AD056261250481050044037B /* CameraScannerViewController.swift in Sources */,
+				AD05625F250480DC0044037B /* ShutterButton.swift in Sources */,
 				ADD139C024F91F78006AF675 /* ToolCollectionViewCell.swift in Sources */,
 				AD09B75824E9413E00E21304 /* LaunchState.swift in Sources */,
 				AD3DFC282500396C0076235D /* ShadowView.swift in Sources */,
@@ -952,14 +1168,21 @@
 				AD347D6F24F2846900C79657 /* FavoritePDF.swift in Sources */,
 				ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */,
 				AD22C17424F946D700906A0C /* NoticeTableViewCell.swift in Sources */,
+				AD056276250482840044037B /* Array+Utils.swift in Sources */,
 				AD32331024F60CB300A21390 /* HomeVC_UIScrollViewDelegate.swift in Sources */,
 				AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */,
 				AD4CEA2224E3E6C100C165A3 /* BaseTableViewCell.swift in Sources */,
+				AD05626E250482400044037B /* CGImagePropertyOrientation.swift in Sources */,
+				AD0562632504811F0044037B /* FocusRectangleView.swift in Sources */,
 				AD724A5724EE6BCC0028F61F /* FileManager.swift in Sources */,
+				AD05628A250483910044037B /* VisionRectangleDetector.swift in Sources */,
 				AD4CEA2A24E40C3900C165A3 /* BaseVar.swift in Sources */,
 				AD461DB924F3DAD2006F4647 /* Document.swift in Sources */,
+				AD056278250482960044037B /* UIImage+Orientation.swift in Sources */,
 				AD7621A524F562330099D92E /* EmptyView.swift in Sources */,
 				ADCC687A24ED410500F1691B /* RealmManager.swift in Sources */,
+				AD0562812504830F0044037B /* ZoomGestureController.swift in Sources */,
+				AD0562882504837E0044037B /* Error.swift in Sources */,
 				AD4CEA1D24E3CCB600C165A3 /* UIApplication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

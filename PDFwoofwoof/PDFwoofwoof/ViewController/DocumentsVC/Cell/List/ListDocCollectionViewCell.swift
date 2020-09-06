@@ -87,6 +87,7 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         
     }
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
+        imgStar.isHidden = true
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")

@@ -49,8 +49,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="WA3-4P-W1r">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_heart" translatesAutoresizingMaskIntoConstraints="NO" id="WA3-4P-W1r">
                                 <rect key="frame" x="154" y="2" width="16" height="16"/>
+                                <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="2bt-am-axF"/>
                                     <constraint firstAttribute="width" constant="16" id="xam-F1-SAc"/>
@@ -132,7 +133,7 @@
     </objects>
     <resources>
         <image name="ic_Circle" width="30" height="30"/>
+        <image name="ic_heart" width="20" height="18"/>
         <image name="ic_more" width="40" height="40"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
 </document>

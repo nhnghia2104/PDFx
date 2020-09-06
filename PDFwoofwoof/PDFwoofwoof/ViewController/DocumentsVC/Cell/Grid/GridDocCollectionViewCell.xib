@@ -43,12 +43,19 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NiQ-CB-5JE">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_Heart-withBackGround" translatesAutoresizingMaskIntoConstraints="NO" id="NiQ-CB-5JE">
                         <rect key="frame" x="103" y="10" width="20" height="20"/>
+                        <color key="backgroundColor" white="1" alpha="0.40146083047945208" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="LHQ-py-Bkt"/>
                             <constraint firstAttribute="height" constant="20" id="xGx-Q0-Me3"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_Circle" translatesAutoresizingMaskIntoConstraints="NO" id="Io3-6O-JZU">
                         <rect key="frame" x="51.5" y="83.5" width="30" height="30"/>
@@ -100,7 +107,7 @@
     </objects>
     <resources>
         <image name="ic_Circle" width="30" height="30"/>
-        <image name="ic_folder" width="50" height="50"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
+        <image name="ic_Heart-withBackGround" width="25" height="25"/>
+        <image name="ic_folder" width="158" height="158"/>
     </resources>
 </document>

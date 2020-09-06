@@ -152,6 +152,21 @@
             </objects>
             <point key="canvasLocation" x="1292.753623188406" y="-56.25"/>
         </scene>
+        <!--ScanVC-->
+        <scene sceneID="Rfs-ho-a1F">
+            <objects>
+                <viewController id="pjn-Ny-u1F" customClass="ScanVC" customModule="PDFwoofwoof" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gCb-hh-6Zk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="VQA-Hj-Jiw"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L8j-MB-VZe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2174" y="-56"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ic_GridView" width="40" height="40"/>
