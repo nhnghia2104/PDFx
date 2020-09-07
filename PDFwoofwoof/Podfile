@@ -1,0 +1,16 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, "11.0"
+
+use_frameworks!
+project 'PDFwoofwoof.xcodeproj'
+  
+target ‘PDFwoofwoof’ do
+  
+    use_frameworks!
+    pod 'RealmSwift'
+    pod 'NVActivityIndicatorView' # https://github.com/ninjaprox/NVActivityIndicatorView -- indicator
+    pod 'SwipeCellKit' # swipe for collectionview
+    #pod 'WeScan', '>= 0.9'
+    
+end
+
