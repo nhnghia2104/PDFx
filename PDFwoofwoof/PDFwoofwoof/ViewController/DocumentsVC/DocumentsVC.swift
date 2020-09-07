@@ -13,8 +13,11 @@ import SwipeCellKit
 
 class DocumentsVC: UIViewController {
 
+    @IBOutlet weak var btnMerge: UIButton!
+    @IBOutlet weak var btnDelete: UIButton!
+    @IBOutlet weak var clvBottomAnchor: NSLayoutConstraint!
     @IBOutlet weak var vBottomTool: UIView!
-    @IBOutlet weak var vToolBottomAnchor: NSLayoutConstraint!
+//    @IBOutlet weak var vToolBottomAnchor: NSLayoutConstraint!
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var topAnchorOfCollectionView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -75,7 +78,7 @@ class DocumentsVC: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        clvDocument.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -106,12 +109,13 @@ class DocumentsVC: UIViewController {
         searchBar.isHidden = true
     }
     private func setupCollectionView() {
-        self.clvDocument.decelerationRate = UIScrollView.DecelerationRate.normal
-        clvDocument.contentInset.bottom = clvDocument.contentInset.bottom + 40.0
+//        self.clvDocument.decelerationRate = UIScrollView.DecelerationRate.normal
+        clvDocument.contentInset.bottom = clvDocument.contentInset.bottom + 20.0
+        clvDocument.contentInset.top = clvDocument.contentInset.top + 20.0
 
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = isViewAsList ? CGSize(width: clvDocument.frame.width, height: 75) : CGSize(width: ( clvDocument.frame.width - 80 ) / 3 , height: (( clvDocument.frame.width - 80 ) / 3) * ( 1.7 / 1 ))
-        layout.sectionInset = isViewAsList ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) : UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        layout.sectionInset = isViewAsList ? UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0) : UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
         layout.minimumInteritemSpacing = isViewAsList ? 0 : 20
         layout.minimumLineSpacing = isViewAsList ? 0 : 20
         layout.scrollDirection = .vertical
@@ -140,6 +144,9 @@ class DocumentsVC: UIViewController {
            NSAttributedString.Key.font : UIFont.getFontRegular(size: 14)
        ], for: .normal)
         
+        btnDelete.tintColor = CMSConfigConstants.themeStyle.tintGray
+        btnMerge.tintColor = CMSConfigConstants.themeStyle.tintGray
+        
     }
     private func setupViewMode() {
         // List/Grid Mode
@@ -159,8 +166,8 @@ class DocumentsVC: UIViewController {
             orderedAscending = mode[1]
             resortData()
         }
-        
-        vToolBottomAnchor.constant = -140
+        clvBottomAnchor.constant = UIDevice.current.IS_169_RATIO() ? -40 : 0
+//        vToolBottomAnchor.constant = -140
         vBottomTool.isHidden = true
     }
 
@@ -191,7 +198,7 @@ class DocumentsVC: UIViewController {
         if isSelectAll {
             for row in 0..<clvDocument.numberOfItems(inSection: 0) {
                 if (row < listFolder.count) == false {
-                    self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .bottom)
+                    self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .centeredVertically)
                 }
             }
             selectedCount = clvDocument.numberOfItems(inSection: 0) - listFolder.count
@@ -437,7 +444,8 @@ class DocumentsVC: UIViewController {
         navigationController?.navigationItem.title = "Select items"
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.vBottomTool.isHidden = false
-            self?.vToolBottomAnchor.constant = -40
+            self?.clvBottomAnchor.constant = UIDevice.current.IS_169_RATIO() ? 40 : 60
+//            self?.vToolBottomAnchor.constant = -40
             self?.isSelectMode = true
             self?.navigationItem.searchController = nil
             self?.navigationController?.navigationBar.prefersLargeTitles = false
@@ -455,8 +463,8 @@ class DocumentsVC: UIViewController {
         navigationItem.leftBarButtonItem = nil
         setupNavigation()
         UIView.animate(withDuration: 0.2) {[weak self] in
-           
-            self?.vToolBottomAnchor.constant = -140
+            self?.clvBottomAnchor.constant = UIDevice.current.IS_169_RATIO() ? -40 : 0
+//            self?.vToolBottomAnchor.constant = -140
             self?.isSelectMode = false
             self?.view.layoutIfNeeded()
             self?.navigationController?.view.layoutIfNeeded()
@@ -581,7 +589,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
         }
         else
         {
-            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

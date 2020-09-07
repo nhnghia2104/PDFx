@@ -44,8 +44,8 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_Heart-withBackGround" translatesAutoresizingMaskIntoConstraints="NO" id="NiQ-CB-5JE">
-                        <rect key="frame" x="103" y="0.0" width="30" height="30"/>
-                        <color key="backgroundColor" white="1" alpha="0.80246682363013699" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <rect key="frame" x="95" y="8" width="30" height="30"/>
+                        <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="0.79607234589041098" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="LHQ-py-Bkt"/>
@@ -82,13 +82,13 @@
                 <constraint firstAttribute="trailing" secondItem="dqg-FK-H9C" secondAttribute="trailing" id="QSw-xQ-VjU"/>
                 <constraint firstItem="WSP-K6-oFe" firstAttribute="top" secondItem="Io3-6O-JZU" secondAttribute="bottom" constant="20" id="TTX-UE-SAt"/>
                 <constraint firstAttribute="bottom" secondItem="dqg-FK-H9C" secondAttribute="bottom" id="WJI-Gf-1fm"/>
-                <constraint firstItem="NiQ-CB-5JE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="bi1-vP-WFT"/>
+                <constraint firstItem="NiQ-CB-5JE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="bi1-vP-WFT"/>
                 <constraint firstItem="zyD-lq-c74" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="cWb-tS-JmY"/>
                 <constraint firstItem="Q1g-3T-Qdo" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="dqg-FK-H9C" secondAttribute="bottom" constant="-10" id="eRG-zX-x7g"/>
                 <constraint firstItem="dqg-FK-H9C" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gO7-wl-fhx"/>
                 <constraint firstItem="WSP-K6-oFe" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="qby-sj-AcA"/>
                 <constraint firstItem="Q1g-3T-Qdo" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="qgG-XV-umk"/>
-                <constraint firstAttribute="trailing" secondItem="NiQ-CB-5JE" secondAttribute="trailing" id="vVa-TT-wfC"/>
+                <constraint firstAttribute="trailing" secondItem="NiQ-CB-5JE" secondAttribute="trailing" constant="8" id="vVa-TT-wfC"/>
                 <constraint firstItem="zyD-lq-c74" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="yxT-9m-zwa"/>
                 <constraint firstItem="Q1g-3T-Qdo" firstAttribute="top" secondItem="WSP-K6-oFe" secondAttribute="bottom" constant="5" id="zWc-7x-ef7"/>
             </constraints>

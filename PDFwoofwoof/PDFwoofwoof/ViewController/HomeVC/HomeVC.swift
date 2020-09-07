@@ -71,6 +71,10 @@ class HomeVC: UIViewController {
         addNotification()
         
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        collectionView.reloadData()
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -409,7 +413,7 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderHomeView", for: indexPath) as? HeaderHomeView else {
             return .init(frame: .zero)
         }
-        
+        header.isRecent = isRecent
         header.valueDidChange = {[weak self] (isRecent) in
             self?.isRecent = isRecent
         }
@@ -491,47 +495,60 @@ extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
 
 extension HomeVC : SwipeCollectionViewCellDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-
+       func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
 
         guard orientation == .right else { return nil }
         let isFavor = isRecent ? listRecent[indexPath.item].isFavorite : listFavorite[indexPath.item].isFavorite
-        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfovorite" : "Favorite") { [weak self](action, indexPath) in
+        
+        // Favorite action
+        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
             self?.saveFavorite(indexPath: indexPath)
             self?.didBecomeActive()
         }
-        favorite.image = UIImage(named: isFavor ? "ic_unStar-mini" : "ic_Star-mini")
+        favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
         favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        favorite.textColor = CMSConfigConstants.themeStyle.title2
+        favorite.textColor = CMSConfigConstants.themeStyle.tintGray
 
         
-
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            // handle action by updating model with deletion
+        // Delete action
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] action, indexPath in
+//            self?.removeDocument(indexPath: indexPath)
         }
         deleteAction.image = UIImage(named: "ic_Delete-mini")
         deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        deleteAction.textColor = CMSConfigConstants.themeStyle.title2
+        deleteAction.textColor = CMSConfigConstants.themeStyle.tintGray
         
+        
+        // More action
         let moreAction = SwipeAction(style: .default, title: "More") { action, indexPath in
-            // handle action by updating model with deletion
+            
         }
-        moreAction.image = UIImage(named: "ic_Expand-right")
+        moreAction.image = UIImage(named: "ic_More-mini")
         moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        moreAction.textColor = CMSConfigConstants.themeStyle.title2
+        moreAction.textColor = CMSConfigConstants.themeStyle.tintGray
         
-        return [moreAction,deleteAction,favorite]
+        return [deleteAction,favorite,moreAction]
     }
     
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .none
         options.transitionStyle = .border
-//        options.maximumButtonWidth = 64
         options.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         return options
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willBeginEditingItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ListDocCollectionViewCell  else { return }
+        cell.isExpanding = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndEditingItemAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
+        if indexPath == nil { return }
+        guard let cell = collectionView.cellForItem(at: indexPath ?? IndexPath(item: 0, section: 0)) as? ListDocCollectionViewCell  else { return }
+        cell.isExpanding = false
     }
 }

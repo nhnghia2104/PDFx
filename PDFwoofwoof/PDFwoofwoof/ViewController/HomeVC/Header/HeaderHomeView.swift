@@ -17,13 +17,14 @@ class HeaderHomeView: UICollectionReusableView {
     @IBOutlet weak var vLine: UIView!
     var valueDidChange : ((Bool)->())?
     var didTapClear : (()->())?
-    private var isRecent = true {
+    var isRecent = true {
         didSet {
             btnRecent.titleLabel?.font = isRecent ? UIFont.getFontOpenSans(style: .SemiBold, size: 14) : UIFont.getFontOpenSans(style: .Regular, size: 14)
             btnFavorite.titleLabel?.font = isRecent ? UIFont.getFontOpenSans(style: .Regular, size: 14) : UIFont.getFontOpenSans(style: .SemiBold, size: 14)
             btnRecent.alpha = isRecent ? 1.0 : 0.7
             btnFavorite.alpha = isRecent ? 0.7 : 1.0
             btnClear.isHidden = !isRecent
+            lineLeadingAnchor.constant = isRecent ? 0 : 70
         }
     }
     override func awakeFromNib() {
@@ -45,10 +46,9 @@ class HeaderHomeView: UICollectionReusableView {
     }
     private func changeValue() {
             UIView.animate(withDuration: 0.2, animations: {[weak self] in
-                self?.lineLeadingAnchor.constant = (self?.isRecent)! ? 70.0 : 0
+                self?.isRecent.toggle()
                 self?.layoutIfNeeded()
             })
-            isRecent = !isRecent
             valueDidChange!(isRecent)
         }
     

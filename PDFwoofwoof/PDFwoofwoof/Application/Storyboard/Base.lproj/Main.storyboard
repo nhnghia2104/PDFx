@@ -69,7 +69,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="y1M-Sd-dop">
-                                <rect key="frame" x="0.0" y="44" width="414" height="858"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="778"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="C2G-pd-e34">
                                     <size key="itemSize" width="414" height="44"/>
@@ -108,7 +108,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8s-RN-cYP">
-                                <rect key="frame" x="0.0" y="802" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="822" width="414" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvQ-Xb-yZO">
                                         <rect key="frame" x="227" y="10" width="40" height="40"/>
@@ -151,15 +151,15 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="TYt-dX-8nW" firstAttribute="bottom" secondItem="y1M-Sd-dop" secondAttribute="bottom" constant="-40" id="0ev-Tu-daN"/>
+                            <constraint firstItem="TYt-dX-8nW" firstAttribute="bottom" secondItem="y1M-Sd-dop" secondAttribute="bottom" constant="40" id="0ev-Tu-daN"/>
                             <constraint firstItem="N8s-RN-cYP" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" id="8Iz-Zf-UC4"/>
                             <constraint firstItem="TYt-dX-8nW" firstAttribute="trailing" secondItem="y1M-Sd-dop" secondAttribute="trailing" id="8kS-3c-ofP"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" id="Fqc-OU-i2l"/>
                             <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerY" secondItem="jWI-jD-0sF" secondAttribute="centerY" multiplier="0.9" id="GmZ-Pa-s3y"/>
                             <constraint firstItem="0dD-uO-BEA" firstAttribute="trailing" secondItem="TYt-dX-8nW" secondAttribute="trailing" constant="-10" id="Jni-GZ-NHX"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="top" secondItem="TYt-dX-8nW" secondAttribute="top" id="KdE-wy-2en"/>
+                            <constraint firstItem="N8s-RN-cYP" firstAttribute="top" secondItem="y1M-Sd-dop" secondAttribute="bottom" id="L1D-Yd-LT0"/>
                             <constraint firstItem="y1M-Sd-dop" firstAttribute="top" secondItem="0dD-uO-BEA" secondAttribute="bottom" id="L5M-9p-RAE"/>
-                            <constraint firstItem="TYt-dX-8nW" firstAttribute="bottom" secondItem="N8s-RN-cYP" secondAttribute="bottom" constant="-40" id="NLd-Z7-tHF"/>
                             <constraint firstItem="0dD-uO-BEA" firstAttribute="leading" secondItem="TYt-dX-8nW" secondAttribute="leading" constant="10" id="P38-58-OEg"/>
                             <constraint firstItem="DjW-ZL-CTh" firstAttribute="centerX" secondItem="jWI-jD-0sF" secondAttribute="centerX" id="bdq-ly-00T"/>
                             <constraint firstItem="N8s-RN-cYP" firstAttribute="trailing" secondItem="TYt-dX-8nW" secondAttribute="trailing" id="ca6-q3-HAK"/>
@@ -168,11 +168,13 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicatorView" destination="DjW-ZL-CTh" id="azN-kw-gWJ"/>
+                        <outlet property="btnDelete" destination="kvQ-Xb-yZO" id="2p3-E2-GDA"/>
+                        <outlet property="btnMerge" destination="Z5o-rw-7d8" id="0t7-IH-n6o"/>
+                        <outlet property="clvBottomAnchor" destination="0ev-Tu-daN" id="YFh-UW-e7O"/>
                         <outlet property="clvDocument" destination="y1M-Sd-dop" id="8we-cN-9ch"/>
                         <outlet property="searchBar" destination="0dD-uO-BEA" id="0Of-di-7hj"/>
                         <outlet property="topAnchorOfCollectionView" destination="KdE-wy-2en" id="8CS-lw-F61"/>
                         <outlet property="vBottomTool" destination="N8s-RN-cYP" id="UUD-3j-pbu"/>
-                        <outlet property="vToolBottomAnchor" destination="NLd-Z7-tHF" id="8gc-Nl-x2P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fsp-Vq-MWr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
