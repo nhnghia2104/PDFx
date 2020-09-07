@@ -29,6 +29,11 @@ class PDFViewController: UIViewController, UIScrollViewDelegate, UINavigationCon
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveRecentPDF(url: document?.fileURL)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
 
         super.viewWillAppear(animated)
@@ -44,7 +49,7 @@ class PDFViewController: UIViewController, UIScrollViewDelegate, UINavigationCon
                 guard let document = PDFDocument(url: pdfURL) else { return }
                 
                 self?.pdfView.document = document
-                self?.pdfView.minScaleFactor = self?.pdfView.scaleFactorForSizeToFit as! CGFloat
+                self?.pdfView.minScaleFactor = self?.pdfView.scaleFactorForSizeToFit ?? 0.75
             } else {
 
             }
@@ -63,7 +68,12 @@ class PDFViewController: UIViewController, UIScrollViewDelegate, UINavigationCon
         
     }
     //MARK: - START NGHIAXXXXX
-
+    private func saveRecentPDF(url : URL?) {
+        guard let availableURL = url else { return }
+            DispatchQueue.global(qos: .userInitiated).async {
+                RealmManager.shared.saveRecentPDF(url: availableURL)
+            }
+    }
     func config(with doc : Document) {
         self.document = doc
     }

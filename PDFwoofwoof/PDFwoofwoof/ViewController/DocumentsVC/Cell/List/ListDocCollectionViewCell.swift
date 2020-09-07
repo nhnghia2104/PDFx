@@ -84,7 +84,6 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         lblSubTitle.text = pdf.getStrDateTimeCreated() + pdf.getStrSize()
         imgThumbnail.image = pdf.getThumbnail()
         
-        
     }
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
         imgStar.isHidden = true

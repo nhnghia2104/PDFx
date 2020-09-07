@@ -52,6 +52,7 @@ class GridDocCollectionViewCell: UICollectionViewCell {
     }
     
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
+        imgStar.isHidden = true
         imgSelect.isHidden = true
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""

@@ -32,10 +32,11 @@ class HomeVC: UIViewController {
         static let NavBarHeightLargeState: CGFloat = 96.5
     }
     weak var delegate: LeftMenuProtocol?
-
+    
     var isRecent : Bool = true {
         didSet {
             collectionView.reloadData()
+            collectionView.hideSwipeCell()
         }
     }
     
@@ -73,7 +74,7 @@ class HomeVC: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        collectionView.reloadData()
+        collectionView.hideSwipeCell()
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -300,7 +301,7 @@ class HomeVC: UIViewController {
         present(navigationController, animated: true, completion: nil)
     }
     
-    func goToNotice() {
+    private func goToNotice() {
         let noticeVC = NoticeVC(nibName: "NoticeVC", bundle: nil)
         let nvc: UINavigationController = UINavigationController(rootViewController: noticeVC)
         nvc.modalPresentationStyle = .fullScreen
@@ -308,14 +309,13 @@ class HomeVC: UIViewController {
         
     }
     
-    func openBrowser() {
+    private func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
         picker.delegate = self
         picker.modalPresentationStyle = .popover
         present(picker, animated: true)
     }
-    func openPDF(url : URL) {
-        let document = Document(fileURL: url)
+    private func openPDF(url : URL) {
         let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         let pdfVC = navigationController.viewControllers.first as! PDFViewController
@@ -326,20 +326,47 @@ class HomeVC: UIViewController {
         present(navigationController, animated: true, completion: nil)
     }
     
-    func saveRecentPDF(url : URL) {
-        RealmManager.shared.saveRecentPDF(url: url) {[weak self] (bool) in
-            if bool {
+    private func removeRecent(indexPath : IndexPath) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.collectionView.deleteItems(at: [indexPath])
             }
-//            self?.resortRecentList()
+            RealmManager.shared.deleteRecent(url: self?.listRecent[indexPath.item].getURLPath() ?? "", completion: nil)
+            self?.listRecent.remove(at: indexPath.item)
+        }
+    }
+    private func removeDocument(indexPath : IndexPath) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.collectionView.deleteItems(at: [indexPath])
+                self?.listFavorite.remove(at: indexPath.item)
+            }
+            do {
+                try FileManager.default.removeItem(at: (self?.listFavorite[indexPath.item].getURL())!)
+            }
+            catch {
+                print("delete fail")
+            }
         }
     }
     
-    func removeAllRecent() {
-        RealmManager.shared.clearAllRecent(completion: {[weak self] in
-            self?.listRecent.removeAll()
-            self?.collectionView.reloadSections(IndexSet(integer: 0))
-            print("clear all :(")
-        })
+    private func removeAllRecent() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.listRecent.removeAll()
+                self?.collectionView.reloadSections(IndexSet(integer: 0))
+            }
+            RealmManager.shared.clearAllRecent(completion: {[weak self] in
+                print("clear all :(")
+            })
+        }
     }
     
     private func saveFavorite(indexPath : IndexPath) {
@@ -357,7 +384,6 @@ class HomeVC: UIViewController {
             return
         }
         cell.isFavorite = newDoc.isFavorite
-        cell.hideSwipe(animated: false)
     }
     
 }
@@ -404,9 +430,6 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let itemSelected = isRecent ? listRecent[indexPath.item] : listFavorite[indexPath.item]
         openPDF(url: itemSelected.getURL() )
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.saveRecentPDF(url: itemSelected.getURL())
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -472,15 +495,6 @@ extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             FileManager.default.saveFile(from: url) { [weak self] (done,urlSaved) in
-                if done {
-                    self?.saveRecentPDF(url: urlSaved)
-                    print("Save done----------\n\(urlSaved.path)\n=================================================")
-                }
-                else {
-                    print("Toanggggggggggggggggg")
-                    
-                    
-                }
             }
         }
     }
@@ -502,6 +516,7 @@ extension HomeVC : SwipeCollectionViewCellDelegate {
         
         // Favorite action
         let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
+            self?.collectionView.hideSwipeCell()
             self?.saveFavorite(indexPath: indexPath)
             self?.didBecomeActive()
         }
@@ -512,18 +527,24 @@ extension HomeVC : SwipeCollectionViewCellDelegate {
 
         
         // Delete action
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] action, indexPath in
-//            self?.removeDocument(indexPath: indexPath)
+        let deleteAction = SwipeAction(style: .destructive, title: isRecent ? "Remove" : "Delete") { [weak self] action, indexPath in
+            let alert = UIAlertController(title: "Confirm", message: (self?.isRecent ?? true) ? "Are you sure you want to remove this recent item?" : "Are you sure you want to delete?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: (self?.isRecent ?? true) ? "Remove" : "Delete", style: .default, handler: { [weak self] action in
+                (self?.isRecent ?? true) ? self?.removeRecent(indexPath: indexPath) : self?.removeDocument(indexPath: indexPath)
+            }))
+            self?.collectionView.hideSwipeCell()
+            self?.present(alert, animated: true, completion: nil)
         }
-        deleteAction.image = UIImage(named: "ic_Delete-mini")
+        deleteAction.image = UIImage(named: isRecent ? "ic_Remove" : "ic_Delete-mini")
         deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
         deleteAction.textColor = CMSConfigConstants.themeStyle.tintGray
         
         
         // More action
-        let moreAction = SwipeAction(style: .default, title: "More") { action, indexPath in
-            
+        let moreAction = SwipeAction(style: .default, title: "More") {[weak self] action, indexPath in
+            self?.collectionView.hideSwipeCell()
         }
         moreAction.image = UIImage(named: "ic_More-mini")
         moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray

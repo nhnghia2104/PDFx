@@ -78,7 +78,7 @@ class DocumentsVC: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        clvDocument.reloadData()
+        clvDocument.hideSwipeCell()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -226,14 +226,19 @@ class DocumentsVC: UIViewController {
     //MARK: - Action function
     
     private func actionDelete() {
-        if let selectedRows = clvDocument.indexPathsForSelectedItems?.sorted(by: {$0 > $1}) {
-            for indexPath in selectedRows  {
-                removeDocument(indexPath: indexPath)
-            }
+        let alert = UIAlertController(title: "Are you sure you want to delete?", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] action in
+            if let selectedRows = self?.clvDocument.indexPathsForSelectedItems?.sorted(by: {$0 > $1}) {
+                for indexPath in selectedRows  {
+                    self?.removeDocument(indexPath: indexPath)
+                }
 
-            selectedCount = 0
-            isSelectAll = false
-        }
+                self?.selectedCount = 0
+                self?.isSelectAll = false
+            }
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
     /*
@@ -500,9 +505,7 @@ class DocumentsVC: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
-    private func saveRecentPDF(url : URL) {
-        RealmManager.shared.saveRecentPDF(url: url)
-    }
+
     private func saveFavorite(indexPath : IndexPath) {
         let newDoc = listDocument[indexPath.item - listFolder.count]
         newDoc.isFavorite.toggle()
@@ -514,7 +517,6 @@ class DocumentsVC: UIViewController {
         }
         cell.isExpanding = false
         cell.isFavorite = newDoc.isFavorite
-        cell.hideSwipe(animated: false)
     }
     private func removeDocument(indexPath : IndexPath) {
         do {
@@ -529,8 +531,6 @@ class DocumentsVC: UIViewController {
     private func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
         picker.delegate = self
-//        picker.modalPresentationStyle = .none
-
         present(picker, animated: true)
     }
 }
@@ -609,10 +609,6 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
                 navigationController?.pushViewController(directVC, animated: true)
             }
             else {
-                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                    self?.saveRecentPDF(url: (self?.listDocument[indexPath.item - (self?.listFolder.count)!].getURL())!)
-                    print("Date Access : \(self?.listDocument[indexPath.item - (self?.listFolder.count)!].getAccessDate())")
-                }
                 openPDF(pdfData: listDocument[indexPath.item - listFolder.count].getPDFData())
             }
         }
@@ -646,6 +642,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             return .init(frame: .zero)
         }
         header.didChangeViewMode = { [weak self] (viewAsList) in
+            self?.clvDocument.hideSwipeCell()
             viewAsList ? self?.didTapListMode() : self?.didTapGridMode()
         }
         header.didChangeSortMode = { [weak self] (bool) in
@@ -655,6 +652,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             self?.gotoSelectMode()
         }
         header.didTapAdd = { [weak self] in
+            self?.clvDocument.hideSwipeCell()
             self?.openBrowser()
         }
         header.setupSortModeUI(sortMode: [isSortByDate,orderedAscending], isViewAsList: isViewAsList)
@@ -719,6 +717,7 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         
         // Favorite action
         let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
+            self?.clvDocument.hideSwipeCell()
             self?.saveFavorite(indexPath: indexPath)
         }
         favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
@@ -729,7 +728,13 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         
         // Delete action
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] action, indexPath in
-            self?.removeDocument(indexPath: indexPath)
+            let alert = UIAlertController(title: "Confirm", message: "Are you sure you want to delete?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak self] action in
+                self?.removeDocument(indexPath: indexPath)
+            }))
+            self?.clvDocument.hideSwipeCell()
+            self?.present(alert, animated: true, completion: nil)
         }
         deleteAction.image = UIImage(named: "ic_Delete-mini")
         deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
@@ -738,8 +743,8 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         
         
         // More action
-        let moreAction = SwipeAction(style: .default, title: "More") { action, indexPath in
-            
+        let moreAction = SwipeAction(style: .default, title: "More") {[weak self] action, indexPath in
+            self?.clvDocument.hideSwipeCell()
         }
         moreAction.image = UIImage(named: "ic_More-mini")
         moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
@@ -752,7 +757,7 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .none
-        options.transitionStyle = .border
+        options.transitionStyle = .reveal
         options.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         return options
     }
@@ -767,4 +772,5 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         guard let cell = collectionView.cellForItem(at: indexPath ?? IndexPath(item: 0, section: 0)) as? ListDocCollectionViewCell  else { return }
         cell.isExpanding = false
     }
+    
 }

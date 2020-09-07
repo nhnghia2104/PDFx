@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwipeCellKit
 extension UICollectionView {
     func setEmptyView(title : String, message : String, image : UIImage) {
         let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
@@ -18,5 +19,20 @@ extension UICollectionView {
         emptyView.layoutIfNeeded()
         
         self.backgroundView = emptyView
+    }
+    var swipeCells: [SwipeCollectionViewCell] {
+        return visibleCells.compactMap({ $0 as? SwipeCollectionViewCell })
+    }
+    
+    func hideSwipeCell() {
+        swipeCells.forEach { $0.hideSwipe(animated: true) }
+    }
+    
+    func setGestureEnabled(_ enabled: Bool) {
+        gestureRecognizers?.forEach {
+            guard $0 != panGestureRecognizer else { return }
+            
+            $0.isEnabled = enabled
+        }
     }
 }
