@@ -93,7 +93,7 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
         btnMore.isHidden = isSelectMode
         imgSelect.isHidden = true
-        avtLeadingAnchor.constant = isSelectMode ? 70 : 20
+        avtLeadingAnchor.constant = 20
         imgThumbnail.layer.borderWidth = 0
     }
     

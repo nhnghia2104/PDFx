@@ -55,8 +55,6 @@ class DocumentsVC: UIViewController {
             addLeftBarButtonWithTittle(title: isSelectAll ? "Deselect all" : "Select all", action: #selector(tapSelectAll))
         }
     }
-    private var vAddDismissTimer = Timer()
-    private var needShowIndicator = false
     // MARK: - override function
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -98,7 +96,7 @@ class DocumentsVC: UIViewController {
     
     private func setupNavigation() {
         self.navigationController?.view.layer.shadowColor = .none
-        self.navigationItem.title = isChildClass ? location.lastPathComponent : "Files"
+        self.navigationItem.title = isChildClass ? location.lastPathComponent : "Documents"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         isChildClass ? () : self.setSlideMenuVCNaviBarItem()
@@ -213,16 +211,6 @@ class DocumentsVC: UIViewController {
     @objc func tapSearch() {
         startSearch()
     }
-    @objc func hideIndicator() {
-        if needShowIndicator == false {
-            if activityIndicatorView.isAnimating && !needShowIndicator {
-                activityIndicatorView.stopAnimating()
-            }
-        }
-        else {
-            needShowIndicator = false
-        }
-    }
     //MARK: - Action function
     
     private func actionDelete() {
@@ -233,7 +221,6 @@ class DocumentsVC: UIViewController {
                 for indexPath in selectedRows  {
                     self?.removeDocument(indexPath: indexPath)
                 }
-
                 self?.selectedCount = 0
                 self?.isSelectAll = false
             }
@@ -287,30 +274,18 @@ class DocumentsVC: UIViewController {
             if needReload {
                 DispatchQueue.main.async {
                     [weak self] in
-                    if self?.needShowIndicator == false {
-                        if (self?.activityIndicatorView.isAnimating)! {
-                            self?.activityIndicatorView.stopAnimating()
-                        }
+                    if (self?.activityIndicatorView.isAnimating)! {
+                        self?.activityIndicatorView.stopAnimating()
                     }
-                    else {
-                        self?.needShowIndicator = false
-                    }
-
                     self?.clvDocument.reloadSections(IndexSet(integer: 0))
                 }
-            }
-            else {
-                self?.needShowIndicator = false
             }
         }
     }
     private func showIndicator() {
-        needShowIndicator = true
         activityIndicatorView.type = .circleStrokeSpin
         activityIndicatorView.color = UIColor(hex: "0077B6", alpha: 1)
         activityIndicatorView.startAnimating()
-        vAddDismissTimer.invalidate()
-        vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(hideIndicator), userInfo: nil, repeats: false)
     }
     private func loadFileFromDevice() {
         DispatchQueue.global(qos: .userInteractive).async {[weak self] in
@@ -319,25 +294,6 @@ class DocumentsVC: UIViewController {
                 self?.listDocument = self?.loadPDFDocument(urls: documentURLs.filter{ $0.pathExtension == "pdf" }) ?? []
             }
         }
-    }
-    private func loadFileFromDeviceWithoutAnimate() {
-        
-        if let documentURLs = FileManager.default.getFileURLs(from: location) {
-            listDocument.removeAll()
-            listFolder.removeAll()
-            var urls = documentURLs.filter{ $0.pathExtension == "" }
-            for url in urls {
-                let child = MyFolder(url: url)
-                listFolder.append(child)
-            }
-            urls = documentURLs.filter{ $0.pathExtension == "pdf" }
-            for url in urls {
-                let child = MyDocument(url: url)
-                listDocument.append(child)
-            }
-            resortData()
-        }
-        
     }
     private func loadPDFDocument(urls : [URL]) -> [MyDocument]{
         var newList = [MyDocument]()
@@ -402,32 +358,6 @@ class DocumentsVC: UIViewController {
             orderedAscending ? $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedAscending : $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedDescending
         })
             
-    }
-    private func sortOnlyFolder() {
-        if isSortByDate {
-            listFolder = listFolder.sorted(by :{
-                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
-                
-            })
-        }
-        else {
-            listFolder = listFolder.sorted (by: {
-                orderedAscending ? $0.getName().localizedStandardCompare($1.getName()) == .orderedAscending : $0.getName().localizedStandardCompare($1.getName()) == .orderedDescending
-                
-            })
-        }
-    }
-    private func sortOnlyDocument() {
-        if isSortByDate {
-            listDocument = listDocument.sorted( by :{
-                orderedAscending ? $0.getDateCreated().compare($1.getDateCreated()) == .orderedAscending : $0.getDateCreated().compare($1.getDateCreated()) == .orderedDescending
-            })
-        }
-        else {
-            listDocument = listDocument.sorted(by: {
-                orderedAscending ? $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedAscending : $0.getFileName().localizedStandardCompare($1.getFileName()) == .orderedDescending
-            })
-        }
     }
     private func didTapListMode() {
         UserDefaults.standard.setValue(true, forKey: "isViewAsList")
@@ -519,14 +449,21 @@ class DocumentsVC: UIViewController {
         cell.isFavorite = newDoc.isFavorite
     }
     private func removeDocument(indexPath : IndexPath) {
-        do {
-            try FileManager.default.removeItem(at: listDocument[indexPath.row - listFolder.count].getURL())
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.listDocument.remove(at: indexPath.row - (self?.listFolder.count ?? 0))
+                self?.clvDocument.deleteItems(at: [indexPath])
+            }
+            
+            do {
+                try FileManager.default.removeItem(at: (self?.listDocument[indexPath.row - (self?.listFolder.count ?? 0)].getURL())!)
+            }
+            catch {
+                print("delete fail")
+            }
         }
-        catch {
-            print("delete fail")
-        }
-        clvDocument.deleteItems(at: [indexPath])
-        listDocument.remove(at: indexPath.row - listFolder.count)
     }
     private func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)

@@ -19,7 +19,6 @@ class HeaderDocumentView: UICollectionReusableView {
     @IBOutlet weak var lblGrid: UILabel!
     @IBOutlet weak var lblList: UILabel!
     @IBOutlet weak var leadingImageAnchor: NSLayoutConstraint!
-    @IBOutlet weak var btnAdd: UIButton!
     @IBOutlet weak var vLineUnder: UIView!
 
     @IBOutlet weak var btnIncrease: UIButton!
@@ -76,9 +75,6 @@ class HeaderDocumentView: UICollectionReusableView {
 
 
         btnIncrease.setImage(sortMode[1] ? UIImage(named: "ic_SortAscending") : UIImage(named: "ic_SortDescending"), for: .normal)
-        
-        btnAdd.tintColor = CMSConfigConstants.themeStyle.tintColor
-        btnAdd.backgroundColor = UIColor(hex: "ececec", alpha: 0.5)
         
         
     }
