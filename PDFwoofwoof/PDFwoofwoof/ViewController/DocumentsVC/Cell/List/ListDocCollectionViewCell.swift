@@ -47,7 +47,7 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         imgStar.isHidden = true
         imgSelect.isHidden = true
         
-        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
+        btnMore.tintColor = CMSConfigConstants.themeStyle.tintGray
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
         lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
@@ -61,7 +61,7 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         
         imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
         vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-        
+        imgStar.tintColor = CMSConfigConstants.themeStyle.tintBlue
 //        imgSelect.layer.cornerRadius = 15.0
 //        imgSelect.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
 //        imgSelect.layer.borderWidth = 2.0

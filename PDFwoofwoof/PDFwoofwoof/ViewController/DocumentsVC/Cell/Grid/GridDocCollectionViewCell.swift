@@ -36,6 +36,7 @@ class GridDocCollectionViewCell: UICollectionViewCell {
         
         imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
         vBackground.backgroundColor = UIColor(hex: "f1f3f4")
+        imgStar.tintColor = CMSConfigConstants.themeStyle.tintBlue
     }
     
     public func setDocuemtData(pdf : MyDocument, isFavorite : Bool = false, isSelectMode : Bool = false) {

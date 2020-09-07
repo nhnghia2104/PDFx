@@ -134,14 +134,16 @@ class HomeVC: UIViewController {
     }
     
     private func setupNaviBarBtn() {
+        //https://coolors.co/edf2fb-e2eafc-d7e3fc-ccdbfd-c1d3fe-b6ccfe-abc4ff
+        
         btnNotice = UIButton()
         btnNotice.setImage(UIImage(named: "ic_notifications_black_24dp"), for: .normal)
         btnNotice.addTarget(self, action: #selector(openNotice), for: .touchUpInside)
         guard let navigationBar = self.navigationController?.navigationBar else { return }
         
         navigationBar.addSubview(btnNotice)
-        btnNotice.tintColor = UIColor(hex: "555B6E") //CMSConfigConstants.themeStyle.tintColor
-        btnNotice.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        btnNotice.tintColor = UIColor(hex: "0077b6") //CMSConfigConstants.themeStyle.tintColor
+        btnNotice.backgroundColor = UIColor(hex: "edf2fb") //CMSConfigConstants.themeStyle.borderColor
         btnNotice.layer.cornerRadius = 20.0
         btnNotice.clipsToBounds = true
         btnNotice.translatesAutoresizingMaskIntoConstraints = false
@@ -157,8 +159,8 @@ class HomeVC: UIViewController {
         btnTool.addTarget(self, action: #selector(tapTool), for: .touchUpInside)
         
         navigationBar.addSubview(btnTool)
-        btnTool.tintColor = UIColor(hex: "555B6E") //CMSConfigConstants.themeStyle.tintColor
-        btnTool.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        btnTool.tintColor = UIColor(hex: "0077b6") //CMSConfigConstants.themeStyle.tintColor
+        btnTool.backgroundColor = UIColor(hex: "edf2fb") //CMSConfigConstants.themeStyle.borderColor
         btnTool.layer.cornerRadius = 20.0
         btnTool.clipsToBounds = true
         btnTool.translatesAutoresizingMaskIntoConstraints = false

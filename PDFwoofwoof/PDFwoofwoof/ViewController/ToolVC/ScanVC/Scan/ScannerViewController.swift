@@ -34,7 +34,19 @@ public final class ScannerViewController: UIViewController {
         button.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
         return button
     }()
-    private lazy var photoLibButton : UIButton = {
+    
+    ///Label display the number of page captured
+    private lazy var numberPageLabel : UILabel = {
+        let label = UILabel()
+        label.text = "0"
+        label.textAlignment = .center
+        label.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        label.textColor = .white
+        label.backgroundColor = UIColor(hex: "f48c06", alpha: 1.0)
+        label.layer.cornerRadius = 10.0
+        return label
+    }()
+    private lazy var photoButton : UIButton = {
         let img = UIImage(named: "ic_PhotoLib")
         let button = UIButton()
         button.setImage(img, for: .normal)
@@ -43,6 +55,14 @@ public final class ScannerViewController: UIViewController {
         button.tintColor = .white
         return button
     }()
+    private lazy var doneButton: UIButton = {
+            let button = UIButton()
+            button.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 15)
+            button.setTitle("Done", for: .normal)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.addTarget(self, action: #selector(cancelImageScannerController), for: .touchUpInside)
+            return button
+        }()
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
 //        button.setTitle(NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "The cancel button"), for: .normal)
@@ -150,7 +170,9 @@ public final class ScannerViewController: UIViewController {
 //        view.addSubview(cancelButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
-        view.addSubview(photoLibButton)
+        view.addSubview(photoButton)
+        view.addSubview(doneButton)
+        view.addSubview(numberPageLabel)
     }
     
     private func setupNavigationBar() {
@@ -172,6 +194,7 @@ public final class ScannerViewController: UIViewController {
         var shutterButtonConstraints = [NSLayoutConstraint]()
         var activityIndicatorConstraints = [NSLayoutConstraint]()
         var photoLibraryButtonConstraints = [NSLayoutConstraint]()
+        var doneButtonContraints = [NSLayoutConstraint]()
         
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -192,39 +215,38 @@ public final class ScannerViewController: UIViewController {
         ]
         
         photoLibraryButtonConstraints = [
-            photoLibButton.widthAnchor.constraint(equalToConstant: 50.0),
-            photoLibButton.heightAnchor.constraint(equalToConstant: 50.0),
-            photoLibButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor)
+            photoButton.widthAnchor.constraint(equalToConstant: 45.0),
+            photoButton.heightAnchor.constraint(equalToConstant: 45.0),
+            photoButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor)
         ]
-//        let photoLibraryButtonCenterYAnchor = photoLibButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor)
-//        photoLibraryButtonConstraints.append(photoLibraryButtonCenterYAnchor)
         
         if #available(iOS 11.0, *) {
-//            cancelButtonConstraints = [
-//                cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
-//                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
-//            ]
-            let photoLibraryButtonLeftConstraint = photoLibButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24)
+            doneButtonContraints = [
+                doneButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24.0),
+                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+            ]
+            let photoLibraryButtonLeftConstraint = photoButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24)
             photoLibraryButtonConstraints.append(photoLibraryButtonLeftConstraint)
             
             let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
-            
+
             
         } else {
-//            cancelButtonConstraints = [
-//                cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
-//                view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
-//            ]
-            let photoLibraryButtonLeftConstraint = photoLibButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24)
+            doneButtonContraints = [
+                doneButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24.0),
+                view.bottomAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+            ]
+            let photoLibraryButtonLeftConstraint = photoButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24)
             photoLibraryButtonConstraints.append(photoLibraryButtonLeftConstraint)
             
             let shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
+        
         }
         
         // Sunday, Sep 6th, 2020 : removed cancelButtonConstraints -- Nghia NH
-        NSLayoutConstraint.activate(quadViewConstraints + photoLibraryButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + photoLibraryButtonConstraints + doneButtonContraints + shutterButtonConstraints + activityIndicatorConstraints )
     }
     
     // MARK: - Tap to Focus

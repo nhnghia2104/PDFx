@@ -710,13 +710,13 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         let isFavor = listDocument[indexPath.item - listFolder.count].isFavorite
         
         // Favorite action
-        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfovorite" : "Favorite") { [weak self](action, indexPath) in
+        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
             self?.saveFavorite(indexPath: indexPath)
         }
         favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
         favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        favorite.textColor = CMSConfigConstants.themeStyle.title2
+        favorite.textColor = CMSConfigConstants.themeStyle.tintGray
 
         
         // Delete action
@@ -726,7 +726,7 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         deleteAction.image = UIImage(named: "ic_Delete-mini")
         deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        deleteAction.textColor = CMSConfigConstants.themeStyle.title2
+        deleteAction.textColor = CMSConfigConstants.themeStyle.tintGray
         
         
         // More action
@@ -736,7 +736,7 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         moreAction.image = UIImage(named: "ic_More-mini")
         moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
         moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        moreAction.textColor = CMSConfigConstants.themeStyle.title2
+        moreAction.textColor = CMSConfigConstants.themeStyle.tintGray
         
         return [deleteAction,favorite,moreAction]
     }

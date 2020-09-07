@@ -17,7 +17,7 @@ class LeftMenuTableViewCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        imgIcon.tintColor = CMSConfigConstants.themeStyle.tintColor
+        imgIcon.tintColor = CMSConfigConstants.themeStyle.tintGray
         lblTitle.tintColor = CMSConfigConstants.themeStyle.tintColor
         lblTitle.font = UIFont.getFontOpenSans(style: .Regular, size: 14)
         vSelect.backgroundColor = CMSConfigConstants.themeStyle.borderColor

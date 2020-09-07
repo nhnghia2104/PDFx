@@ -235,7 +235,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_Delete-mini" width="128" height="128"/>
+        <image name="ic_Delete-mini" width="25" height="25"/>
         <image name="tray.and.arrow.down.fill" catalog="system" width="128" height="114"/>
     </resources>
 </document>

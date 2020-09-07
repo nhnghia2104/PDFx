@@ -46,7 +46,7 @@ class HeaderDocumentView: UICollectionReusableView {
         lblGrid.alpha = isViewAsList ? 0 : 1
         
 
-        lblSortbyTopAnchor.constant = (sortMode[0] ) ? 0 : -(lblSortByName.frame.height)
+        lblSortbyTopAnchor.constant = (sortMode[0]) ? -(lblSortByName.frame.height) : 0
         
         btnIncrease.setImage(sortMode[1] ? UIImage(named: "ic_SortAscending")! : UIImage(named: "ic_SortDescending")!, for: .normal)
 
@@ -104,11 +104,11 @@ class HeaderDocumentView: UICollectionReusableView {
     }
 
     @IBAction func tapSortBy() {
-        sortMode[0] = !sortMode[0]
+        sortMode[0].toggle()
 
         UIView.animate(withDuration: 0.2, animations: {
             [weak self] in
-            self?.lblSortbyTopAnchor.constant = (self?.sortMode[0] ?? false) ? 0 : -(self?.lblSortByName.frame.height ?? 20)
+            self?.lblSortbyTopAnchor.constant = (self?.sortMode[0])! ? -(self?.lblSortByName.frame.height ?? 20) : 0
             self?.layoutIfNeeded()
         }) { [weak self](bool) in
             if bool {
