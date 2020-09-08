@@ -24,6 +24,13 @@ class DocumentsVC: UIViewController {
     @IBOutlet weak var clvDocument: UICollectionView!
     lazy var tempListFolder = [MyFolder]()
     lazy var tempListDocument = [MyDocument]()
+    lazy var btnAdd : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "ic_Add"), for: .normal)
+        button.addTarget(self, action: #selector(tapAdd), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     lazy var searchBarbtn: UIBarButtonItem = {
         let customBtn = UIBarButtonItem(image: UIImage(named: "navi_Search"), style: .plain, target: self, action: #selector(tapSearch))
         return customBtn
@@ -46,7 +53,7 @@ class DocumentsVC: UIViewController {
     }
     private var selectedCount = 0 {
         didSet {
-            isSelectAll = selectedCount == listDocument.count
+            isSelectAll = selectedCount == (listDocument.count + listFolder.count) - 1
             navigationItem.title = "\(selectedCount) selected"
         }
     }
@@ -127,24 +134,58 @@ class DocumentsVC: UIViewController {
         clvDocument.register(UINib(nibName: "HeaderDocumentView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderDocumentView")
     }
     private func setupTheme() {
-       searchBar.tintColor = CMSConfigConstants.themeStyle.tintColor
+       searchBar.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
        if let textFieldInsideSearchBar =  searchBar.value(forKey: "searchField") as? UITextField {
            textFieldInsideSearchBar.font = UIFont.getFontRegular(size: 14)
-           textFieldInsideSearchBar.textColor = CMSConfigConstants.themeStyle.titleColor
+           textFieldInsideSearchBar.textColor = CMSConfigConstants.shared.themeStyle.titleColor
            if let labelInsideSearchBar = textFieldInsideSearchBar.value(forKey: "placeholderLabel") as? UILabel {
                labelInsideSearchBar.font = UIFont.getFontRegular(size: 14)
-               labelInsideSearchBar.textColor = CMSConfigConstants.themeStyle.tintColor
+               labelInsideSearchBar.textColor = CMSConfigConstants.shared.themeStyle.tintColor
                
            }
        }
        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
-           NSAttributedString.Key.foregroundColor : CMSConfigConstants.themeStyle.titleColor,
+           NSAttributedString.Key.foregroundColor : CMSConfigConstants.shared.themeStyle.titleColor,
            NSAttributedString.Key.font : UIFont.getFontRegular(size: 14)
        ], for: .normal)
         
-        btnDelete.tintColor = CMSConfigConstants.themeStyle.tintGray
-        btnMerge.tintColor = CMSConfigConstants.themeStyle.tintGray
+        btnDelete.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
+        btnMerge.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
         
+        // setup btn Add
+        view.addSubview(btnAdd)
+        var btnAddContraints : [NSLayoutConstraint] = [
+            btnAdd.widthAnchor.constraint(equalToConstant: 56),
+            btnAdd.heightAnchor.constraint(equalToConstant: 56)
+        ]
+        
+        if #available(iOS 11.0, *) {
+            if isiPadUI {
+                let btnAddCenterXConstraint = btnAdd.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+                btnAddContraints.append(btnAddCenterXConstraint)
+            }
+            else {
+                let btnAddRightConstraint = btnAdd.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20)
+                btnAddContraints.append(btnAddRightConstraint)
+            }
+            
+            let btnAddBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: btnAdd.bottomAnchor, constant: UIDevice.current.IS_169_RATIO() ? 0 : 20)
+            btnAddContraints.append(btnAddBottomConstraint)
+
+            
+        } else {
+            if isiPadUI {
+                let btnAddCenterXConstraint = btnAdd.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+                btnAddContraints.append(btnAddCenterXConstraint)
+            }
+            else {
+                let btnAddRightConstraint = btnAdd.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
+                btnAddContraints.append(btnAddRightConstraint)
+            }
+            let btnAddBottomConstraint = view.bottomAnchor.constraint(equalTo: btnAdd.bottomAnchor, constant: 20)
+            btnAddContraints.append(btnAddBottomConstraint)
+        }
+        NSLayoutConstraint.activate(btnAddContraints)
     }
     private func setupViewMode() {
         // List/Grid Mode
@@ -166,6 +207,7 @@ class DocumentsVC: UIViewController {
         }
         clvBottomAnchor.constant = UIDevice.current.IS_169_RATIO() ? -40 : 0
 //        vToolBottomAnchor.constant = -140
+        vBottomTool.backgroundColor = UIColor(hex: "F8F9FA")
         vBottomTool.isHidden = true
     }
 
@@ -179,6 +221,10 @@ class DocumentsVC: UIViewController {
     }
     
     //MARK: - objc funtion
+    @objc func tapAdd() {
+//        actionCreateFolder()
+        openInputVC()
+    }
     @objc func openMore() {
         
     }
@@ -195,14 +241,18 @@ class DocumentsVC: UIViewController {
         isSelectAll = !isSelectAll
         if isSelectAll {
             for row in 0..<clvDocument.numberOfItems(inSection: 0) {
-                if (row < listFolder.count) == false {
-                    self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .centeredVertically)
+                if row < listFolder.count {
+                    if listFolder[row].getName() == CMSConfigConstants.shared.defaultFolderName { continue }
                 }
+                self.clvDocument.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .centeredVertically)
             }
-            selectedCount = clvDocument.numberOfItems(inSection: 0) - listFolder.count
+            selectedCount = clvDocument.numberOfItems(inSection: 0) - 1 //can't select default folder
         }
         else {
             for row in 0..<clvDocument.numberOfItems(inSection: 0) {
+                if row < listFolder.count {
+                    if listFolder[row].getName() == CMSConfigConstants.shared.defaultFolderName { continue }
+                }
                 self.clvDocument.deselectItem(at: IndexPath(row: row, section: 0), animated: false)
             }
             selectedCount = 0
@@ -213,21 +263,13 @@ class DocumentsVC: UIViewController {
     }
     //MARK: - Action function
     
-    private func actionDelete() {
-        let alert = UIAlertController(title: "Are you sure you want to delete?", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] action in
-            if let selectedRows = self?.clvDocument.indexPathsForSelectedItems?.sorted(by: {$0 > $1}) {
-                for indexPath in selectedRows  {
-                    self?.removeDocument(indexPath: indexPath)
-                }
-                self?.selectedCount = 0
-                self?.isSelectAll = false
-            }
-        }))
-        present(alert, animated: true, completion: nil)
+    private func showIndicator() {
+        activityIndicatorView.type = .circleStrokeSpin
+        activityIndicatorView.color = UIColor(hex: "0077B6", alpha: 1)
+        activityIndicatorView.startAnimating()
     }
-    
+
+    // <Load Data>
     /*
         compare 2 list ( new list and present list )
      find the same elements
@@ -280,13 +322,17 @@ class DocumentsVC: UIViewController {
                     self?.clvDocument.reloadSections(IndexSet(integer: 0))
                 }
             }
+            else {
+                if (self?.activityIndicatorView.isAnimating ?? true) {
+                    DispatchQueue.main.async {
+                        [weak self] in
+                        self?.activityIndicatorView.stopAnimating()
+                    }
+                }
+            }
         }
     }
-    private func showIndicator() {
-        activityIndicatorView.type = .circleStrokeSpin
-        activityIndicatorView.color = UIColor(hex: "0077B6", alpha: 1)
-        activityIndicatorView.startAnimating()
-    }
+    
     private func loadFileFromDevice() {
         DispatchQueue.global(qos: .userInteractive).async {[weak self] in
             if let documentURLs = FileManager.default.getFileURLs(from: self!.location) {
@@ -335,6 +381,15 @@ class DocumentsVC: UIViewController {
         }
         return newList
     }
+    // </Load Data>
+    
+    // <Sort Data>
+    private func changeSortMode(bool : [Bool]) {
+        isSortByDate = bool[0]
+        orderedAscending = bool[1]
+        resortData()
+        clvDocument.reloadSections(IndexSet(integer: 0))
+    }
     private func resortData() {
         isSortByDate ? sortByDate() : sortByName()
         UserDefaults.standard.setValue([isSortByDate,orderedAscending], forKey: "SortMode")
@@ -359,6 +414,9 @@ class DocumentsVC: UIViewController {
         })
             
     }
+    // </Sort Data>
+    
+    // <View as Grid/List>
     private func didTapListMode() {
         UserDefaults.standard.setValue(true, forKey: "isViewAsList")
         isViewAsList = true
@@ -369,12 +427,9 @@ class DocumentsVC: UIViewController {
         isViewAsList = false
         clvDocument.reloadData()
     }
-    private func changeSortMode(bool : [Bool]) {
-        isSortByDate = bool[0]
-        orderedAscending = bool[1]
-        resortData()
-        clvDocument.reloadSections(IndexSet(integer: 0))
-    }
+    // </View as Grid/List>
+    
+    // <Select Mode>
     private func gotoSelectMode() {
         navigationController?.navigationItem.title = "Select items"
         UIView.animate(withDuration: 0.2) {[weak self] in
@@ -407,6 +462,9 @@ class DocumentsVC: UIViewController {
         vBottomTool.isHidden = true
         clvDocument.allowsMultipleSelection = false
     }
+    // </Select Mode>
+    
+    // <Search>
     private func startSearch() {
         searchBar.isHidden = false
         self.navigationController?.navigationBar.prefersLargeTitles = false
@@ -425,15 +483,27 @@ class DocumentsVC: UIViewController {
         navigationController?.view.layoutIfNeeded()
         
     }
-    private func openPDF(pdfData : Document) {
-        let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
-        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
-        let pdfVC = navigationController.viewControllers.first as! PDFViewController
-        pdfVC.config(with: pdfData)
-        navigationController.modalTransitionStyle = .crossDissolve
-        // Presenting modal in iOS 13 fullscreen
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)
+    // </Search>
+    
+    // <Document Aceess>
+    private func actionDelete() {
+        let alert = UIAlertController(title: "Are you sure you want to delete?", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak self] action in
+            if let selectedRows = self?.clvDocument.indexPathsForSelectedItems?.sorted(by: {$0 > $1}) {
+                for indexPath in selectedRows  {
+                    if indexPath.row < (self?.listFolder.count ?? 0) {
+                        self?.removeFolder(indexPath: indexPath)
+                    }
+                    else {
+                        self?.removeDocument(indexPath: indexPath)
+                    }
+                }
+                self?.selectedCount = 0
+                self?.isSelectAll = false
+            }
+        }))
+        present(alert, animated: true, completion: nil)
     }
 
     private func saveFavorite(indexPath : IndexPath) {
@@ -465,11 +535,101 @@ class DocumentsVC: UIViewController {
             }
         }
     }
+        /// <Action for Folder>
+    private func actionCreateFolder() {
+        let alert = UIAlertController(title: "New Folder", message: "Please enter a new folder name", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { [weak self] action in
+            
+            if let name = alert.textFields?.first?.text {
+                if name.isEmpty || name == "" {
+                    self?.warningEmptyFolderName()
+                }
+                else {
+                    self?.checkFolderName(name: name)
+                }
+            }
+        }))
+        alert.addTextField(configurationHandler: { textField in
+            textField.becomeFirstResponder()
+        })
+        self.present(alert, animated: true)
+    }
+    private func checkFolderName(name : String) {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let folderPath = documentDirectory.appendingPathComponent(name)
+        if FileManager.default.checkFileExists(url: folderPath) {
+            let alert = UIAlertController(title: "Warning", message: "The folder already exists.\nPlease enter another name", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self](action) in
+                self?.actionCreateFolder()
+            }))
+            present(alert, animated: true, completion: nil)
+        }
+        else {
+            createNewFolder(at: folderPath)
+        }
+    }
+    private func warningEmptyFolderName() {
+        let alert = UIAlertController(title: "Warning", message: "Please enter a new folder name", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self](action) in
+            self?.actionCreateFolder()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    private func createNewFolder(at url : URL) {
+        let newFolder = MyFolder(url: url)
+        listFolder.insert(newFolder, at: 0)
+        clvDocument.insertItems(at: [IndexPath(item: 0, section: 0)])
+        do {
+            try FileManager.default.createDirectory(atPath: url.path, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print(error.localizedDescription);
+        }
+    }
+    private func removeFolder(indexPath : IndexPath) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.listFolder.remove(at: indexPath.row)
+                self?.clvDocument.deleteItems(at: [indexPath])
+            }
+            
+            do {
+                try FileManager.default.removeItem(at: (self?.listFolder[indexPath.row].url)!)
+            }
+            catch {
+                print("delete fail")
+            }
+        }
+    }
+        /// </Action for Folder>
+    // </Document Access>
+    
+    // <Goto>
+    private func openPDF(pdfData : Document) {
+        let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        let pdfVC = navigationController.viewControllers.first as! PDFViewController
+        pdfVC.config(with: pdfData)
+        navigationController.modalTransitionStyle = .crossDissolve
+        // Presenting modal in iOS 13 fullscreen
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
+    }
     private func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
         picker.delegate = self
         present(picker, animated: true)
     }
+    private func openInputVC () {
+        let inputVC = InputVC(nibName: "InputVC", bundle: nil)
+        inputVC.modalPresentationStyle = .overFullScreen
+        present(inputVC, animated: false, completion: nil)
+    }
+    // </Goto>
+    
+    
 }
 
 extension DocumentsVC : UICollectionViewDataSource {
@@ -485,6 +645,7 @@ extension DocumentsVC : UICollectionViewDataSource {
         if isViewAsList {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListDocCollectionViewCell", for: indexPath) as? ListDocCollectionViewCell else {return UICollectionViewCell()}
             if indexPath.item < listFolder.count {
+                cell.delegate = self
                 cell.setFolderData(folder: listFolder[indexPath.item], isSelectMode: isSelectMode)
             }
             else {
@@ -550,9 +711,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
             }
         }
         else {
-            if (indexPath.item < listFolder.count) == false {
-                selectedCount += 1
-            }
+            selectedCount += 1
         }
         if !(searchBar.text?.isEmpty ?? true) {
             searchBar.showsCancelButton = false
@@ -567,9 +726,7 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if isSelectMode {
-            if (indexPath.item < listFolder.count) == false {
-                selectedCount -= 1
-            }
+            selectedCount -= 1
         }
         
     }
@@ -585,18 +742,11 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
         header.didChangeSortMode = { [weak self] (bool) in
             self?.changeSortMode(bool: bool)
         }
-        header.didTapSelectMode = {[weak self] in
-            self?.gotoSelectMode()
-        }
-        header.didTapAdd = { [weak self] in
-            self?.clvDocument.hideSwipeCell()
-            self?.openBrowser()
-        }
         header.setupSortModeUI(sortMode: [isSortByDate,orderedAscending], isViewAsList: isViewAsList)
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: isSelectMode ? 0 : 50)
+        return .init(width: view.frame.width, height: isSelectMode ? 0 : 40)
     }
 }
 extension DocumentsVC : UISearchBarDelegate {
@@ -648,54 +798,77 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
     
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         if isSelectMode { return nil }
-        if indexPath.item < listFolder.count { return nil }
-        guard orientation == .right else { return nil }
-        let isFavor = listDocument[indexPath.item - listFolder.count].isFavorite
-        
-        // Favorite action
-        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
-            self?.clvDocument.hideSwipeCell()
-            self?.saveFavorite(indexPath: indexPath)
+        if indexPath.item < listFolder.count {
+            if listFolder[indexPath.item].getName() == CMSConfigConstants.shared.defaultFolderName { return nil }
+            guard orientation == .right else { return nil }
+            // <Folder>
+            let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] (action, indexPath) in
+                let alert = UIAlertController(title: "Confirm", message: "Are you sure you want to delete?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak self] action in
+                    self?.removeFolder(indexPath: indexPath)
+                }))
+                self?.clvDocument.hideSwipeCell()
+                self?.present(alert, animated: true, completion: nil)
+            }
+            
+            deleteAction.image = UIImage(named: "ic_Delete-mini")
+            deleteAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+            deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+            deleteAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+            
+            return [deleteAction]
+            //</Folder>
         }
-        favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
-        favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
-        favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        favorite.textColor = CMSConfigConstants.themeStyle.tintGray
-
-        
-        // Delete action
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] action, indexPath in
-            let alert = UIAlertController(title: "Confirm", message: "Are you sure you want to delete?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak self] action in
-                self?.removeDocument(indexPath: indexPath)
-            }))
-            self?.clvDocument.hideSwipeCell()
-            self?.present(alert, animated: true, completion: nil)
-        }
-        deleteAction.image = UIImage(named: "ic_Delete-mini")
-        deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
-        deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        deleteAction.textColor = CMSConfigConstants.themeStyle.tintGray
-        
-        
-        // More action
-        let moreAction = SwipeAction(style: .default, title: "More") {[weak self] action, indexPath in
-            self?.clvDocument.hideSwipeCell()
-        }
-        moreAction.image = UIImage(named: "ic_More-mini")
-        moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
-        moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        moreAction.textColor = CMSConfigConstants.themeStyle.tintGray
-        
-        return [deleteAction,favorite,moreAction]
+        else { // <Document>
+            guard orientation == .right else { return nil }
+            let isFavor = listDocument[indexPath.item - listFolder.count].isFavorite
+            
+            // Favorite action
+            let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
+                self?.clvDocument.hideSwipeCell()
+                self?.saveFavorite(indexPath: indexPath)
+            }
+            favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
+            favorite.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+            favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+            favorite.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+            
+            
+            // Delete action
+            let deleteAction = SwipeAction(style: .destructive, title: "Delete") { [weak self] action, indexPath in
+                let alert = UIAlertController(title: "Confirm", message: "Are you sure you want to delete?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak self] action in
+                    self?.removeDocument(indexPath: indexPath)
+                }))
+                self?.clvDocument.hideSwipeCell()
+                self?.present(alert, animated: true, completion: nil)
+            }
+            deleteAction.image = UIImage(named: "ic_Delete-mini")
+            deleteAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+            deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+            deleteAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+            
+            
+            // More action
+            let moreAction = SwipeAction(style: .default, title: "More") {[weak self] action, indexPath in
+                self?.clvDocument.hideSwipeCell()
+            }
+            moreAction.image = UIImage(named: "ic_More-mini")
+            moreAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+            moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+            moreAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+            
+            return [deleteAction,favorite,moreAction]
+        } // </Document>
     }
     
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .none
         options.transitionStyle = .reveal
-        options.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        options.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
         return options
     }
     

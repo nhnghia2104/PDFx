@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let nvc: UINavigationController = UINavigationController(rootViewController: mainViewController!)
         
-        UINavigationBar.appearance().tintColor = CMSConfigConstants.themeStyle.tintColor
+        UINavigationBar.appearance().tintColor = CMSConfigConstants.shared.themeStyle.tintColor
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 14)], for: .normal)
         
         leftViewController.mainViewController = nvc

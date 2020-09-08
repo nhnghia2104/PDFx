@@ -17,7 +17,7 @@ class HomeVC: UIViewController {
     var btnTool : UIButton!
     struct Const {
         /// Image height/width for Large NavBar state
-        static let ImageSizeForLargeState: CGFloat = 40
+        static let ImageSizeForLargeState: CGFloat = 38
         /// Margin from right anchor of safe area to right anchor of Image
         static let ImageRightMargin: CGFloat = 20
         /// Margin from bottom anchor of NavBar to bottom anchor of Image for Large NavBar state
@@ -147,7 +147,7 @@ class HomeVC: UIViewController {
         guard let navigationBar = self.navigationController?.navigationBar else { return }
         
         navigationBar.addSubview(btnNotice)
-        btnNotice.tintColor = UIColor(hex: "0077b6") //CMSConfigConstants.themeStyle.tintColor
+        btnNotice.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
         btnNotice.backgroundColor = UIColor(hex: "edf2fb") //CMSConfigConstants.themeStyle.borderColor
         btnNotice.layer.cornerRadius = 20.0
         btnNotice.clipsToBounds = true
@@ -164,7 +164,7 @@ class HomeVC: UIViewController {
         btnTool.addTarget(self, action: #selector(tapTool), for: .touchUpInside)
         
         navigationBar.addSubview(btnTool)
-        btnTool.tintColor = UIColor(hex: "0077b6") //CMSConfigConstants.themeStyle.tintColor
+        btnTool.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
         btnTool.backgroundColor = UIColor(hex: "edf2fb") //CMSConfigConstants.themeStyle.borderColor
         btnTool.layer.cornerRadius = 20.0
         btnTool.clipsToBounds = true
@@ -521,9 +521,9 @@ extension HomeVC : SwipeCollectionViewCellDelegate {
             self?.didBecomeActive()
         }
         favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
-        favorite.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        favorite.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
         favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        favorite.textColor = CMSConfigConstants.themeStyle.tintGray
+        favorite.textColor = CMSConfigConstants.shared.themeStyle.tintGray
 
         
         // Delete action
@@ -537,9 +537,9 @@ extension HomeVC : SwipeCollectionViewCellDelegate {
             self?.present(alert, animated: true, completion: nil)
         }
         deleteAction.image = UIImage(named: isRecent ? "ic_Remove" : "ic_Delete-mini")
-        deleteAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        deleteAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
         deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        deleteAction.textColor = CMSConfigConstants.themeStyle.tintGray
+        deleteAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
         
         
         // More action
@@ -547,9 +547,9 @@ extension HomeVC : SwipeCollectionViewCellDelegate {
             self?.collectionView.hideSwipeCell()
         }
         moreAction.image = UIImage(named: "ic_More-mini")
-        moreAction.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        moreAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
         moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        moreAction.textColor = CMSConfigConstants.themeStyle.tintGray
+        moreAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
         
         return [deleteAction,favorite,moreAction]
     }
@@ -558,7 +558,7 @@ extension HomeVC : SwipeCollectionViewCellDelegate {
         var options = SwipeOptions()
         options.expansionStyle = .none
         options.transitionStyle = .border
-        options.backgroundColor = CMSConfigConstants.themeStyle.backgroundGray
+        options.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
         return options
     }
     

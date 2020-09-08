@@ -47,11 +47,11 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         imgStar.isHidden = true
         imgSelect.isHidden = true
         
-        btnMore.tintColor = CMSConfigConstants.themeStyle.tintGray
+        btnMore.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
-        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
+        lblSubTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byTruncatingMiddle
         lblTitle.numberOfLines = 2
@@ -59,9 +59,10 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         avtLeadingAnchor.constant = 20
         trallingAnchor.constant = 2
         
-        imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
-        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-        imgStar.tintColor = CMSConfigConstants.themeStyle.tintBlue
+        imgThumbnail.layer.borderColor = CMSConfigConstants.shared.themeStyle.borderColor.cgColor
+        vLine.backgroundColor = CMSConfigConstants.shared.themeStyle.borderColor
+        imgStar.tintColor = CMSConfigConstants.shared.themeStyle.tintBlue
+        imgSelect.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
 //        imgSelect.layer.cornerRadius = 15.0
 //        imgSelect.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
 //        imgSelect.layer.borderWidth = 2.0
@@ -86,14 +87,21 @@ class ListDocCollectionViewCell: SwipeCollectionViewCell {
         
     }
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
+        imgSelect.isHidden = !isSelectMode
+        avtLeadingAnchor.constant = isSelectMode ? 70 : 20
+        btnMore.isHidden = isSelectMode
+        if folder.getName() == CMSConfigConstants.shared.defaultFolderName {
+            btnMore.isHidden = true
+            imgSelect.isHidden = true
+            avtLeadingAnchor.constant = 20
+        }
         imgStar.isHidden = true
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")
-        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
-        btnMore.isHidden = isSelectMode
-        imgSelect.isHidden = true
-        avtLeadingAnchor.constant = 20
+        imgThumbnail.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
+        
+        
         imgThumbnail.layer.borderWidth = 0
     }
     

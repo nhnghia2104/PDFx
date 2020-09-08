@@ -9,17 +9,27 @@
 import Foundation
 import PDFKit
 
+enum TypeTool {
+    case merge
+    case plit
+    case scan
+    case createPDF
+    case createFolder
+    case browse
+    case none
+}
 class Tool {
     var type : TypeTool
     var name : String = ""
     var icon : UIImage?
-    var tintColor : UIColor?
-    var backgroundColor : UIColor?
-    init(name : String, icon : UIImage, tintColor : UIColor, background : UIColor, type : TypeTool = .none) {
+    init(name : String, icon : UIImage?, type : TypeTool = .none) {
+        if icon == nil {
+            self.icon = UIImage(named: "ic_Home")
+        }
+        else {
+            self.icon = icon
+        }
         self.name = name
-        self.icon = icon
-        self.tintColor = tintColor
-        self.backgroundColor = background
         self.type = type
     }
 }

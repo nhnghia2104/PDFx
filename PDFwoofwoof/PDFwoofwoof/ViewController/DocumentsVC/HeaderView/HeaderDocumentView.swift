@@ -24,8 +24,6 @@ class HeaderDocumentView: UICollectionReusableView {
     @IBOutlet weak var btnIncrease: UIButton!
     var didChangeViewMode : ((Bool)->())?
     var didChangeSortMode : (([Bool])->())?
-    var didTapSelectMode : (()->())?
-    var didTapAdd : (()->())?
     // sortMode[0] ~ isSortByDate
     // sortMode[1] ~ orderedAscending != orderedDescending
     private var sortMode = [true,true]
@@ -54,24 +52,24 @@ class HeaderDocumentView: UICollectionReusableView {
         // List Grid Mode
         lblList.font = UIFont.getFontOpenSans(style: .SemiBold, size: 13)
         lblGrid.font = UIFont.getFontOpenSans(style: .SemiBold, size: 13)
-        lblGrid.textColor = CMSConfigConstants.themeStyle.tintColor
-        lblList.textColor = CMSConfigConstants.themeStyle.tintColor
+        lblGrid.textColor = CMSConfigConstants.shared.themeStyle.tintColor
+        lblList.textColor = CMSConfigConstants.shared.themeStyle.tintColor
         imgGridList.image = isViewAsList ? UIImage(named: "ic_ListView") : UIImage(named: "ic_GridView")
         imgGridListLeadingAnchor.constant = isViewAsList ? 5 : 40
         lblList.alpha = isViewAsList ? 1 : 0
         lblGrid.alpha = isViewAsList ? 0 : 1
-        imgGridList.tintColor = CMSConfigConstants.themeStyle.tintColor
+        imgGridList.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
         
         // Sort Mode
         lblSortByDate.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
         lblSortByName.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-        lblSortByName.textColor = CMSConfigConstants.themeStyle.titleColor
-        lblSortByDate.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblSortByName.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+        lblSortByDate.textColor = CMSConfigConstants.shared.themeStyle.tintGray
         lblSortByName.text = "Sort by name"
         lblSortByDate.text = "Sort by date"
         
-        btnIncrease.tintColor = CMSConfigConstants.themeStyle.tintColor
-        vLineUnder.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        btnIncrease.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
+        vLineUnder.backgroundColor = CMSConfigConstants.shared.themeStyle.borderColor
 
 
         btnIncrease.setImage(sortMode[1] ? UIImage(named: "ic_SortAscending") : UIImage(named: "ic_SortDescending"), for: .normal)
@@ -117,11 +115,5 @@ class HeaderDocumentView: UICollectionReusableView {
         sortMode[1] = !sortMode[1]
         btnIncrease.setImage(sortMode[1] ? UIImage(named: "ic_SortAscending")! : UIImage(named: "ic_SortDescending")!, for: .normal)
         didChangeSortMode!(sortMode)
-    }
-    @IBAction func tapSelect() {
-        didTapSelectMode!()
-    }
-    @IBAction func tapAdd() {
-        didTapAdd!()
     }
 }

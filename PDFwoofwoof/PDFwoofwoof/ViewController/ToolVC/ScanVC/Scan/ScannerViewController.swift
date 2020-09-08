@@ -44,6 +44,7 @@ public final class ScannerViewController: UIViewController {
         label.textColor = .white
         label.backgroundColor = UIColor(hex: "f48c06", alpha: 1.0)
         label.layer.cornerRadius = 10.0
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private lazy var photoButton : UIButton = {

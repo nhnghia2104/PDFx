@@ -28,15 +28,16 @@ class GridDocCollectionViewCell: UICollectionViewCell {
         imgSelect.isHidden = true
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
-        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblSubTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
+        lblTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byTruncatingMiddle
         lblTitle.numberOfLines = 2
         
-        imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
+        imgThumbnail.layer.borderColor = CMSConfigConstants.shared.themeStyle.borderColor.cgColor
         vBackground.backgroundColor = UIColor(hex: "f1f3f4")
-        imgStar.tintColor = CMSConfigConstants.themeStyle.tintBlue
+        imgStar.tintColor = CMSConfigConstants.shared.themeStyle.tintBlue
+        imgSelect.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
     }
     
     public func setDocuemtData(pdf : MyDocument, isFavorite : Bool = false, isSelectMode : Bool = false) {
@@ -53,11 +54,14 @@ class GridDocCollectionViewCell: UICollectionViewCell {
     
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
         imgStar.isHidden = true
-        imgSelect.isHidden = true
+        imgSelect.isHidden = !isSelectMode
+        if folder.getName() == CMSConfigConstants.shared.defaultFolderName {
+            imgSelect.isHidden = true
+        }
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")
-        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
+        imgThumbnail.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
         
         imgThumbnail.layer.borderWidth = 0
     }

@@ -7,28 +7,22 @@
 //
 
 import UIKit
-enum TypeTool {
-    case merge
-    case plit
-    case scan
-    case create
-    case none
-}
+
 class ToolVC: UIViewController {
     
     
     @IBOutlet weak var clcTool: UICollectionView!
     
     var listTools : [Tool] = [
-        Tool(name: "Open File", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "0f4c75"), background: UIColor(hex: "3282b8",alpha: 0.5)),
-        Tool(name: "Fill & Sign", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "3b6978"), background: UIColor(hex: "84a9ac",alpha: 0.5)),
-        Tool(name: "Scan", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "c7b198"), background: UIColor(hex: "dfd3c3",alpha: 0.5), type: .scan),
-        Tool(name: "Create PDF", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "e79cc2"), background: UIColor(hex: "f6bed6",alpha: 0.5)),
-        Tool(name: "Arrange Page", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "3b5249"), background: UIColor(hex: "519872",alpha: 0.5)),
-        Tool(name: "Protect PDF", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "776d8a"), background: UIColor(hex: "f3e6e3",alpha: 0.5)),
-        Tool(name: "Split PDF", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "a35d6a"), background: UIColor(hex: "d9c6a5",alpha: 0.5)),
-        Tool(name: "Merge PDFs", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "810000"), background: UIColor(hex: "e97171",alpha: 0.5), type: .merge),
-        Tool(name: "Extract Page", icon: UIImage(named: "ic_Tool")!, tintColor: UIColor(hex: "8675a9"), background: UIColor(hex: "c3aed6",alpha: 0.5)),
+        Tool(name: "Open File", icon: UIImage(named: "ic_Tool")!),
+        Tool(name: "Fill & Sign", icon: UIImage(named: "ic_Tool")!),
+        Tool(name: "Scan", icon: UIImage(named: "ic_Tool")!,type: .scan),
+        Tool(name: "Create PDF", icon: UIImage(named: "ic_Tool")!),
+        Tool(name: "Arrange Page", icon: UIImage(named: "ic_Tool")!),
+        Tool(name: "Protect PDF", icon: UIImage(named: "ic_Tool")!),
+        Tool(name: "Split PDF", icon: UIImage(named: "ic_Tool")!),
+        Tool(name: "Merge PDFs", icon: UIImage(named: "ic_Tool")!, type: .merge),
+        Tool(name: "Extract Page", icon: UIImage(named: "ic_Tool")!),
     ]
     
     // MARK: - override function

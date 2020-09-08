@@ -95,6 +95,12 @@
 		AD461DB924F3DAD2006F4647 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD461DB824F3DAD2006F4647 /* Document.swift */; };
 		AD461DBC24F3DE3A006F4647 /* PDFView+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD461DBB24F3DE3A006F4647 /* PDFView+ScaleFactor.swift */; };
 		AD461DBE24F3DE8B006F4647 /* PDFViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD461DBD24F3DE8B006F4647 /* PDFViewExtension.swift */; };
+		AD4951182507AF990002BAC6 /* InputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4951162507AF990002BAC6 /* InputVC.swift */; };
+		AD4951192507AF990002BAC6 /* InputVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4951172507AF990002BAC6 /* InputVC.xib */; };
+		AD49511C2507B1410002BAC6 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD49511A2507B1410002BAC6 /* InputCell.swift */; };
+		AD49511D2507B1410002BAC6 /* InputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD49511B2507B1410002BAC6 /* InputCell.xib */; };
+		AD4951202507CA340002BAC6 /* ToolInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD49511E2507CA340002BAC6 /* ToolInputCell.swift */; };
+		AD4951212507CA340002BAC6 /* ToolInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD49511F2507CA340002BAC6 /* ToolInputCell.xib */; };
 		AD4CEA0D24E39EF400C165A3 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4CEA0C24E39EF400C165A3 /* Image.xcassets */; };
 		AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CEA0F24E3AE4B00C165A3 /* UIViewController.swift */; };
 		AD4CEA1124E3AFBC00C165A3 /* SlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDBC61E24E2F2B4009E2864 /* SlideMenuController.swift */; };
@@ -249,6 +255,12 @@
 		AD461DB824F3DAD2006F4647 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		AD461DBB24F3DE3A006F4647 /* PDFView+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFView+ScaleFactor.swift"; sourceTree = "<group>"; };
 		AD461DBD24F3DE8B006F4647 /* PDFViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewExtension.swift; sourceTree = "<group>"; };
+		AD4951162507AF990002BAC6 /* InputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVC.swift; sourceTree = "<group>"; };
+		AD4951172507AF990002BAC6 /* InputVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputVC.xib; sourceTree = "<group>"; };
+		AD49511A2507B1410002BAC6 /* InputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCell.swift; sourceTree = "<group>"; };
+		AD49511B2507B1410002BAC6 /* InputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputCell.xib; sourceTree = "<group>"; };
+		AD49511E2507CA340002BAC6 /* ToolInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolInputCell.swift; sourceTree = "<group>"; };
+		AD49511F2507CA340002BAC6 /* ToolInputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToolInputCell.xib; sourceTree = "<group>"; };
 		AD4CEA0C24E39EF400C165A3 /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 		AD4CEA0F24E3AE4B00C165A3 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		AD4CEA1324E3BC4C00C165A3 /* LeftMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuVC.swift; sourceTree = "<group>"; };
@@ -730,6 +742,19 @@
 			path = HeaderView;
 			sourceTree = "<group>";
 		};
+		ADBB77342506D60C0029C30C /* InputVC */ = {
+			isa = PBXGroup;
+			children = (
+				AD4951162507AF990002BAC6 /* InputVC.swift */,
+				AD4951172507AF990002BAC6 /* InputVC.xib */,
+				AD49511A2507B1410002BAC6 /* InputCell.swift */,
+				AD49511B2507B1410002BAC6 /* InputCell.xib */,
+				AD49511E2507CA340002BAC6 /* ToolInputCell.swift */,
+				AD49511F2507CA340002BAC6 /* ToolInputCell.xib */,
+			);
+			path = InputVC;
+			sourceTree = "<group>";
+		};
 		ADD139B624F919E1006AF675 /* ToolVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,6 +779,7 @@
 			isa = PBXGroup;
 			children = (
 				ADD47BDE24EE90F10097250C /* DocumentsVC.swift */,
+				ADBB77342506D60C0029C30C /* InputVC */,
 				AD7621A624F5728F0099D92E /* HeaderView */,
 				AD443ECE24EFCD5B0025FA49 /* Cell */,
 			);
@@ -1007,6 +1033,7 @@
 				AD11E53D24F1B25200A9FD49 /* pdf-sample.pdf in Resources */,
 				AD27E83824E53626001979D4 /* Roboto-Medium.ttf in Resources */,
 				AD7621AA24F573230099D92E /* HeaderDocumentView.xib in Resources */,
+				AD4951212507CA340002BAC6 /* ToolInputCell.xib in Resources */,
 				AD27E87224E56037001979D4 /* OpenSans-Italic.ttf in Resources */,
 				AD27E87524E56037001979D4 /* OpenSans-Bold.ttf in Resources */,
 				AD27E84324E53626001979D4 /* Roboto-Thin.ttf in Resources */,
@@ -1021,7 +1048,9 @@
 				ADE5BBB724E1948000492D5A /* Assets.xcassets in Resources */,
 				AD27E83B24E53626001979D4 /* Roboto-MediumItalic.ttf in Resources */,
 				AD27E87924E56037001979D4 /* OpenSans-Regular.ttf in Resources */,
+				AD49511D2507B1410002BAC6 /* InputCell.xib in Resources */,
 				AD443ED424EFCD990025FA49 /* ListDocCollectionViewCell.xib in Resources */,
+				AD4951192507AF990002BAC6 /* InputVC.xib in Resources */,
 				AD27E87024E56037001979D4 /* OpenSans-SemiBold.ttf in Resources */,
 				AD27E84424E53626001979D4 /* Roboto-Black.ttf in Resources */,
 				AD27E87124E56037001979D4 /* OpenSans-Light.ttf in Resources */,
@@ -1132,6 +1161,7 @@
 				AD07C9E324F6E4BF00A68E2D /* HeaderHomeView.swift in Sources */,
 				AD05625D250480C30044037B /* CaptureSessionManager.swift in Sources */,
 				AD5B140624E805EB00E80DDA /* DocumentTableViewCell.swift in Sources */,
+				AD49511C2507B1410002BAC6 /* InputCell.swift in Sources */,
 				AD4CEA1824E3C7D300C165A3 /* LeftMenuTableViewCell.swift in Sources */,
 				ADD139BA24F91A4E006AF675 /* ToolVC.swift in Sources */,
 				AD056265250481330044037B /* ScannerViewController.swift in Sources */,
@@ -1145,6 +1175,7 @@
 				AD11E54024F1B9AA00A9FD49 /* PDFViewController.swift in Sources */,
 				AD4CEA1224E3AFBC00C165A3 /* SlideMenuControllerSwift.h in Sources */,
 				AD27E86324E55D12001979D4 /* UIFont.swift in Sources */,
+				AD4951182507AF990002BAC6 /* InputVC.swift in Sources */,
 				AD27E82724E510D9001979D4 /* ToolCell.swift in Sources */,
 				AD4CEA2824E409A600C165A3 /* UIColorExtension.swift in Sources */,
 				AD461DBC24F3DE3A006F4647 /* PDFView+ScaleFactor.swift in Sources */,
@@ -1168,6 +1199,7 @@
 				AD347D6F24F2846900C79657 /* FavoritePDF.swift in Sources */,
 				ADE5BBAE24E1947E00492D5A /* AppDelegate.swift in Sources */,
 				AD22C17424F946D700906A0C /* NoticeTableViewCell.swift in Sources */,
+				AD4951202507CA340002BAC6 /* ToolInputCell.swift in Sources */,
 				AD056276250482840044037B /* Array+Utils.swift in Sources */,
 				AD32331024F60CB300A21390 /* HomeVC_UIScrollViewDelegate.swift in Sources */,
 				AD4CEA1024E3AE4B00C165A3 /* UIViewController.swift in Sources */,

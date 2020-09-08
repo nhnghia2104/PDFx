@@ -57,7 +57,7 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
         self.mainViewController = UINavigationController(rootViewController: mainViewController)
         
         lblMenu.font = UIFont.getFontBold(size: 30)
-        lblMenu.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblMenu.textColor = CMSConfigConstants.shared.themeStyle.titleColor
         
         
     }

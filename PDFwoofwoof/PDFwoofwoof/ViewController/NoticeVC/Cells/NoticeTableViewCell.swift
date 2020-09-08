@@ -19,10 +19,10 @@ class NoticeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         lblMessage.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
         lblTimeNoticeSent.font = UIFont.getFontOpenSans(style: .Regular, size: 11)
-        lblMessage.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblMessage.textColor = CMSConfigConstants.shared.themeStyle.titleColor
         lblTimeNoticeSent.textColor = .darkGray
         lblMessage.numberOfLines = 2
-        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        vLine.backgroundColor = CMSConfigConstants.shared.themeStyle.borderColor
     }
 
     func setData(noti : Notice) {

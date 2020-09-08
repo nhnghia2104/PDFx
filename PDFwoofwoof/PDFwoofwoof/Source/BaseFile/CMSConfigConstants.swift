@@ -9,9 +9,10 @@
 import UIKit
 
 struct CMSConfigConstants {
-//    static let shared = CMSConfigConstants()
-//    private init() { }
-    static var themeStyle = ThemeStyle()
+    static let shared = CMSConfigConstants()
+    private init() { }
+    var themeStyle = ThemeStyle()
+    let defaultFolderName = "Downloads"
 }
 struct ThemeStyle {
     

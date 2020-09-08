@@ -17,14 +17,14 @@ class ToolCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         vBackground.layer.cornerRadius = 5.0
         lblToolName.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-        lblToolName.textColor = CMSConfigConstants.themeStyle.tintColor
+        lblToolName.textColor = CMSConfigConstants.shared.themeStyle.tintColor
+        vBackground.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+        imgIcon.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
     }
     
     func setData(tool : Tool) {
         self.imgIcon.image = tool.icon
         self.lblToolName.text = tool.name
-        self.imgIcon.tintColor = tool.tintColor
-        self.vBackground.backgroundColor = tool.backgroundColor
     }
 
 }

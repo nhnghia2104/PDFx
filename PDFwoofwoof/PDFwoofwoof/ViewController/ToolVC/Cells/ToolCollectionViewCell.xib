@@ -20,26 +20,38 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SGF-NV-GCp">
                         <rect key="frame" x="0.0" y="44" width="170" height="126"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vil-EK-enb">
-                                <rect key="frame" x="47" y="25" width="76" height="76"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AL4-ZS-qjc">
+                                <rect key="frame" x="33" y="11" width="104" height="104"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vil-EK-enb">
+                                        <rect key="frame" x="14" y="0.0" width="76" height="75.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Vil-EK-enb" secondAttribute="height" multiplier="1:1" id="TDp-5a-zgK"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euT-q3-WIq">
+                                        <rect key="frame" x="31" y="83.5" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Vil-EK-enb" secondAttribute="height" multiplier="1:1" id="aPA-32-YuB"/>
+                                    <constraint firstItem="euT-q3-WIq" firstAttribute="centerX" secondItem="AL4-ZS-qjc" secondAttribute="centerX" id="1YL-Xb-gEX"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="P5k-uJ-bQt"/>
+                                    <constraint firstAttribute="bottom" secondItem="euT-q3-WIq" secondAttribute="bottom" id="Tjv-yM-r4c"/>
+                                    <constraint firstAttribute="width" secondItem="AL4-ZS-qjc" secondAttribute="height" multiplier="1:1" id="YK0-dg-G6T"/>
+                                    <constraint firstItem="Vil-EK-enb" firstAttribute="top" secondItem="AL4-ZS-qjc" secondAttribute="top" id="Zeu-xP-re8"/>
+                                    <constraint firstItem="euT-q3-WIq" firstAttribute="top" secondItem="Vil-EK-enb" secondAttribute="bottom" constant="8" id="c4y-ds-3zU"/>
+                                    <constraint firstItem="Vil-EK-enb" firstAttribute="centerX" secondItem="AL4-ZS-qjc" secondAttribute="centerX" id="s4T-bm-MsX"/>
                                 </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euT-q3-WIq">
-                                <rect key="frame" x="64" y="109" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Vil-EK-enb" firstAttribute="centerY" secondItem="SGF-NV-GCp" secondAttribute="centerY" id="4gj-eO-9vA"/>
-                            <constraint firstItem="euT-q3-WIq" firstAttribute="top" secondItem="Vil-EK-enb" secondAttribute="bottom" constant="8" id="90D-NV-dMp"/>
-                            <constraint firstItem="Vil-EK-enb" firstAttribute="height" secondItem="SGF-NV-GCp" secondAttribute="height" multiplier="0.6" id="ACz-qu-ysc"/>
-                            <constraint firstItem="Vil-EK-enb" firstAttribute="centerX" secondItem="SGF-NV-GCp" secondAttribute="centerX" id="pm8-2l-nDo"/>
-                            <constraint firstItem="euT-q3-WIq" firstAttribute="centerX" secondItem="SGF-NV-GCp" secondAttribute="centerX" id="xPz-Py-j2Q"/>
+                            <constraint firstItem="AL4-ZS-qjc" firstAttribute="centerX" secondItem="SGF-NV-GCp" secondAttribute="centerX" id="ZLp-3a-3pe"/>
+                            <constraint firstItem="AL4-ZS-qjc" firstAttribute="centerY" secondItem="SGF-NV-GCp" secondAttribute="centerY" id="bpJ-fa-v9v"/>
+                            <constraint firstItem="Vil-EK-enb" firstAttribute="height" secondItem="SGF-NV-GCp" secondAttribute="height" multiplier="0.6" id="i0e-EG-Xwf"/>
                         </constraints>
                     </view>
                 </subviews>

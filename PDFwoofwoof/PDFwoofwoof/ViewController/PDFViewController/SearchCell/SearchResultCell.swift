@@ -18,8 +18,8 @@ class SearchResultCell: UITableViewCell {
         super.awakeFromNib()
         lblContent.font = UIFont.getFontRegular(size: 14)
         lblIndex.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
-        lblContent.textColor = CMSConfigConstants.themeStyle.titleColor
-        lblIndex.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblContent.textColor = CMSConfigConstants.shared.themeStyle.titleColor
+        lblIndex.textColor = CMSConfigConstants.shared.themeStyle.titleColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

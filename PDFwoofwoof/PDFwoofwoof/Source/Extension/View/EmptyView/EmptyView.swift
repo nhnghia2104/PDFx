@@ -24,10 +24,10 @@ class EmptyView: UIView {
         super.awakeFromNib()
         lblTitle.font = UIFont.getFontBold(size: 16)
         lblMessage.font = UIFont.getFontRegular(size: 14)
-        lblTitle.textColor = CMSConfigConstants.themeStyle.tintColor
-        lblMessage.textColor = CMSConfigConstants.themeStyle.tintColor
+        lblTitle.textColor = CMSConfigConstants.shared.themeStyle.tintColor
+        lblMessage.textColor = CMSConfigConstants.shared.themeStyle.tintColor
         lblMessage.alpha = 0.8
-        imgImage.tintColor = CMSConfigConstants.themeStyle.tintColor
+        imgImage.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
         imgImage.alpha = 0.8
         
         lblTitle.textAlignment = .center

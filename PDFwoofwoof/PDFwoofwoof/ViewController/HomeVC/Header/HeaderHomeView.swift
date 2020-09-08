@@ -32,11 +32,11 @@ class HeaderHomeView: UICollectionReusableView {
         setupTheme()
     }
     private func setupTheme() {
-        vLineUnder.backgroundColor = CMSConfigConstants.themeStyle.titleColor
-        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-        btnRecent.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
-        btnFavorite.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
-        btnClear.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
+        vLineUnder.backgroundColor = CMSConfigConstants.shared.themeStyle.titleColor
+        vLine.backgroundColor = CMSConfigConstants.shared.themeStyle.borderColor
+        btnRecent.setTitleColor(CMSConfigConstants.shared.themeStyle.titleColor, for: .normal)
+        btnFavorite.setTitleColor(CMSConfigConstants.shared.themeStyle.titleColor, for: .normal)
+        btnClear.setTitleColor(CMSConfigConstants.shared.themeStyle.titleColor, for: .normal)
         btnClear.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
         btnFavorite.setTitle("Favorite", for: .normal)
         btnRecent.setTitle("Recent", for: .normal)
