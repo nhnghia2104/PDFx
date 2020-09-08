@@ -12,6 +12,7 @@ class InputCell: UITableViewCell {
 
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
+    private var type : TypeTool = .none
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,6 +29,11 @@ class InputCell: UITableViewCell {
     func setData(tool : Tool) {
         lblName.text = tool.name
         imgIcon.image = tool.icon
+        type = tool.type
+    }
+    
+    func getType() -> TypeTool {
+        return self.type
     }
     
 }

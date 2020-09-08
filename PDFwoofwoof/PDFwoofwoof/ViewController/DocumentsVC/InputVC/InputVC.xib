@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InputVC" customModule="PDFwoofwoof" customModuleProvider="target">
             <connections>
                 <outlet property="blackView" destination="YYa-Iz-JPi" id="At7-cB-Rjb"/>
+                <outlet property="contentViewBottomAnchor" destination="Qiv-dq-zb6" id="SKg-tt-Us7"/>
                 <outlet property="contentViewHeightAnchor" destination="W31-0P-Hjz" id="o4Q-mK-RWh"/>
                 <outlet property="tableView" destination="q9J-fT-LAB" id="DP3-4X-uCb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -42,8 +43,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBZ-m2-wap">
                     <rect key="frame" x="0.0" y="202" width="414" height="700"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q9J-fT-LAB">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="q9J-fT-LAB">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         </tableView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cu6-q5-dpJ">
                             <rect key="frame" x="182" y="8" width="50" height="4"/>
@@ -60,6 +62,7 @@
                         </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="q9J-fT-LAB" secondAttribute="bottom" id="8cK-Gi-7My"/>
                         <constraint firstItem="q9J-fT-LAB" firstAttribute="leading" secondItem="UBZ-m2-wap" secondAttribute="leading" id="HYf-gN-bRE"/>
@@ -74,6 +77,9 @@
                             <real key="value" value="5"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="5XE-aE-bwU" appends="YES" id="jdn-8a-4qy"/>
+                    </connections>
                 </view>
             </subviews>
             <constraints>
@@ -88,5 +94,6 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="141" y="153"/>
         </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="5XE-aE-bwU"/>
     </objects>
 </document>

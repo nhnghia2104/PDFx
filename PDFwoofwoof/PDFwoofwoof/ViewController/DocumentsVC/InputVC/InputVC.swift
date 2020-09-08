@@ -10,10 +10,11 @@ import UIKit
 
 class InputVC: UIViewController {
 
+    @IBOutlet weak var contentViewBottomAnchor: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightAnchor: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var blackView: UIView!
-    
+    var openTool : ((TypeTool)->())?
     private var groupKey : [String] = [
         "IMPORT", "CREATE", "TOOL"
     ]
@@ -22,11 +23,17 @@ class InputVC: UIViewController {
             Tool(name: "Browse from Files", icon: UIImage(named: "ic_Home"), type: .browse)
         ],
         "CREATE" : [
-            Tool(name: "Scan Document", icon: UIImage(named: "ic_Home"), type: .scan),
-            Tool(name: "Create Folder", icon: UIImage(named: "ic_Home"), type: .createFolder),
-            Tool(name: "Create PDF", icon: UIImage(named: "ic_Home"), type: .createPDF)
+            Tool(name: "Scan", icon: UIImage(named: "ic_Home"), type: .scan),
+            Tool(name: "New Folder", icon: UIImage(named: "ic_Home"), type: .createFolder),
+            Tool(name: "New PDF", icon: UIImage(named: "ic_Home"), type: .createPDF)
         ],
         "TOOL" : [
+            Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge),
+            Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge),
+            Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge),
+            Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge),
+            Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge),
+            Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge),
             Tool(name: "Merge", icon: UIImage(named: "ic_Home"), type: .merge)
         ]
     ]
@@ -39,16 +46,26 @@ class InputVC: UIViewController {
         tableView.register(UINib(nibName: "InputCell", bundle: nil), forCellReuseIdentifier: "InputCell")
         tableView.register(UINib(nibName: "ToolInputCell", bundle: nil), forCellReuseIdentifier: "ToolInputCell")
         tableView.contentInset.top = tableView.contentInset.top + 10
-//        contentViewHeightAnchor.constant = (CGFloat(listTool.count * 50 + 10) + 40 + (UIDevice.current.IS_169_RATIO() ? 0 : 20))
-        
+            
+        /**
+         header = 35
+         content inset top = 10
+         height for row at section 1 and 2 = 50
+         height for row at section 3 = 120
+         footer = 40
+                **/
+        contentViewHeightAnchor.constant = 500
+        contentViewBottomAnchor.constant = -500
         addGestureRecognizer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.3) {
             [weak self] in
             self?.blackView.alpha = 0.5
+            self?.contentViewBottomAnchor.constant = -40
+            self?.view.layoutIfNeeded()
         }
     }
     
@@ -56,11 +73,34 @@ class InputVC: UIViewController {
         
     }
     
+    
     @IBAction func tapDismiss() {
+        
         dismissInput()
     }
-    private func dismissInput() {
-        dismiss(animated: false, completion: nil)
+    private func dismissInput(completion:(()->())? = nil) {
+        UIView.animate(withDuration: 0.2, animations: {
+            [weak self] in
+            self?.blackView.alpha = 0
+            self?.contentViewBottomAnchor.constant = -500
+            self?.view.layoutIfNeeded()
+        }) { [weak self](done) in
+            if done {
+                self?.dismiss(animated: false, completion: nil)
+                completion?()
+            }
+        }
+       
+    }
+    
+    private func didSelect(indexPath : IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? InputCell else {
+            return
+        }
+        dismissInput {
+            [weak self] in
+            self?.openTool!(cell.getType())
+        }
     }
 
 }
@@ -71,6 +111,9 @@ extension InputVC : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if groupKey[section] == "TOOL" {
+            return 1
+        }
         return groupTool[groupKey[section]]?.count ?? 0
     }
     
@@ -84,7 +127,9 @@ extension InputVC : UITableViewDelegate, UITableViewDataSource {
         else {
             guard let cell = tableView
                 .dequeueReusableCell(withIdentifier: "InputCell") as? InputCell else {return UITableViewCell()}
-            
+            if let tools = groupTool[groupKey[indexPath.section]]{
+                cell.setData(tool: tools[indexPath.row])
+            }
             return cell
         }
     }
@@ -107,13 +152,18 @@ extension InputVC : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 35
+        return 25
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if groupKey[indexPath.section] == "TOOL" {
+            return 120
+        }
         return 50
     }
     
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didSelect(indexPath: indexPath)
+    }
 
 }

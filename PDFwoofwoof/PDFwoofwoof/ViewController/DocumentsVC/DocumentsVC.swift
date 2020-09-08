@@ -17,7 +17,6 @@ class DocumentsVC: UIViewController {
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var clvBottomAnchor: NSLayoutConstraint!
     @IBOutlet weak var vBottomTool: UIView!
-//    @IBOutlet weak var vToolBottomAnchor: NSLayoutConstraint!
     @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var topAnchorOfCollectionView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -39,10 +38,10 @@ class DocumentsVC: UIViewController {
         let customBtn = UIBarButtonItem(image: UIImage(named: "navi_Select"), style: .plain, target: self, action: #selector(tapSelect))
         return customBtn
     }()
-    var listFolder = [MyFolder]()
-    var listDocument = [MyDocument]()
-    var location = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    var isChildClass = false
+    private var listFolder = [MyFolder]()
+    private var listDocument = [MyDocument]()
+    private var location = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    private var isChildClass = false
     private var isSortByDate = false
     private var orderedAscending = true
     private var isViewAsList = true
@@ -625,13 +624,45 @@ class DocumentsVC: UIViewController {
     private func openInputVC () {
         let inputVC = InputVC(nibName: "InputVC", bundle: nil)
         inputVC.modalPresentationStyle = .overFullScreen
+        inputVC.openTool = {
+            [weak self] (type) in
+            self?.gotoTool(type: type)
+        }
         present(inputVC, animated: false, completion: nil)
+    }
+    private func openScan() {
+        let scannerViewController = ImageScannerController()
+        scannerViewController.imageScannerDelegate = self
+        scannerViewController.modalPresentationStyle = .fullScreen
+        scannerViewController.modalTransitionStyle = .crossDissolve
+        present(scannerViewController, animated: true)
+    }
+    private func gotoTool(type : TypeTool) {
+        switch type {
+        case .merge:
+            break
+        case .plit:
+            break
+        case .scan:
+            openScan()
+            break
+        case .createPDF:
+            break
+        case .createFolder:
+            actionCreateFolder()
+            break
+        case .browse:
+            openBrowser()
+            break
+        case .none:
+            break
+        }
     }
     // </Goto>
     
     
 }
-
+    //MARK: - UICollectionViewDataSource
 extension DocumentsVC : UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -670,7 +701,7 @@ extension DocumentsVC : UICollectionViewDataSource {
     
     
 }
-
+//MARK: - UICollectionViewDelegateFlowLayout
 extension DocumentsVC : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isViewAsList {
@@ -749,6 +780,8 @@ extension DocumentsVC : UICollectionViewDelegateFlowLayout {
         return .init(width: view.frame.width, height: isSelectMode ? 0 : 40)
     }
 }
+
+//MARK: - UISearchBarDelegate
 extension DocumentsVC : UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
@@ -775,6 +808,8 @@ extension DocumentsVC : UISearchBarDelegate {
         clvDocument.reloadSections(IndexSet(integer: 0))
     }
 }
+
+//MARK: - UIDocumentPickerDelegate, LaunchURLDelegate
 extension DocumentsVC : UIDocumentPickerDelegate, LaunchURLDelegate {
     func open(url: URL) {
         DispatchQueue.main.async { [weak self] in
@@ -794,6 +829,7 @@ extension DocumentsVC : UIDocumentPickerDelegate, LaunchURLDelegate {
     }
 }
 
+//MARK: - SwipeCollectionViewCellDelegate
 extension DocumentsVC : SwipeCollectionViewCellDelegate {
     
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
@@ -883,4 +919,19 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
         cell.isExpanding = false
     }
     
+}
+
+//MARK: - ImageScannerControllerDelegate
+extension DocumentsVC : ImageScannerControllerDelegate {
+    func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
+        scanner.dismiss(animated: true)
+    }
+    
+    func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
+        scanner.dismiss(animated: true)
+    }
+    
+    func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+        print(error)
+    }
 }

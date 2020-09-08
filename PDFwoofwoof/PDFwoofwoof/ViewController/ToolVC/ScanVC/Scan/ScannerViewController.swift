@@ -35,6 +35,13 @@ public final class ScannerViewController: UIViewController {
         return button
     }()
     
+    private lazy var blackView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 0.8)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     ///Label display the number of page captured
     private lazy var numberPageLabel : UILabel = {
         let label = UILabel()
@@ -43,10 +50,12 @@ public final class ScannerViewController: UIViewController {
         label.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
         label.textColor = .white
         label.backgroundColor = UIColor(hex: "f48c06", alpha: 1.0)
-        label.layer.cornerRadius = 10.0
+        label.layer.cornerRadius = 9
+        label.layer.masksToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    /// direct photo library
     private lazy var photoButton : UIButton = {
         let img = UIImage(named: "ic_PhotoLib")
         let button = UIButton()
@@ -167,6 +176,7 @@ public final class ScannerViewController: UIViewController {
         view.layer.addSublayer(videoPreviewLayer)
         quadView.translatesAutoresizingMaskIntoConstraints = false
         quadView.editable = false
+        view.addSubview(blackView)
         view.addSubview(quadView)
 //        view.addSubview(cancelButton)
         view.addSubview(shutterButton)
@@ -196,6 +206,8 @@ public final class ScannerViewController: UIViewController {
         var activityIndicatorConstraints = [NSLayoutConstraint]()
         var photoLibraryButtonConstraints = [NSLayoutConstraint]()
         var doneButtonContraints = [NSLayoutConstraint]()
+        var numberPageLabelConstraints = [NSLayoutConstraint]()
+        var blackViewConstraints = [NSLayoutConstraint]()
         
         quadViewConstraints = [
             quadView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -221,7 +233,21 @@ public final class ScannerViewController: UIViewController {
             photoButton.centerYAnchor.constraint(equalTo: shutterButton.centerYAnchor)
         ]
         
+        numberPageLabelConstraints = [
+            numberPageLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 28.0),
+            numberPageLabel.heightAnchor.constraint(equalToConstant: 18.0),
+            numberPageLabel.topAnchor.constraint(equalTo: shutterButton.topAnchor, constant: 0),
+            numberPageLabel.rightAnchor.constraint(equalTo: shutterButton.rightAnchor, constant: 0)
+        ]
+        
         if #available(iOS 11.0, *) {
+            blackViewConstraints = [
+                blackView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0),
+                blackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0),
+                blackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 40),
+                blackView.heightAnchor.constraint(equalToConstant: 121)
+            ]
+            
             doneButtonContraints = [
                 doneButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24.0),
                 view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
@@ -234,6 +260,14 @@ public final class ScannerViewController: UIViewController {
 
             
         } else {
+            
+            blackViewConstraints = [
+                blackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+                blackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
+                blackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 40),
+                blackView.heightAnchor.constraint(equalToConstant: 121)
+            ]
+            
             doneButtonContraints = [
                 doneButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24.0),
                 view.bottomAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
@@ -247,7 +281,7 @@ public final class ScannerViewController: UIViewController {
         }
         
         // Sunday, Sep 6th, 2020 : removed cancelButtonConstraints -- Nghia NH
-        NSLayoutConstraint.activate(quadViewConstraints + photoLibraryButtonConstraints + doneButtonContraints + shutterButtonConstraints + activityIndicatorConstraints )
+        NSLayoutConstraint.activate(quadViewConstraints + photoLibraryButtonConstraints + doneButtonContraints + shutterButtonConstraints + activityIndicatorConstraints + numberPageLabelConstraints + blackViewConstraints)
     }
     
     // MARK: - Tap to Focus

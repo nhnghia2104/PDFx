@@ -17,7 +17,7 @@ class HomeVC: UIViewController {
     var btnTool : UIButton!
     struct Const {
         /// Image height/width for Large NavBar state
-        static let ImageSizeForLargeState: CGFloat = 38
+        static let ImageSizeForLargeState: CGFloat = 40
         /// Margin from right anchor of safe area to right anchor of Image
         static let ImageRightMargin: CGFloat = 20
         /// Margin from bottom anchor of NavBar to bottom anchor of Image for Large NavBar state
@@ -147,8 +147,8 @@ class HomeVC: UIViewController {
         guard let navigationBar = self.navigationController?.navigationBar else { return }
         
         navigationBar.addSubview(btnNotice)
-        btnNotice.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
-        btnNotice.backgroundColor = UIColor(hex: "edf2fb") //CMSConfigConstants.themeStyle.borderColor
+        btnNotice.tintColor = UIColor(hex: "1976D2") //CMSConfigConstants.shared.themeStyle.tintGray
+        btnNotice.backgroundColor = UIColor(hex: "FAFAFA") //CMSConfigConstants.themeStyle.borderColor
         btnNotice.layer.cornerRadius = 20.0
         btnNotice.clipsToBounds = true
         btnNotice.translatesAutoresizingMaskIntoConstraints = false
@@ -164,8 +164,8 @@ class HomeVC: UIViewController {
         btnTool.addTarget(self, action: #selector(tapTool), for: .touchUpInside)
         
         navigationBar.addSubview(btnTool)
-        btnTool.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
-        btnTool.backgroundColor = UIColor(hex: "edf2fb") //CMSConfigConstants.themeStyle.borderColor
+        btnTool.tintColor = UIColor(hex: "1976D2") //CMSConfigConstants.shared.themeStyle.tintGray
+        btnTool.backgroundColor = UIColor(hex: "FAFAFA") //CMSConfigConstants.themeStyle.borderColor
         btnTool.layer.cornerRadius = 20.0
         btnTool.clipsToBounds = true
         btnTool.translatesAutoresizingMaskIntoConstraints = false
