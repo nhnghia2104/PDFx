@@ -61,6 +61,9 @@ class DocumentsVC: UIViewController {
             addLeftBarButtonWithTittle(title: isSelectAll ? "Deselect all" : "Select all", action: #selector(tapSelectAll))
         }
     }
+    
+    private var vAddDismissTimer = Timer()
+    
     // MARK: - override function
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -435,6 +438,7 @@ class DocumentsVC: UIViewController {
             self?.vBottomTool.isHidden = false
             self?.clvBottomAnchor.constant = UIDevice.current.IS_169_RATIO() ? 40 : 60
 //            self?.vToolBottomAnchor.constant = -40
+            self?.btnAdd.alpha = 0
             self?.isSelectMode = true
             self?.navigationItem.searchController = nil
             self?.navigationController?.navigationBar.prefersLargeTitles = false
@@ -446,6 +450,7 @@ class DocumentsVC: UIViewController {
         addRightBarButtonWithTittle(title: "Done", action: #selector(tapDone))
         addLeftBarButtonWithTittle(title: "Select all", action: #selector(tapSelectAll))
         clvDocument.allowsMultipleSelection = true
+        
     }
     private func comebackViewMode() {
         selectedCount = 0
@@ -455,6 +460,7 @@ class DocumentsVC: UIViewController {
             self?.clvBottomAnchor.constant = UIDevice.current.IS_169_RATIO() ? -40 : 0
 //            self?.vToolBottomAnchor.constant = -140
             self?.isSelectMode = false
+            self?.btnAdd.alpha = 1
             self?.view.layoutIfNeeded()
             self?.navigationController?.view.layoutIfNeeded()
         }
@@ -555,7 +561,7 @@ class DocumentsVC: UIViewController {
         self.present(alert, animated: true)
     }
     private func checkFolderName(name : String) {
-        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let documentDirectory = location
         let folderPath = documentDirectory.appendingPathComponent(name)
         if FileManager.default.checkFileExists(url: folderPath) {
             let alert = UIAlertController(title: "Warning", message: "The folder already exists.\nPlease enter another name", preferredStyle: .alert)
@@ -641,7 +647,7 @@ class DocumentsVC: UIViewController {
         switch type {
         case .merge:
             break
-        case .plit:
+        case .split:
             break
         case .scan:
             openScan()
@@ -655,6 +661,14 @@ class DocumentsVC: UIViewController {
             openBrowser()
             break
         case .none:
+            break
+        case .setPassword:
+            break
+        case .extract:
+            break
+        case .organize:
+            break
+        case .sign:
             break
         }
     }
@@ -911,12 +925,14 @@ extension DocumentsVC : SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, willBeginEditingItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ListDocCollectionViewCell  else { return }
         cell.isExpanding = true
+        btnAdd.alpha = 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndEditingItemAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
         if indexPath == nil { return }
         guard let cell = collectionView.cellForItem(at: indexPath ?? IndexPath(item: 0, section: 0)) as? ListDocCollectionViewCell  else { return }
         cell.isExpanding = false
+        btnAdd.alpha = 1
     }
     
 }
@@ -933,5 +949,24 @@ extension DocumentsVC : ImageScannerControllerDelegate {
     
     func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
         print(error)
+    }
+}
+
+//MARK: -  UIScrollViewDelegate
+extension DocumentsVC : UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        btnAdd.alpha = 0.3
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        vAddDismissTimer.invalidate()
+        vAddDismissTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(appearBtnAdd), userInfo: nil, repeats: false)
+        
+    }
+    @objc private func appearBtnAdd() {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: { [weak self] in
+            self?.btnAdd.alpha = 1
+        }, completion: nil)
     }
 }

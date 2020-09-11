@@ -11,24 +11,25 @@ import PDFKit
 
 enum TypeTool {
     case merge
-    case plit
+    case split
     case scan
     case createPDF
     case createFolder
     case browse
     case none
+    case setPassword
+    case extract
+    case organize
+    case sign
 }
 class Tool {
     var type : TypeTool
     var name : String = ""
     var icon : UIImage?
-    init(name : String, icon : UIImage?, type : TypeTool = .none) {
-        if icon == nil {
-            self.icon = UIImage(named: "ic_Home")
-        }
-        else {
-            self.icon = icon
-        }
+    var background : UIColor?
+    init(name : String, icon : UIImage?, type : TypeTool = .none, color : UIColor? = nil) {
+        self.background = color == nil ? .white : color
+        self.icon = icon == nil ? UIImage(named: "ic_Home") : icon
         self.name = name
         self.type = type
     }

@@ -18,14 +18,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="K2U-b6-cHx">
-                        <rect key="frame" x="20" y="10" width="25" height="23"/>
+                        <rect key="frame" x="20" y="9" width="27" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="Hh6-08-cEg"/>
-                            <constraint firstAttribute="height" constant="25" id="jh2-lk-Mq8"/>
+                            <constraint firstAttribute="width" constant="27" id="Hh6-08-cEg"/>
+                            <constraint firstAttribute="height" constant="27" id="jh2-lk-Mq8"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xqg-Kz-hlf">
-                        <rect key="frame" x="65" y="11.5" width="235" height="21"/>
+                        <rect key="frame" x="67" y="11.5" width="233" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>

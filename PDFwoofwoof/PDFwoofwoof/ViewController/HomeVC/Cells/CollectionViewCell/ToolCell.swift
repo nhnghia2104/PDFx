@@ -16,7 +16,7 @@ class ToolCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         vBackground.layer.cornerRadius = 5.0
-        lblToolName.font = UIFont.getFontOpenSans(style: .Regular, size: 13)
+        lblToolName.font = UIFont.getFontOpenSans(style: .Regular, size: 12)
         lblToolName.textColor = CMSConfigConstants.shared.themeStyle.tintColor
         vBackground.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
         imgIcon.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
@@ -25,6 +25,6 @@ class ToolCell: UICollectionViewCell {
     func setData(tool : Tool) {
         self.imgIcon.image = tool.icon
         self.lblToolName.text = tool.name
+        self.vBackground.backgroundColor = tool.background
     }
-
 }

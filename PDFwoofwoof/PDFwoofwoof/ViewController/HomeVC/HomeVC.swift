@@ -148,7 +148,7 @@ class HomeVC: UIViewController {
         
         navigationBar.addSubview(btnNotice)
         btnNotice.tintColor = UIColor(hex: "1976D2") //CMSConfigConstants.shared.themeStyle.tintGray
-        btnNotice.backgroundColor = UIColor(hex: "FAFAFA") //CMSConfigConstants.themeStyle.borderColor
+        btnNotice.backgroundColor = UIColor(hex: "1976D2", alpha: 0.1) //CMSConfigConstants.themeStyle.borderColor
         btnNotice.layer.cornerRadius = 20.0
         btnNotice.clipsToBounds = true
         btnNotice.translatesAutoresizingMaskIntoConstraints = false
@@ -165,7 +165,7 @@ class HomeVC: UIViewController {
         
         navigationBar.addSubview(btnTool)
         btnTool.tintColor = UIColor(hex: "1976D2") //CMSConfigConstants.shared.themeStyle.tintGray
-        btnTool.backgroundColor = UIColor(hex: "FAFAFA") //CMSConfigConstants.themeStyle.borderColor
+        btnTool.backgroundColor = UIColor(hex: "1976D2", alpha: 0.1) //CMSConfigConstants.themeStyle.borderColor
         btnTool.layer.cornerRadius = 20.0
         btnTool.clipsToBounds = true
         btnTool.translatesAutoresizingMaskIntoConstraints = false
