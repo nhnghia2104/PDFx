@@ -12,5 +12,15 @@ import UIKit
 
 class FavoritePDF : Object {
     @objc dynamic var url : String = ""
-    @objc dynamic var dateModified = Date()
+    func setData(url : URL) {
+        self.url = url.path.description
+    }
+    func destroyObject() {
+        RealmManager.shared.deleteFavoritePDF(url: self.url)
+    }
+    func getFavorite() -> MyDocument {
+        let theFavor = MyDocument(url: URL(fileURLWithPath: self.url))
+        return theFavor
+    }
 }
+

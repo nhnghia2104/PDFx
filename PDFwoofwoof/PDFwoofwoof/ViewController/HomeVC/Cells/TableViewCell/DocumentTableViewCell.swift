@@ -22,15 +22,15 @@ class DocumentTableViewCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
+        btnMore.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: 15)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: 13)
-        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
+        lblSubTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byWordWrapping
         lblTitle.numberOfLines = 2
-        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
+        vLine.backgroundColor = CMSConfigConstants.shared.themeStyle.borderColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

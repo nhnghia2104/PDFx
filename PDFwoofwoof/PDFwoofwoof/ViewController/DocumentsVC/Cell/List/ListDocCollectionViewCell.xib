@@ -29,10 +29,10 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-P2-7Py">
-                        <rect key="frame" x="250" y="115.5" width="172" height="53"/>
+                        <rect key="frame" x="250" y="115.5" width="170" height="53"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iFP-ow-Wuf">
-                                <rect key="frame" x="0.0" y="0.0" width="149" height="33.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="147" height="33.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="laksjdlaksjdlkasjdlkasjdlkasjdlkasjdlaksjdalskdjaslkdjaslkd">
                                         <attributes>
@@ -44,13 +44,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="subitltewr" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6WD-jX-725">
-                                <rect key="frame" x="0.0" y="38.5" width="152" height="14.5"/>
+                                <rect key="frame" x="0.0" y="38.5" width="150" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="WA3-4P-W1r">
-                                <rect key="frame" x="154" y="2" width="16" height="16"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_heart" translatesAutoresizingMaskIntoConstraints="NO" id="WA3-4P-W1r">
+                                <rect key="frame" x="152" y="2" width="16" height="16"/>
+                                <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="2bt-am-axF"/>
                                     <constraint firstAttribute="width" constant="16" id="xam-F1-SAc"/>
@@ -72,7 +73,7 @@
                         <viewLayoutGuide key="safeArea" id="tBD-P1-IcI"/>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WA7-SV-Bx8">
-                        <rect key="frame" x="422" y="122" width="40" height="40"/>
+                        <rect key="frame" x="420" y="122" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="f1A-zD-S3a"/>
                             <constraint firstAttribute="width" constant="40" id="jMY-Yq-KFK"/>
@@ -89,8 +90,9 @@
                             <constraint firstAttribute="height" constant="1" id="qtJ-i1-hgz"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="PmO-eP-gqI">
-                        <rect key="frame" x="20" y="127.5" width="30" height="29"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_Circle" translatesAutoresizingMaskIntoConstraints="NO" id="PmO-eP-gqI">
+                        <rect key="frame" x="20" y="127" width="30" height="30"/>
+                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="9X9-3X-naf"/>
                             <constraint firstAttribute="width" constant="30" id="Rju-Xh-bGz"/>
@@ -103,7 +105,7 @@
                 <constraint firstItem="WA7-SV-Bx8" firstAttribute="leading" secondItem="vmm-P2-7Py" secondAttribute="trailing" id="64q-vY-mav"/>
                 <constraint firstItem="PmO-eP-gqI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="98S-Xu-GZe"/>
                 <constraint firstItem="vmm-P2-7Py" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="AUW-k3-sN6"/>
-                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="WA7-SV-Bx8" secondAttribute="trailing" constant="2" id="Cni-Wl-9RQ"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="WA7-SV-Bx8" secondAttribute="trailing" constant="4" id="Cni-Wl-9RQ"/>
                 <constraint firstAttribute="trailing" secondItem="CZ3-po-ak3" secondAttribute="trailing" id="H8m-rm-MqM"/>
                 <constraint firstItem="CZ3-po-ak3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="J1d-Db-55i"/>
                 <constraint firstItem="WA7-SV-Bx8" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="KCT-lj-sI6"/>
@@ -130,8 +132,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="ic_Circle" width="30" height="30"/>
+        <image name="ic_heart" width="20" height="18"/>
         <image name="ic_more" width="40" height="40"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
 </document>

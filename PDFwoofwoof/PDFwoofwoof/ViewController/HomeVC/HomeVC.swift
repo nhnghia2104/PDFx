@@ -8,16 +8,18 @@
 
 import UIKit
 import PDFKit
+import SwipeCellKit
 
 class HomeVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var btnImport : UIButton!
+    var btnNotice : UIButton!
+    var btnTool : UIButton!
     struct Const {
         /// Image height/width for Large NavBar state
         static let ImageSizeForLargeState: CGFloat = 40
         /// Margin from right anchor of safe area to right anchor of Image
-        static let ImageRightMargin: CGFloat = 16
+        static let ImageRightMargin: CGFloat = 20
         /// Margin from bottom anchor of NavBar to bottom anchor of Image for Large NavBar state
         static let ImageBottomMarginForLargeState: CGFloat = 12
         /// Margin from bottom anchor of NavBar to bottom anchor of Image for Small NavBar state
@@ -30,45 +32,56 @@ class HomeVC: UIViewController {
         static let NavBarHeightLargeState: CGFloat = 96.5
     }
     weak var delegate: LeftMenuProtocol?
-
-    var listTools : [Tool] = [
-        Tool(name: "Open File", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "0f4c75"), background: UIColor(hex: "3282b8",alpha: 0.5)),
-        Tool(name: "Fill & Sign", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "3b6978"), background: UIColor(hex: "84a9ac",alpha: 0.5)),
-        Tool(name: "Scan", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "c7b198"), background: UIColor(hex: "dfd3c3",alpha: 0.5)),
-        Tool(name: "Create PDF", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "e79cc2"), background: UIColor(hex: "f6bed6",alpha: 0.5)),
-        Tool(name: "Arrange Page", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "3b5249"), background: UIColor(hex: "519872",alpha: 0.5)),
-        Tool(name: "Protect PDF", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "776d8a"), background: UIColor(hex: "f3e6e3",alpha: 0.5)),
-        Tool(name: "Split PDF", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "a35d6a"), background: UIColor(hex: "d9c6a5",alpha: 0.5)),
-        Tool(name: "Merge PDFs", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "810000"), background: UIColor(hex: "e97171",alpha: 0.5)),
-        Tool(name: "Extract Page", icon: UIImage(named: "ic_folder")!, tintColor: UIColor(hex: "8675a9"), background: UIColor(hex: "c3aed6",alpha: 0.5)),
-    ]
+    
     var isRecent : Bool = true {
         didSet {
             collectionView.reloadData()
+            collectionView.hideSwipeCell()
         }
     }
     
     lazy var listRecent = [MyDocument]()
     lazy var listFavorite = [MyDocument]()
-    
+    private var dataDidLoad = false
     
     
     //MARK: - override function
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadRecentPDF()
+//        loadRecentPDF()
         setupCollectionView()
         setupNavigation()
         register()
         setupThemes()
+        didBecomeActive()
+        dataDidLoad = true
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        resortRecentList()
-        collectionView.reloadData()
+        if dataDidLoad == false {
+            didBecomeActive()
+        }
+        else {
+            dataDidLoad = false
+        }
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addNotification()
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        collectionView.hideSwipeCell()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     deinit {
+        NotificationCenter.default.removeObserver(self)
         print("denited HomeVC")
     }
     // MARK: - setup function
@@ -78,7 +91,7 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         self.setSlideMenuVCNaviBarItem()
-//        self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
+        //self.addRightBarButtonWithImage(img: UIImage(named: "ic_notifications_black_24dp")!, action: #selector(openNotice))
         setupBaseNavigation()
     }
     private func register() {
@@ -101,37 +114,10 @@ class HomeVC: UIViewController {
         collectionView.collectionViewLayout = layout
         
     }
-    
+    private func addNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
     private func setupThemes() {
-//        imgMoreTools.tintColor = CMSConfigConstants.themeStyle.tintColor
-//        lblMoreTools.textColor = CMSConfigConstants.themeStyle.tintColor
-//        lblMoreTools.alpha = 1.0
-//        imgMoreTools.alpha = 1.0
-//        btnRecent.setTitle("Recent", for: .normal)
-//        btnFavorite.setTitle("Favorite", for: .normal)
-//        btnFavorite.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
-//        btnRecent.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
-//
-//        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
-//
-//        vLineUnder.backgroundColor = CMSConfigConstants.themeStyle.titleColor
-//        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-//        searchBar.tintColor = CMSConfigConstants.themeStyle.tintColor
-//        if let textFieldInsideSearchBar =  searchBar.value(forKey: "searchField") as? UITextField {
-//            textFieldInsideSearchBar.font = UIFont.getFontRegular(size: 14)
-//            textFieldInsideSearchBar.textColor = CMSConfigConstants.themeStyle.titleColor
-//            if let labelInsideSearchBar = textFieldInsideSearchBar.value(forKey: "placeholderLabel") as? UILabel {
-//                labelInsideSearchBar.font = UIFont.getFontRegular(size: 14)
-//                labelInsideSearchBar.textColor = CMSConfigConstants.themeStyle.tintColor
-//
-//            }
-//        }
-//
-//
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
-//            NSAttributedString.Key.foregroundColor : CMSConfigConstants.themeStyle.titleColor,
-//            NSAttributedString.Key.font : UIFont.getFontRegular(size: 14)
-//        ], for: .normal)
         setupNaviBarBtn()
     }
 
@@ -140,40 +126,80 @@ class HomeVC: UIViewController {
         resortRecentList()
     }
     private func loadFavoriteList() {
-//        listFavorite =
+        listFavorite = RealmManager.shared.getFavoritePDF() ?? []
+        resortFavoriteList()
     }
-    func resortRecentList() {
+    private func resortFavoriteList() {
+        listFavorite = listFavorite.sorted(by: {$0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending})
+    }
+    private func resortRecentList() {
         listRecent = listRecent.sorted( by : {
-            $0.getModified().compare($1.getModified()) == .orderedDescending
+            $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
         })
     }
     
-    func setupNaviBarBtn() {
-        btnImport = UIButton()
-        btnImport.setImage(UIImage(named: "ic_download"), for: .normal)
-        btnImport.addTarget(self, action: #selector(tapImport), for: .touchUpInside)
+    private func setupNaviBarBtn() {
+        //https://coolors.co/edf2fb-e2eafc-d7e3fc-ccdbfd-c1d3fe-b6ccfe-abc4ff
+        
+        btnNotice = UIButton()
+        btnNotice.setImage(UIImage(named: "ic_notifications_black_24dp"), for: .normal)
+        btnNotice.addTarget(self, action: #selector(openNotice), for: .touchUpInside)
         guard let navigationBar = self.navigationController?.navigationBar else { return }
         
-        navigationBar.addSubview(btnImport)
-        btnImport.tintColor = CMSConfigConstants.themeStyle.tintColor
-        btnImport.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-        btnImport.layer.cornerRadius = 20.0
-        btnImport.clipsToBounds = true
-        btnImport.translatesAutoresizingMaskIntoConstraints = false
+        navigationBar.addSubview(btnNotice)
+        btnNotice.tintColor = UIColor(hex: "1976D2") //CMSConfigConstants.shared.themeStyle.tintGray
+        btnNotice.backgroundColor = UIColor(hex: "1976D2", alpha: 0.1) //CMSConfigConstants.themeStyle.borderColor
+        btnNotice.layer.cornerRadius = 20.0
+        btnNotice.clipsToBounds = true
+        btnNotice.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            btnImport.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
-        btnImport.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
-        btnImport.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-        btnImport.widthAnchor.constraint(equalTo: btnImport.heightAnchor)
+            btnNotice.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -Const.ImageRightMargin),
+            btnNotice.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
+            btnNotice.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            btnNotice.widthAnchor.constraint(equalTo: btnNotice.heightAnchor)
+        ])
+        
+        btnTool = UIButton()
+        btnTool.setImage(UIImage(named: "ic_Tool"), for: .normal)
+        btnTool.addTarget(self, action: #selector(tapTool), for: .touchUpInside)
+        
+        navigationBar.addSubview(btnTool)
+        btnTool.tintColor = UIColor(hex: "1976D2") //CMSConfigConstants.shared.themeStyle.tintGray
+        btnTool.backgroundColor = UIColor(hex: "1976D2", alpha: 0.1) //CMSConfigConstants.themeStyle.borderColor
+        btnTool.layer.cornerRadius = 20.0
+        btnTool.clipsToBounds = true
+        btnTool.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            btnTool.rightAnchor.constraint(equalTo: btnNotice.leftAnchor, constant: -16),
+            btnTool.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -Const.ImageBottomMarginForLargeState),
+            btnTool.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            btnTool.widthAnchor.constraint(equalTo: btnNotice.heightAnchor)
         ])
     }
     
     // MARK: - @objc function
     @objc func openNotice() {
-        
+        goToNotice()
     }
     @objc func tapImport() {
         openBrowser()
+    }
+    @objc func tapTool() {
+        goToTool()
+    }
+    @objc func didBecomeActive() {
+        loadAndCheck()
+    }
+    @objc func didTapClearRecent() {
+        let alertView = UIAlertController(title: "Confirm", message: "Are you sure you want to clear all recent files?", preferredStyle: .alert)
+        let actionDelete = UIAlertAction(title: "Clear", style: .default, handler: { [weak self](alert) in
+            self?.removeAllRecent()
+        })
+        let actionCancel = UIAlertAction(title: "Cancel", style: .default, handler: { (alert) in
+        })
+        alertView.addAction(actionCancel)
+        alertView.addAction(actionDelete)
+        present(alertView, animated: true, completion: nil)
     }
     
     //MARK: -IBAction
@@ -187,6 +213,76 @@ class HomeVC: UIViewController {
     }
     
     //MARK: - Action Function
+    
+    // after become active, load a new list from database
+    // compare new list with present list
+    // if new list != present list -> reload
+    // else do nothing
+    private func loadAndCheck() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            var newRecent = RealmManager.shared.getRecentPDF() ?? []
+            newRecent = newRecent.sorted( by : {
+                $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
+            })
+            var needReload = false
+            // Case 1 :
+            if newRecent.count != self?.listRecent.count {
+                if self?.isRecent == true {
+                    needReload = true
+                }
+            }
+            else {
+                
+                let result = zip(newRecent, self!.listRecent).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.getAccessDate() == $1.1.getAccessDate() && $1.0.isFavorite == $1.1.isFavorite
+                }.map{$0.0}
+                print(result)
+                // Case 2
+                if result.count == self?.listRecent.count { }
+                else {
+                    self?.listRecent = newRecent
+                    if (self?.isRecent == true) {
+                        needReload = true
+                    }
+                }
+            }
+            
+            var newFavorite = RealmManager.shared.getFavoritePDF() ?? []
+            newFavorite = newFavorite.sorted(by: {
+                $0.getAccessDate().compare($1.getAccessDate()) == .orderedDescending
+            })
+            if newFavorite.count != self?.listFavorite.count {
+                
+                if self?.isRecent == false {
+                    needReload = true
+                }
+            }
+            else {
+                let result2 = zip(newFavorite, self!.listFavorite).enumerated().filter() {
+                    $1.0.getFileName() == $1.1.getFileName() && $1.0.isFavorite == $1.1.isFavorite 
+                }.map{$0.0}
+                if result2.count == self?.listFavorite.count { }
+                else {
+                    self?.listFavorite = newFavorite
+                    if (self?.isRecent == false) {
+                        needReload = true
+                    }
+                }
+            }
+            
+            self?.listRecent = newRecent
+            self?.listFavorite = newFavorite
+            if needReload {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+            }
+            
+            
+        }
+    }
     private func changeValue() {
         UIView.animate(withDuration: 0.2, animations: {[weak self] in
 //            self?.lineLeadingAnchor.constant = (self?.isRecent)! ? 70.0 : 0
@@ -197,31 +293,97 @@ class HomeVC: UIViewController {
     private func gotoMoreTools() {
         print("goto More Tools")
     }
-    func openBrowser() {
+    private func goToTool() {
+        let storyboard = UIStoryboard(name: "Tool", bundle: nil)
+        
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
+    }
+    
+    private func goToNotice() {
+        let noticeVC = NoticeVC(nibName: "NoticeVC", bundle: nil)
+        let nvc: UINavigationController = UINavigationController(rootViewController: noticeVC)
+        nvc.modalPresentationStyle = .fullScreen
+        present(nvc, animated: true, completion: nil)
+        
+    }
+    
+    private func openBrowser() {
         let picker = UIDocumentPickerViewController(documentTypes: ["com.adobe.pdf"], in: .import)
         picker.delegate = self
         picker.modalPresentationStyle = .popover
         present(picker, animated: true)
     }
-    func openPDF(url : URL) {
-        let document = Document(fileURL: url)
+    private func openPDF(url : URL) {
         let storyboard = UIStoryboard(name: "PDFDocument", bundle: nil)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
         let pdfVC = navigationController.viewControllers.first as! PDFViewController
-        pdfVC.config(with: document )
+        pdfVC.config(with: Document(fileURL: url))
         navigationController.modalTransitionStyle = .crossDissolve
         // Presenting modal in iOS 13 fullscreen
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
     
-    func saveRecentPDF(url : URL) {
-        RealmManager.shared.saveRecentPDF(url: url) {[weak self] (bool) in
-            if bool {
-                self?.listRecent.append(MyDocument(url: url))
+    private func removeRecent(indexPath : IndexPath) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.collectionView.deleteItems(at: [indexPath])
             }
-            self?.resortRecentList()
+            RealmManager.shared.deleteRecent(url: self?.listRecent[indexPath.item].getURLPath() ?? "", completion: nil)
+            self?.listRecent.remove(at: indexPath.item)
         }
+    }
+    private func removeDocument(indexPath : IndexPath) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.collectionView.deleteItems(at: [indexPath])
+                self?.listFavorite.remove(at: indexPath.item)
+            }
+            do {
+                try FileManager.default.removeItem(at: (self?.listFavorite[indexPath.item].getURL())!)
+            }
+            catch {
+                print("delete fail")
+            }
+        }
+    }
+    
+    private func removeAllRecent() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            [weak self] in
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.listRecent.removeAll()
+                self?.collectionView.reloadSections(IndexSet(integer: 0))
+            }
+            RealmManager.shared.clearAllRecent(completion: {[weak self] in
+                print("clear all :(")
+            })
+        }
+    }
+    
+    private func saveFavorite(indexPath : IndexPath) {
+        let newDoc = isRecent ? listRecent[indexPath.item] : listFavorite[indexPath.item]
+        newDoc.isFavorite.toggle()
+        RealmManager.shared.saveFavoritePDF(url: newDoc.getURL(), isFavorite: newDoc.isFavorite)
+        if isRecent {
+            listRecent[indexPath.item] = newDoc
+        } else {
+            listFavorite[indexPath.item] = newDoc
+        }
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ListDocCollectionViewCell else {
+            collectionView.reloadItems(at: [indexPath])
+            return
+        }
+        cell.isFavorite = newDoc.isFavorite
     }
     
 }
@@ -230,12 +392,19 @@ extension HomeVC : UICollectionViewDataSource {
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        collectionView.backgroundView = .none
+        if listRecent.count == 0 && isRecent {
+            collectionView.setEmptyView(title: "No recent files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "img_noRecent")!)
+        }
+        if !isRecent && listFavorite.count == 0 {
+            collectionView.setEmptyView(title: "No favorite files", message: "Any file you have worked recently\nwill be appeared here", image: UIImage(named: "img_Favorite")!)
+        }
         return isRecent ? listRecent.count : listFavorite.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListDocCollectionViewCell", for: indexPath) as? ListDocCollectionViewCell else {return UICollectionViewCell()}
-        
-        cell.setDocuemtData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item])
+        cell.delegate = self
+        cell.setRecentData(pdf: isRecent ?  listRecent[indexPath.item] : listFavorite[indexPath.item], isFavorite: isRecent ?  listRecent[indexPath.item].isFavorite : listFavorite[indexPath.item].isFavorite)
         return cell
     }
     
@@ -259,19 +428,20 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        openPDF(url: listRecent[indexPath.item].getPDFData().fileURL)
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.saveRecentPDF(url: (self?.listRecent[indexPath.item].getPDFData().fileURL)!)
-        }
+        let itemSelected = isRecent ? listRecent[indexPath.item] : listFavorite[indexPath.item]
+        openPDF(url: itemSelected.getURL() )
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderHomeView", for: indexPath) as? HeaderHomeView else {
             return .init(frame: .zero)
         }
-        
+        header.isRecent = isRecent
         header.valueDidChange = {[weak self] (isRecent) in
             self?.isRecent = isRecent
+        }
+        header.didTapClear = {[weak self] in
+            self?.didTapClearRecent()
         }
 
         return header
@@ -325,15 +495,6 @@ extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             FileManager.default.saveFile(from: url) { [weak self] (done,urlSaved) in
-                if done {
-                    self?.saveRecentPDF(url: urlSaved)
-                    print("Save done----------\n\(urlSaved.path)\n=================================================")
-                }
-                else {
-                    print("Toanggggggggggggggggg")
-                    
-                    
-                }
             }
         }
     }
@@ -346,3 +507,69 @@ extension HomeVC : UIDocumentPickerDelegate, LaunchURLDelegate {
 }
 
 
+extension HomeVC : SwipeCollectionViewCellDelegate {
+    
+       func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+
+        guard orientation == .right else { return nil }
+        let isFavor = isRecent ? listRecent[indexPath.item].isFavorite : listFavorite[indexPath.item].isFavorite
+        
+        // Favorite action
+        let favorite = SwipeAction(style: .default, title: isFavor ? "Unfavorite" : "Favorite") { [weak self](action, indexPath) in
+            self?.collectionView.hideSwipeCell()
+            self?.saveFavorite(indexPath: indexPath)
+            self?.didBecomeActive()
+        }
+        favorite.image = UIImage(named: isFavor ? "ic_Star-mini" : "ic_unStar-mini" )
+        favorite.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+        favorite.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        favorite.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+
+        
+        // Delete action
+        let deleteAction = SwipeAction(style: .destructive, title: isRecent ? "Remove" : "Delete") { [weak self] action, indexPath in
+            let alert = UIAlertController(title: "Confirm", message: (self?.isRecent ?? true) ? "Are you sure you want to remove this recent item?" : "Are you sure you want to delete?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: (self?.isRecent ?? true) ? "Remove" : "Delete", style: .default, handler: { [weak self] action in
+                (self?.isRecent ?? true) ? self?.removeRecent(indexPath: indexPath) : self?.removeDocument(indexPath: indexPath)
+            }))
+            self?.collectionView.hideSwipeCell()
+            self?.present(alert, animated: true, completion: nil)
+        }
+        deleteAction.image = UIImage(named: isRecent ? "ic_Remove" : "ic_Delete-mini")
+        deleteAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+        deleteAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        deleteAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+        
+        
+        // More action
+        let moreAction = SwipeAction(style: .default, title: "More") {[weak self] action, indexPath in
+            self?.collectionView.hideSwipeCell()
+        }
+        moreAction.image = UIImage(named: "ic_More-mini")
+        moreAction.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+        moreAction.font = UIFont.getFontOpenSans(style: .SemiBold, size: 12)
+        moreAction.textColor = CMSConfigConstants.shared.themeStyle.tintGray
+        
+        return [deleteAction,favorite,moreAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .none
+        options.transitionStyle = .border
+        options.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+        return options
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willBeginEditingItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ListDocCollectionViewCell  else { return }
+        cell.isExpanding = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndEditingItemAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
+        if indexPath == nil { return }
+        guard let cell = collectionView.cellForItem(at: indexPath ?? IndexPath(item: 0, section: 0)) as? ListDocCollectionViewCell  else { return }
+        cell.isExpanding = false
+    }
+}

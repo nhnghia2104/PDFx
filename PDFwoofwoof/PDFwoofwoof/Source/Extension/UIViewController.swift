@@ -41,9 +41,9 @@ extension UIViewController {
         let btn = UIButton()
         btn.setTitle(title, for: .normal)
         btn.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-        btn.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
+        btn.setTitleColor(CMSConfigConstants.shared.themeStyle.titleColor, for: .normal)
         btn.addTarget(self, action: action!, for: .touchUpInside)
-        
+        self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.setLeftBarButton(UIBarButtonItem(customView: btn), animated: false)
     }
     
@@ -52,9 +52,9 @@ extension UIViewController {
         let btn = UIButton()
         btn.setTitle(title, for: .normal)
         btn.titleLabel?.font = UIFont.getFontOpenSans(style: .SemiBold, size: 14)
-        btn.setTitleColor(CMSConfigConstants.themeStyle.titleColor, for: .normal)
+        btn.setTitleColor(CMSConfigConstants.shared.themeStyle.titleColor, for: .normal)
         btn.addTarget(self, action: action!, for: .touchUpInside)
-        
+        self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.setRightBarButton(UIBarButtonItem(customView: btn), animated: false)
     }
     
@@ -71,9 +71,9 @@ extension UIViewController {
     func setupBaseNavigation() {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 14)], for: .normal)
         self.navigationController?.navigationBar.largeTitleTextAttributes =
-            [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.titleColor,
-             NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .Bold, size: 30)]
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.themeStyle.titleColor,
+            [NSAttributedString.Key.foregroundColor: CMSConfigConstants.shared.themeStyle.titleColor,
+             NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .Bold, size: 28)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CMSConfigConstants.shared.themeStyle.titleColor,
                                                                         NSAttributedString.Key.font: UIFont.getFontOpenSans(style: .SemiBold, size: 15)]
         self.navigationController?.navigationBar.barTintColor = .white
 //        self.navigationController?.navigationBar.backgroundColor = .white

@@ -35,9 +35,14 @@ extension HomeVC : UIScrollViewDelegate {
         }()
 
         let xTranslation = max(0, sizeDiff - coeff * sizeDiff)
-
-        btnImport.transform = CGAffineTransform.identity
+        
+        btnTool.alpha = scale
+        btnNotice.alpha = scale
+        btnNotice.transform = CGAffineTransform.identity
             .scaledBy(x: scale, y: scale)
             .translatedBy(x: xTranslation, y: yTranslation)
+        btnTool.transform = CGAffineTransform.identity
+        .scaledBy(x: scale, y: scale)
+        .translatedBy(x: xTranslation, y: yTranslation)
     }
 }

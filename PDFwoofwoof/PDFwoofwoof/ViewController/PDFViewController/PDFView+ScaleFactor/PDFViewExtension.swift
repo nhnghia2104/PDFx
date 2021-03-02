@@ -30,12 +30,26 @@ extension PDFView {
         }
         return nil
     }
-    
+    func disableScrollIndicator() {
+        if let scrollView = self.scrollView {
+            scrollView.showsVerticalScrollIndicator = false
+            scrollView.showsHorizontalScrollIndicator = false
+            //                scrollView.bouncesZoom = true
+            if isiPadUI {
+//                scrollView.minimumZoomScale = 1
+            }
+            //                scrollView.zoomScale = 1
+            
+            scrollView.contentInset.bottom = scrollView.contentInset.bottom + 100.0
+            return
+        }
+        print("PDFView.disableBouncing: FAILED!")
+    }
     struct Holder {
         // different form pdfView.scaleFactorForSizeToFit, the scaleFactorForSizeToFit use superArea not safeArea
         static var hgScaleFactorForSizeToFit: HGPDFScaleFactor?
-        static var hgScaleFactorVertical: HGPDFScaleFactor = HGPDFScaleFactor(portrait: 0.25, landscape: 0.25)
-        static var hgScaleFactorHorizontal: HGPDFScaleFactor = HGPDFScaleFactor(portrait: 0.25, landscape: 0.25)
+        static var hgScaleFactorVertical: HGPDFScaleFactor = HGPDFScaleFactor(portrait: 0.5, landscape: 0.5)
+        static var hgScaleFactorHorizontal: HGPDFScaleFactor = HGPDFScaleFactor(portrait: 0.5, landscape: 0.5)
         static var isZoomedIn: Bool = false
     }
 }

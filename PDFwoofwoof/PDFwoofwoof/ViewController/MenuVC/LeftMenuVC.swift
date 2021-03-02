@@ -9,11 +9,8 @@
 import UIKit
 
 enum LeftMenu: Int {
-    case search = 0
-    case home
-    case document
-    case starred
-    case recent
+    case home = 0
+    case files
     case settings
 }
 
@@ -23,13 +20,14 @@ protocol LeftMenuProtocol : class {
 
 class LeftMenuVC : UIViewController, LeftMenuProtocol {
     
+    @IBOutlet weak var lblMenu: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    var menus = ["Search", "Home", "Documents", "Starred", "Recent","Settings"]
+    var menus = ["Home", "Documents","Settings"]
     var mainViewController: UIViewController!
     var documentVC: UIViewController!
-    var javaViewController: UIViewController!
-    var goViewController: UIViewController!
-    var nonMenuViewController: UIViewController!
+//    var javaViewController: UIViewController!
+//    var goViewController: UIViewController!
+//    var nonMenuViewController: UIViewController!
     private var lastSelect : IndexPath?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -58,6 +56,10 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
         mainViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
         self.mainViewController = UINavigationController(rootViewController: mainViewController)
         
+        lblMenu.font = UIFont.getFontBold(size: 30)
+        lblMenu.textColor = CMSConfigConstants.shared.themeStyle.titleColor
+        
+        
     }
     
     private func setupTableView() {
@@ -80,10 +82,10 @@ class LeftMenuVC : UIViewController, LeftMenuProtocol {
     func changeViewController(_ menu: LeftMenu) {
         switch menu {
         case .home:
-            UserDefaults.standard.setValue(1, forKey: "MainView")
+            UserDefaults.standard.setValue(0, forKey: "MainView")
             self.slideMenuController()?.changeMainViewController(self.mainViewController, close: true)
-        case .document:
-            UserDefaults.standard.setValue(2, forKey: "MainView")
+        case .files:
+            UserDefaults.standard.setValue(1, forKey: "MainView")
              self.slideMenuController()?.changeMainViewController(self.documentVC, close: true)
         default:
             break
@@ -104,8 +106,11 @@ extension LeftMenuVC : UITableViewDataSource {
         cell.setTilte(str: menus[indexPath.row])
         return cell
     }
-
-
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60.0
+    }
+    
 }
 extension LeftMenuVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

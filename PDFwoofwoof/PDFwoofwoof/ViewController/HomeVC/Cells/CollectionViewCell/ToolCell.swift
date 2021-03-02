@@ -16,15 +16,15 @@ class ToolCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         vBackground.layer.cornerRadius = 5.0
-        lblToolName.font = UIFont.getFontOpenSans(style: .Regular, size: 13)
-        lblToolName.textColor = CMSConfigConstants.themeStyle.tintColor
+        lblToolName.font = UIFont.getFontOpenSans(style: .Regular, size: 12)
+        lblToolName.textColor = CMSConfigConstants.shared.themeStyle.tintColor
+        vBackground.backgroundColor = CMSConfigConstants.shared.themeStyle.backgroundGray
+        imgIcon.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
     }
     
     func setData(tool : Tool) {
         self.imgIcon.image = tool.icon
         self.lblToolName.text = tool.name
-        self.imgIcon.tintColor = tool.tintColor
-        self.vBackground.backgroundColor = tool.backgroundColor
+        self.vBackground.backgroundColor = tool.background
     }
-
 }

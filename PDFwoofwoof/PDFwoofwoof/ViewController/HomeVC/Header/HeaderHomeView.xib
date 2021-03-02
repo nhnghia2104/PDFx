@@ -52,15 +52,24 @@
                                 <constraint firstAttribute="width" constant="60" id="ZVP-a3-fwk"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKv-x7-8Kv">
+                            <rect key="frame" x="316" y="3.5" width="46" height="30"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="tapClear" destination="U6b-Vx-4bR" eventType="touchUpInside" id="pq3-hd-DzG"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="BDf-jJ-zpS" firstAttribute="top" secondItem="rMA-rP-CjS" secondAttribute="top" id="35y-qi-kAE"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="top" secondItem="hUc-aj-fir" secondAttribute="bottom" id="3KU-jg-5ps"/>
                         <constraint firstAttribute="trailing" secondItem="YQP-Re-ngp" secondAttribute="trailing" id="46X-LS-rKT"/>
+                        <constraint firstAttribute="trailing" secondItem="zKv-x7-8Kv" secondAttribute="trailing" constant="20" id="IcY-93-FL8"/>
                         <constraint firstItem="BDf-jJ-zpS" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" constant="20" id="KiF-rd-XbH"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="leading" secondItem="rMA-rP-CjS" secondAttribute="leading" id="Nwo-J1-qxq"/>
                         <constraint firstItem="hUc-aj-fir" firstAttribute="top" secondItem="rMA-rP-CjS" secondAttribute="top" id="QSj-wI-cta"/>
+                        <constraint firstItem="zKv-x7-8Kv" firstAttribute="centerY" secondItem="BDf-jJ-zpS" secondAttribute="centerY" id="QbT-HR-QV4"/>
                         <constraint firstItem="RxR-A1-dYV" firstAttribute="leading" secondItem="BDf-jJ-zpS" secondAttribute="leading" id="Xms-JU-s0W"/>
                         <constraint firstItem="RxR-A1-dYV" firstAttribute="centerY" secondItem="YQP-Re-ngp" secondAttribute="centerY" id="ZNd-yQ-n1y"/>
                         <constraint firstItem="YQP-Re-ngp" firstAttribute="top" secondItem="BDf-jJ-zpS" secondAttribute="bottom" id="iSx-9v-dV2"/>
@@ -77,6 +86,7 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
+                <outlet property="btnClear" destination="zKv-x7-8Kv" id="fOk-MP-l2p"/>
                 <outlet property="btnFavorite" destination="hUc-aj-fir" id="cis-mF-t1q"/>
                 <outlet property="btnRecent" destination="BDf-jJ-zpS" id="jNC-qK-Fff"/>
                 <outlet property="lineLeadingAnchor" destination="Xms-JU-s0W" id="S0V-mo-f6K"/>

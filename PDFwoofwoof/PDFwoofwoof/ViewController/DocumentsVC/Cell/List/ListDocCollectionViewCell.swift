@@ -8,8 +8,9 @@
 
 import UIKit
 import PDFKit
+import SwipeCellKit
 
-class ListDocCollectionViewCell: UICollectionViewCell {
+class ListDocCollectionViewCell: SwipeCollectionViewCell {
     
     @IBOutlet weak var vLine: UIView!
     @IBOutlet weak var avtLeadingAnchor: NSLayoutConstraint!
@@ -20,18 +21,37 @@ class ListDocCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var imgStar: UIImageView!
     @IBOutlet weak var imgThumbnail: UIImageView!
-    
+    var isFavorite = false {
+        didSet {
+            UIView.animate(withDuration: 0.2) {[weak self] in
+                self?.imgStar.isHidden = !self!.isFavorite
+                self?.trallingAnchor.constant = self!.isFavorite ? 23 : 2
+                self?.layoutIfNeeded()
+            }
+            
+        }
+    }
+    var isExpanding = false {
+        didSet {
+            btnMore.isHidden = isExpanding
+        }
+    }
+    override var isSelected: Bool {
+        didSet {
+            imgSelect.image = isSelected ? UIImage(named: "ic_Check") : UIImage(named: "ic_Circle")
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
         imgStar.isHidden = true
         imgSelect.isHidden = true
         
-        btnMore.tintColor = CMSConfigConstants.themeStyle.tintColor
+        btnMore.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
         lblTitle.font = UIFont.getFontOpenSans(style: .SemiBold, size: isiPadUI ? 16 : 14)
         lblSubTitle.font = UIFont.getFontOpenSans(style: .Regular, size: isiPadUI ? 13 : 12)
-        lblTitle.textColor = CMSConfigConstants.themeStyle.titleColor
-        lblSubTitle.textColor = CMSConfigConstants.themeStyle.titleColor
+        lblTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
+        lblSubTitle.textColor = CMSConfigConstants.shared.themeStyle.titleColor
         
         lblTitle.lineBreakMode = .byTruncatingMiddle
         lblTitle.numberOfLines = 2
@@ -39,12 +59,17 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         avtLeadingAnchor.constant = 20
         trallingAnchor.constant = 2
         
-        imgThumbnail.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
-        vLine.backgroundColor = CMSConfigConstants.themeStyle.borderColor
-        
+        imgThumbnail.layer.borderColor = CMSConfigConstants.shared.themeStyle.borderColor.cgColor
+        vLine.backgroundColor = CMSConfigConstants.shared.themeStyle.borderColor
+        imgStar.tintColor = CMSConfigConstants.shared.themeStyle.tintBlue
+        imgSelect.tintColor = CMSConfigConstants.shared.themeStyle.tintGray
+//        imgSelect.layer.cornerRadius = 15.0
+//        imgSelect.layer.borderColor = CMSConfigConstants.themeStyle.borderColor.cgColor
+//        imgSelect.layer.borderWidth = 2.0
     }
     
     @IBAction func tapMore(_ sender: Any) {
+        self.showSwipe(orientation: .right)
     }
     
     public func setDocuemtData(pdf : MyDocument, isFavorite : Bool = false, isSelectMode : Bool = false) {
@@ -60,16 +85,33 @@ class ListDocCollectionViewCell: UICollectionViewCell {
         lblSubTitle.text = pdf.getStrDateTimeCreated() + pdf.getStrSize()
         imgThumbnail.image = pdf.getThumbnail()
         
-        
     }
     public func setFolderData(folder : MyFolder, isSelectMode : Bool = false) {
+        imgSelect.isHidden = !isSelectMode
+        avtLeadingAnchor.constant = isSelectMode ? 70 : 20
+        btnMore.isHidden = isSelectMode
+        if folder.getName() == CMSConfigConstants.shared.defaultFolderName {
+            btnMore.isHidden = true
+            imgSelect.isHidden = true
+            avtLeadingAnchor.constant = 20
+        }
+        imgStar.isHidden = true
         lblTitle.text = folder.url.lastPathComponent
         lblSubTitle.text = ""
         imgThumbnail.image = UIImage(named : "ic_folder")
-        imgThumbnail.tintColor = CMSConfigConstants.themeStyle.tintColor
-        btnMore.isHidden = isSelectMode
-        imgSelect.isHidden = !isSelectMode
-        avtLeadingAnchor.constant = isSelectMode ? 70 : 20
+        imgThumbnail.tintColor = CMSConfigConstants.shared.themeStyle.tintColor
+        
+        
         imgThumbnail.layer.borderWidth = 0
+    }
+    
+    public func setRecentData(pdf : MyDocument, isFavorite : Bool = false) {
+        imgThumbnail.layer.borderWidth = 1
+        imgStar.isHidden = !isFavorite
+        trallingAnchor.constant = isFavorite ? 23 : 2
+        
+        lblTitle.text = pdf.getFileName()
+        lblSubTitle.text = pdf.getStrAccessDate() + "\t" + pdf.getStrSize()
+        imgThumbnail.image = pdf.getThumbnail()
     }
 }

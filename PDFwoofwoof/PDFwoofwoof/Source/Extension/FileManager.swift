@@ -32,14 +32,14 @@ extension FileManager {
         return fileURLs
     }
 
-    func saveFile(from url : URL, complete: @escaping ((Bool,URL)->())) {
+    func saveFile(from url : URL,at direct : URL? = nil, complete: @escaping ((Bool,URL)->())) {
         guard let pdf = PDFDocument(url: url) else {
             complete(false,url)
             return
         }
         // Step 1:
         // Create a URL and make sure it can be saved
-        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let documentDirectory = direct ?? FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         var name = url.deletingPathExtension().lastPathComponent
         var newPath = documentDirectory.appendingPathComponent(name + ".pdf")
         if FileManager.default.checkFileExists(url: newPath) == true {
@@ -58,7 +58,7 @@ extension FileManager {
         }
         // Step 2.
         // Save file to url created
-        let needTo = url.startAccessingSecurityScopedResource()
+//        let needTo = url.startAccessingSecurityScopedResource()
         do {
             let data = try Data(contentsOf: url)
             try data.write(to: documentDirectory.appendingPathComponent(name + ".pdf"))
@@ -66,9 +66,9 @@ extension FileManager {
         catch {
             
         }
-        if needTo {
-            url.stopAccessingSecurityScopedResource()
-        }
+//        if needTo {
+//            url.stopAccessingSecurityScopedResource()
+//        }
         complete(true,documentDirectory.appendingPathComponent(name + ".pdf"))
         
         
